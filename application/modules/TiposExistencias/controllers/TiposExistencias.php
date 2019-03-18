@@ -63,4 +63,10 @@ class TiposExistencias extends MX_Controller {
 		}		
 	}	
 
+	public function buscarTiposExistenciasCaeEstacion(){
+		$idEstacion = $this->input->post("idEstacion");
+		$data = $this->TipoExistencia->buscarTiposExistenciasCaeEstacion($idEstacion);
+		print_r(json_encode($data));		
+	}
+
 }

@@ -63,4 +63,10 @@ class Sistemas extends MX_Controller {
 		}		
 	}	
 
+	public function buscarSistemasEstacion(){
+		$idEstacion = $this->input->post("idEstacion");
+		$data = $this->Sistema->buscarSistemasEstacion($idEstacion);
+		print_r(json_encode($data));
+	}
+
 }

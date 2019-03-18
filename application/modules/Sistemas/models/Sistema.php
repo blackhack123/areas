@@ -14,6 +14,17 @@ class Sistema extends CI_Model{
 		}		
 	}
 
+	public function buscarSistemasEstacion($idEstacion){
+		$sql = "SELECT sistema.id as idSistema, sistema.nombre as nombreSistema FROM estacion INNER JOIN seccion ON seccion.estacion_id = estacion.id INNER JOIN sistema ON sistema.seccion_id = seccion.id WHERE estacion.id = ".$idEstacion." ORDER BY sistema.nombre ASC";
+		$resultado = $this->db->query($sql);
+		if($resultado->num_rows() > 0){
+			return $resultado->result();
+		}
+		else{
+			return false;
+		}		
+	}
+
 	public function insertarRegistro($data){
 		$this->db->insert("sistema", $data);
 		return $this->db->insert_id();

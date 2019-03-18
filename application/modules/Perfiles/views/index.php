@@ -7,13 +7,24 @@
           <div class="container">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title"><?php echo $menuNombre; ?></h3>
+                <h3 class="card-title" id="tituloPagina"><?php echo $menuNombre; ?></h3>
                 <div class="card-options">
-                  <button type="button" id="btngestionRegistro" class="btn btn-success bnt-sm" onclick="gestionRegistro(this);" data-titulo="<b><i class='fa fa-file'></i> Nuevo Registro</b>" data-accion="insertarRegistro" <?php echo $status; ?>><i class="fa fa-file"></i> Nuevo Registro</button>
+                  <button type="button" id="btnGestionRegistro" class="btn btn-success bnt-sm" onclick="gestionRegistro(this);" data-titulo="<b><i class='fa fa-file'></i> Nuevo Registro</b>" data-accion="insertarRegistro" <?php echo $status; ?>><i class="fa fa-file"></i> Nuevo Registro</button>
+                  
+
+                  <div class="input-group" id="divGestionMenu"> 
+                    <select class="form-control" name="idMenu" id="idMenu">
+                    </select>
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-success" onclick="agregarRegistro();" <?php echo $status; ?>>Agregar</button>
+                    </span>  
+                  </div>
+
+                  <button type="button" id="btnVolverPerfiles" class="btn btn-danger bnt-sm" onclick="listarDatos();" data-accion="volverPerfiles" <?php echo $status; ?>><i class="fe fe-log-out"></i> Perfiles&nbsp;&nbsp;&nbsp;</button>
+
                 </div>
               </div>
-            </div>
-            <div id="listadoDatos" class="box-body">
+              <div id="listadoDatos" class="card-body"></div>
             </div>
           </div>
         </div>
@@ -22,8 +33,8 @@
 
 
   <!-- Modal -->
-<div id="modalFormulario" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+<div id="modalFormulario" class="modal fade" role="dialog" tabindex="-1">
+  <div class="modal-dialog modal-lg" role="document">
 
     <!-- Modal content-->
     <div class="modal-content">
@@ -45,12 +56,12 @@
           <div class="col-sm-3">
             <label for="skinPerfil">Color: <span class="kv-reqd">*</span></label>
               <select class="form-control" name="skinPerfil" id="skinPerfil">
-                <option value="blue" class="azul"><span class="azul"></span>Azul</option>
-                <option value="black" class="negro"><div class="negro"></div>Negro</option>
-                <option value="purple" class="purpura"></option>
+                <option value="blue" class="azul">Azul</option>
+                <option value="black" class="negro">Negro</option>
+                <option value="purple" class="purpura">Púrpura</option>
                 <option value="yellow" class="amarillo">amarillo</option>
-                <option value="red" class="rojo"></option>
-                <option value="green" class="verde"></option>
+                <option value="red" class="rojo">Rojo</option>
+                <option value="green" class="verde">Verde</option>
               </select>
           </div>
         </div>  
@@ -73,6 +84,12 @@
 
  function listarDatos(){
     cargarGif();
+    
+    $("#tituloPagina").text("<?php echo $menuNombre; ?>");
+    $("#btnGestionRegistro").show();
+    $("#divGestionMenu").hide();
+    $("#btnVolverPerfiles").hide();
+
     var urlCode = "<?php echo $urlCode; ?>";
       $("#listadoDatos").load("<?php echo site_url('Perfiles/lista'); ?>",{urlCode}, function(responseText, statusText, xhr){
         if(statusText == "success"){
@@ -84,6 +101,7 @@
         }
       });
  }
+
 
 
 function gestionRegistro(aObject){
@@ -249,7 +267,143 @@ function editarRegistro(aId){
     });
 }
 
+function gestionMenuPerfil(aObject){
+  var idPerfil = $(aObject).data("id");
+  buscarMenuAsociadoPerfil(idPerfil);
+}
+
+function buscarMenuAsociadoPerfil(idPerfil){
+    cargarGif();
+    var urlCode = "<?php echo $urlCode; ?>";
+      $("#listadoDatos").load("<?php echo site_url('PerfilesMenus/lista'); ?>",{urlCode, idPerfil}, function(responseText, statusText, xhr){
+        if(statusText == "success"){
+          cerrarGif();
+        }
+        if(statusText == "error"){
+          swal("Información!", "No se pudo cargar listado de Perfiles Menús", "info"); 
+          cerrarGif();
+        }
+      });  
+}
   
+
+  // Perfiles del menu
+
+function agregarRegistro(){
+  var idMenu = $("#idMenu").val();
+  if(idMenu){
+    cargarGif();
+    var idPerfil = $("#idPerfil").val();
+    $.ajax({
+      type : 'post',
+      url  : "<?php echo site_url('PerfilesMenus/agregarRegistro'); ?>",
+      dataType: 'json',
+      data: {
+        idPerfil : idPerfil,
+        idMenu   : idMenu,
+      },
+    }).done( function(data) {
+        if(data){
+          data = data.replace('"','');
+          var row = data.split('|');
+          switch(row[0]){
+            case 'i':
+              $().toastmessage('showSuccessToast', "Registro creado exitosamente");
+            break;
+            case 'e':
+              $().toastmessage('showSuccessToast', "Editado exitosamente");
+            break;
+          }
+        }else{
+          $().toastmessage('showErrorToast', "No se pudo procesar la información");
+        }
+    }).fail( function() {
+      swal("Información!", "No se pudo cargar la información", "warning"); 
+    }).always( function() {
+      buscarMenuAsociadoPerfil(idPerfil);
+      buscarMenusDisponibles();
+      cerrarGif();
+    });  
+  }
+}
+
+function editarPrivilegios(aObject){
+  var idPerfilMenu = $(aObject).data("id");
+  var idPerfil = $(aObject).data("idperfil");
+  var idMenu = $(aObject).data("idmenu");
+  var estadoPrivilegio = $(aObject).prop("checked") ? $(aObject).data("on") : $(aObject).data("off");
+  var atributo = $(aObject).data("atributo");
+
+    $.ajax({
+      type : 'post',
+      url  : "<?php echo site_url('PerfilesMenus/editarPrivilegios'); ?>",
+      dataType: 'json',
+      data: {
+        idPerfilMenu : idPerfilMenu,
+        idPerfil : idPerfil,
+        idMenu : idMenu,
+        estadoPrivilegio : estadoPrivilegio,
+        atributo : atributo
+      },
+    }).done( function(data) {
+        if(data){
+          data = data.replace('"','');
+          var row = data.split('|');
+          switch(row[0]){
+            case 'i':
+              $().toastmessage('showSuccessToast', "Registro creado exitosamente");
+            break;
+            case 'e':
+              $().toastmessage('showSuccessToast', "Editado exitosamente");
+            break;
+          }
+        }else{
+          $().toastmessage('showErrorToast', "No se pudo procesar la información");
+        }
+    }).fail( function() {
+      swal("Información!", "No se pudo cargar la información", "warning"); 
+    }).always( function() {
+      buscarMenuAsociadoPerfil(idPerfil);
+      cerrarGif();
+    }); 
+
+}
+
+function eliminarMenuDePerfil(aObject){
+  swal({
+    title: 'Desea eliminar?',
+    text: "Los datos se perderán!",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Si, eliminar!'
+    }).then((result) => {
+      if (result.value) {
+         $.ajax({
+        type : 'post',
+        url  : "<?php echo site_url('PerfilesMenus/eliminarRegistro'); ?>",
+        dataType: 'json',
+        data: {
+          idPerfilMenu : $(aObject).data("id"),
+        },
+      }).done( function(data) {
+        if(data){
+          $().toastmessage('showSuccessToast', "Registro eliminado");
+        }else{
+          $().toastmessage('showErrorToast', "No se pudo eliminar la información (registros enlazados)");
+        }
+    }).fail( function() {
+      swal("Información!", "No se pudo cargar la información", "warning"); 
+    }).always( function() {
+      buscarMenuAsociadoPerfil($(aObject).data("idperfil"));
+      buscarMenusDisponibles();
+      cerrarGif();
+    }); 
+    }
+  }) 
+}
+
 </script>
 
 

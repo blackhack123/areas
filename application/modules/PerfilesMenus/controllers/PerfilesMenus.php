@@ -6,7 +6,6 @@ class PerfilesMenus extends MX_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('PeriodosAcademicos/PeriodoAcademico');
 		$this->load->model('CategoriasMenus/CategoriaMenu');
 		$this->load->model('Perfiles/Perfil');
 		$this->load->model('PerfilesMenus/PerfilMenu');
@@ -18,37 +17,15 @@ class PerfilesMenus extends MX_Controller {
 		
 	}
 	
-	public function index($idMenu){
-	  $urlCode = $idMenu;
-	  $idMenu = desencriptar($idMenu);
-	  if(verficarAcceso($idMenu)){
-	    $dataSession = verificarPrivilegios($idMenu);
-		$data['periodosAcademicos'] = $this->PeriodoAcademico->buscarPeriodosAcademicos();
-	    $data['status'] = $dataSession->status;
-		$data['menuNombre'] = $dataSession->nombreMenu;
-		$data['codigoCategoriaMenu'] = $dataSession->codigoCategoriaMenu;
-		$data['codigoMenu'] = $dataSession->codigoMenu;
-		$data['periodoLectivoActivo'] = $dataSession->idPeriodoLectivoActivo;
-		$data['urlCode'] = $urlCode;
-		//Vista
-		$idPeriodoAcademicoActivo = $this->session->userdata('idPeriodoAcademicoActivo');
-		$idUsuario = $this->session->userdata('idUsuario');
-		$data['perfil'] = $this->Perfil->buscarPerfiles();
-		$data['view'] = 'PerfilesMenus/index';
-		$data['output'] = '';
-		$this->load->view('Modulos/main_administrativo',$data);
-	  }
-	  else{ 
-	  	redirect('Login/Login');
-	  }
-	}
-
 	public function lista(){
 		$idPerfil = $this->input->post("idPerfil");
 		$urlCode = $this->input->post("urlCode");
 		$idMenu = desencriptar($urlCode);
 		$dataSession = verificarPrivilegios($idMenu);
+		$perfil = $this->Perfil->buscarPerfilPorID($idPerfil);
+		$data['idPerfil'] = $idPerfil;
 		$data['status'] = $dataSession->status;
+		$data['tituloPagina'] = $perfil->nombrePerfil." : PRIVILEGIOS";
 		$data['lista'] = $this->PerfilMenu->buscarMenusDePerfil($idPerfil);
 		$this->load->view('PerfilesMenus/lista',$data);
 	}

@@ -15,7 +15,7 @@ function cargarGif(){
     custom  : progress.Init(),
     fade  : [1000, 2000],
     color           : "rgba(0,0,0,0.9)",
-    image           : "http://www.developers.ec/loading-bar.gif",
+    image           : "",
     maxSize         : "400px",
     minSize         : "400px",
    });

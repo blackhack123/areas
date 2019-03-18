@@ -46,7 +46,7 @@
 		}
 
 		public function buscarMenusDePerfil($idPerfil){
-			$sql = "SELECT perfil_menu.id as idPerfilMenu, menu.id AS idMenu, categoria_menu.id AS idCategoriaMenu, perfil_menu.perfil_id AS idPerfil, categoria_menu.nombre AS nombreCategoria, menu.nombre AS nombreMenu, perfil_menu.lectura, perfil_menu.escritura FROM categoria_menu INNER JOIN menu ON menu.categoria_menu_id = categoria_menu.id INNER JOIN perfil_menu ON perfil_menu.menu_id = menu.id WHERE perfil_menu.perfil_id = ".$idPerfil." ORDER BY categoria_menu.nombre, menu.nombre";
+			$sql = "SELECT perfil_menu.id as idPerfilMenu, menu.id AS idMenu, categoria_menu.id AS idCategoriaMenu, perfil_menu.perfil_id AS idPerfil, categoria_menu.nombre AS nombreCategoria, menu.nombre AS nombreMenu, perfil_menu.autorizacion, perfil_menu.escritura FROM categoria_menu INNER JOIN menu ON menu.categoria_menu_id = categoria_menu.id INNER JOIN perfil_menu ON perfil_menu.menu_id = menu.id WHERE perfil_menu.perfil_id = ".$idPerfil." ORDER BY categoria_menu.nombre, menu.nombre";
 
 			$result = $this->db->query($sql);
 			if($result->num_rows() > 0){

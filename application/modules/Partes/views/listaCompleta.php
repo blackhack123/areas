@@ -4,11 +4,10 @@
     <thead>
       <tr>
         <th width="5%">N</th>
-        <th width="15%">Estación</th>
-        <th width="15%">Sistema</th>
-        <th width="8%">Fecha</th>
-        <th width="43%">Novedad</th>
-        <th width="5%">Estado</th>
+        <th width="25%">Estación</th>
+        <th width="36%">Sistema</th>
+        <th width="15%">Fecha/Hora</th>
+        <th width="5%">Solucionado?</th>
         <th width="9%"></th>
       </tr>
     </thead>
@@ -20,7 +19,6 @@
         <td><?php echo $lt->nombreEstacion; ?></td>
         <td><?php echo $lt->nombreSistema; ?></td>
         <td><?php echo $lt->fechaParte; ?></td>
-        <td><?php echo $lt->novedadParte; ?></td>
         <td><?php echo $lt->esSolucionadoParte; ?></td>
         <td>
          <button type="button" class="btn btn-info btn-sm" onclick="gestionRegistro(this);" data-titulo="<b><i class='fa fa-file'></i> Editar Registro</b>" data-accion="editarRegistro" data-id="<?php echo $lt->idParte;?>" <?php echo $status; ?>><i class="fas fa-pencil-alt"></i></button> 
@@ -35,9 +33,8 @@
         <th>N</th>
         <th>Estación</th>
         <th>Sistema</th>
-        <th>Fecha</th>
-        <th>Novedad</th>
-        <th>Estado</th>
+        <th>Fecha/Hora</th>
+        <th>Solucionado?</th>
         <th></th>
       </tr>
     </tfoot>

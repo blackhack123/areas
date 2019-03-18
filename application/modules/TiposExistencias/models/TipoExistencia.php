@@ -42,4 +42,15 @@ class TipoExistencia extends CI_Model{
 		return $this->db->affected_rows();
 	}
 
+	public function buscarTiposExistenciasCaeEstacion($idEstacion){
+		$sql = "SELECT tipo_existencia.id idTipoExistencia, tipo_existencia.nombre nombreTipoExistencia, tipo_existencia.propiedad FROM tipo_existencia INNER JOIN cae ON tipo_existencia.cae_id = cae.id INNER JOIN estacion ON estacion.cae_id = cae.id WHERE estacion.id = ".$idEstacion." ORDER BY tipo_existencia.nombre ASC";
+		$resultado = $this->db->query($sql);
+		if($resultado->num_rows() > 0){
+			return $resultado->result();
+		}
+		else{
+			return false;
+		}		
+	}
+
 }	

@@ -14,6 +14,18 @@ class Estacion extends CI_Model{
 		}		
 	}
 
+	//Listar estaciones para Super Admin
+	public function buscarEstaciones(){
+		$sql = "SELECT estacion.id as idEstacion, CONCAT(cae.nombre, ' - ', estacion.nombre) as nombreEstacion FROM cae INNER JOIN estacion ON estacion.cae_id = cae.id ORDER BY cae.nombre ASC, estacion.nombre ASC";
+		$resultado = $this->db->query($sql);
+		if($resultado->num_rows() > 0){
+			return $resultado->result();
+		}
+		else{
+			return false;
+		}	
+	}
+
 	public function insertarRegistro($data){
 		$this->db->insert("estacion", $data);
 		return $this->db->insert_id();
