@@ -81,14 +81,9 @@
   $("#idTipoFuerza").show();
 
 $(document).ready(function () {
-    var date = new Date();
-    var currentMonth = date.getMonth();
-    var currentDate = date.getDate();
-    var currentYear = date.getFullYear();
-
-    $('#fechaPresentacionPase').datepicker({
-        dateFormat: 'yy-mm-dd',
-        value : currentYear+'-'+currentMonth+'-'+currentDate
+    $('#fechaPresentacionPase').datetimepicker({
+      timepicker:false,
+      format: 'Y-m-d'
     });
 });
   
