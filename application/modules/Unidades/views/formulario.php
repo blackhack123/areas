@@ -48,6 +48,13 @@
                     </div>
                   </div>
                   <div class="col-sm-8">
+
+                    <div class="row">
+                        <div class="form-group col-sm-12">
+                          <label class="form-label">Nombre del Comando: </label>
+                          <input type="text" class="form-control" name="nombreComandoUnidad" id="nombreComandoUnidad" placeholder="" value="<?php echo isset($unidad->nombreComandoUnidad) ? $unidad->nombreComandoUnidad : ''; ?>">
+                        </div>                  
+                    </div>
                     
                     <div class="row">
                         <div class="form-group col-sm-12">
@@ -126,7 +133,7 @@ $("#logoUnidad").fileinput({
     defaultPreviewContent: '<img src="'+defaultImage+'"  alt="Su foto" style="width:160px"><h6 class="text-muted">Click para seleccionar</h6>',
 
     layoutTemplates: {main2: '{preview} ' +  btnCust + ' {remove} {browse}'},
-    allowedFileExtensions: ["jpg", "jpeg"]
+    allowedFileExtensions: ["jpg", "jpeg", "png"]
 });  
 
 $(document).ready(function() {

@@ -3,7 +3,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Parte extends CI_Model{
 	public function buscarPartesCompleto(){
-		$sql = "SELECT parte.id AS idParte, estacion.nombre AS nombreEstacion, sistema.nombre AS nombreSistema, parte.fecha AS fechaParte, parte.novedad AS novedadParte, parte.es_solucionado AS esSolucionadoParte FROM parte INNER JOIN sistema ON parte.sistema_id = sistema.id INNER JOIN seccion ON sistema.seccion_id = seccion.id INNER JOIN estacion ON seccion.estacion_id = estacion.id ORDER BY parte.es_solucionado ASC, nombreEstacion ASC, nombreSistema ASC, fechaParte DESC";
+		$sql = "SELECT parte.id AS idParte, estacion.nombre AS nombreEstacion, sistema.nombre AS nombreSistema, parte.fecha AS fechaParte, parte.novedad AS novedadParte, parte.es_solucionado AS esSolucionadoParte FROM parte INNER JOIN sistema ON parte.sistema_id = sistema.id INNER JOIN seccion ON sistema.seccion_id = seccion.id ORDER BY parte.es_solucionado ASC, nombreEstacion ASC, nombreSistema ASC, fechaParte DESC";
+		$resultado = $this->db->query($sql);
+		if($resultado->num_rows() > 0){
+			return $resultado->result();
+		}
+		else{
+			return false;
+		}		
+	}
+
+
+	public function buscarPartesCae($idCae){
+		$sql = "SELECT parte.id AS idParte, estacion.nombre AS nombreEstacion, sistema.nombre AS nombreSistema, parte.fecha AS fechaParte, parte.novedad AS novedadParte, parte.es_solucionado AS esSolucionadoParte FROM parte INNER JOIN sistema ON parte.sistema_id = sistema.id INNER JOIN seccion ON sistema.seccion_id = seccion.id INNER JOIN estacion ON seccion.estacion_id = estacion.id WHERE estacion.cae_id= ".$idCae." ORDER BY parte.es_solucionado ASC, nombreEstacion ASC, nombreSistema ASC, fechaParte DESC";
 		$resultado = $this->db->query($sql);
 		if($resultado->num_rows() > 0){
 			return $resultado->result();
@@ -25,7 +37,7 @@ class Parte extends CI_Model{
 	}
 
 	public function buscarRegistroPorID($idParte){
-		$sql = "SELECT parte.id AS idParte, estacion.id AS idEstacion, parte.sistema_id AS idSistema, parte.tipo_existencia_id AS idTipoExistencia, parte.fecha AS fechaParte, parte.novedad AS novedadParte, parte.seguimiento AS seguimientoParte, parte.requerimiento_solucion AS requerimientoSolucionParte, parte.es_solucionado AS esSolucionadoParte FROM parte INNER JOIN sistema ON parte.sistema_id = sistema.id INNER JOIN seccion ON sistema.seccion_id = seccion.id INNER JOIN estacion ON seccion.estacion_id = estacion.id WHERE parte.id=".$idParte;
+		$sql = "SELECT parte.id AS idParte, parte.novedad AS novedadParte, parte.seguimiento AS seguimientoParte, parte.requerimiento_solucion AS requerimientoSolucionParte, parte.es_solucionado AS esSolucionadoParte FROM parte WHERE parte.id=".$idParte;
 		$resultado = $this->db->query($sql);
 		if($resultado->num_rows() > 0){
 			return $resultado->row();
@@ -39,6 +51,28 @@ class Parte extends CI_Model{
 		$this->db->where('id', $idParte);
 		$this->db->delete('parte');
 		return $this->db->affected_rows();
+	}
+
+	public function buscarExistenciaFechaParte($idTipoExistencia, $fechaParte){
+		$sql = "SELECT parte.id AS idParte FROM parte WHERE parte.tipo_existencia_id = ".$idTipoExistencia." AND parte.fecha = '".$fechaParte."' GROUP BY parte.id";
+		$resultado = $this->db->query($sql);
+		if($resultado->num_rows() > 0){
+			return $resultado->row();
+		}
+		else{
+			return false;
+		}
+	}
+
+	public function buscarParteDiario($idCae, $fechaParte){
+		$sql = "SELECT parte.id AS idParte, parte.fecha AS fechaParte, cae.nombre AS nombreCae, sistema.nombre AS nombreSistema, estacion.nominativo AS nominativoEstacion, estacion.nombre AS nombreEstacion, tipo_existencia.nombre AS nombreTipoExistencia, tipo_existencia.propiedad AS propiedadTipoExistencia, parte.novedad AS novedadParte, parte.seguimiento AS seguimientoParte, parte.requerimiento_solucion AS requerimientoSolucionParte, parte.es_solucionado AS esSolucionadoParte FROM parte INNER JOIN tipo_existencia ON parte.tipo_existencia_id = tipo_existencia.id INNER JOIN estacion ON tipo_existencia.estacion_id = estacion.id INNER JOIN cae ON estacion.cae_id = cae.id INNER JOIN sistema ON tipo_existencia.sistema_id = sistema.id INNER JOIN seccion ON sistema.seccion_id = seccion.id WHERE cae.id = ".$idCae." AND parte.fecha = '".$fechaParte."' ORDER BY nombreCae ASC, nombreSistema ASC, nombreEstacion ASC, nombreTipoExistencia ASC";
+		$resultado = $this->db->query($sql);
+		if($resultado->num_rows() > 0){
+			return $resultado->result();
+		}
+		else{
+			return false;
+		}
 	}
 
 }

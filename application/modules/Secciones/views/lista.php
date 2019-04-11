@@ -1,15 +1,3 @@
-<script type="text/javascript">
-  $("#tituloPagina").text("<?php echo $menuNombreEstacion; ?>");
-  $("#btngestionRegistroTipoExistencia").hide();
-  $("#btngestionRegistroCae").hide();
-  $("#btngestionRegistroEstacion").hide();
-  $("#btngestionVolverCae").hide();
-  $("#btngestionRegistroSeccion").show();
-  $("#btngestionVolverEstacion").show();
-  $("#btngestionRegistroSistema").hide();
-  $("#btngestionVolverSeccion").hide();
-  $("#idEstacionSeccion").val("<?php echo $idEstacion; ?>");
-</script>
 
 <div class="table-responsive">
 <?php if($lista){ ?>

@@ -39,7 +39,7 @@
 			$result = $this->db->query($sql);
 
 			if($result->num_rows()>0){
-				return $result->result();
+				return $result->row();
 			}
 			else{
 				return false;

@@ -1,7 +1,8 @@
 <script type="text/javascript">
   $("#tituloPagina").text("<?php echo $menuNombreFuerza; ?>");
   $("#btnGestionRegistroFuerza").hide();
-  $("#btngestionRegistroGrado").show();
+  $("#btnGestionRegistroGrado").show();
+  $("#btnGestionRegistroArma").hide();
   $("#btnGestionVolverFuerza").show();
   $("#idFuerzaGrado").val("<?php echo $idFuerza; ?>");
 </script>

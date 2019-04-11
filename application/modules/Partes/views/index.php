@@ -9,9 +9,32 @@
               <div class="card-header">
                 <h3 class="card-title"><?php echo $menuNombre; ?></h3>
                 <div class="card-options">
-                  <button type="button" id="btngestionRegistro" class="btn btn-success bnt-sm" onclick="gestionRegistro(this);" data-titulo="<b><i class='fa fa-file'></i> Nuevo Registro</b>" data-accion="insertarRegistro" <?php echo $status; ?>><i class="fa fa-file"></i> Nuevo Parte</button>
+                  
                 </div>
               </div>
+      
+              <div class="row card-body">
+                
+                <div class="form-group col-sm-4">
+                  <label class="form-label">CAE: </label>
+                  <select name="idCae" id="idCae" class="form-control" onchange="">
+                    <option value="">SELECCIONE...</option>
+                    <?php foreach ($cae as $dt){ ?>
+                    <option value="<?php echo $dt->idCae; ?>"><?php echo $dt->nombreCae; ?></option>
+                    <?php } ?>            
+                  </select>
+                </div>                  
+                <div class="form-group col-sm-4">
+                  <label class="form-label">Fecha: </label>
+                  <input type="text" name="fechaParte" id="fechaParte" class="form-control" value="<?php echo date("Y-m-d"); ?>">
+                </div>  
+                <div class="form-group col-sm-4">
+                  <label class="form-label">Acción: </label>
+                  <button type="button" class="btn btn-success" onclick="generarParteDiario();">Generar</button>
+                </div>  
+
+              </div>
+
               <div id="listadoDatos" class="card-body"></div>
             </div>
           </div>
@@ -19,8 +42,7 @@
       </div>
     </div>
 
-
-<!-- Modal Partes-->
+<!-- Modal Parte-->
 <div id="modalFormulario" class="modal fade" role="dialog" tabindex="-1">
   <div class="modal-dialog modal-lg" role="document">
 
@@ -35,35 +57,7 @@
      <form id="formParte"  method="post" class="animate-form" >
       <input name="idParte" id="idParte" type="hidden" value="">
       <div class="modal-body">
-
-      <div class="row">
-        <div class="form-group col-sm-12">
-          <label class="form-label">Estación: </label>
-          <select name="idEstacion" id="idEstacion" class="form-control" onchange="cargarSistemasEstacion(this); cargarExistenciasCae(this);">
-            <option value="">SELECCIONE...</option>
-            <?php foreach ($estacion as $dt){ ?>
-            <option value="<?php echo $dt->idEstacion; ?>"><?php echo $dt->nombreEstacion; ?></option>
-            <?php } ?>            
-          </select>
-        </div>                  
-      </div>
         
-      <div class="row">
-        <div class="form-group col-sm-12">
-          <label class="form-label">Sistema: </label>
-          <select name="idSistema" id="idSistema" class="form-control">
-          </select>
-        </div>                  
-      </div>
-
-      <div class="row">
-        <div class="form-group col-sm-12">
-          <label class="form-label">Tipo Existencia: </label>
-          <select name="idTipoExistencia" id="idTipoExistencia" class="form-control">
-          </select>
-        </div>                  
-      </div>
-
       <div class="row">
         <div class="form-group col-sm-12">
           <label class="form-label">Novedad: </label>
@@ -86,12 +80,8 @@
       </div>
 
       <div class="row">
-        <div class="form-group col-sm-4">
-          <label class="form-label">Fecha: </label>
-          <input type="text" name="fechaParte" id="fechaParte" class="form-control" value="" disabled="disabled">
-        </div>                  
-        <div class="form-group col-sm-4">
-          <label class="form-label">Está Solucionado?: </label>
+        <div class="form-group col-sm-2">
+          <label class="form-label">Solucionado? </label>
           <select name="esSolucionadoParte" id="esSolucionadoParte" class="form-control">
             <option value="NO">NO</option>
             <option value="SI">SI</option>
@@ -113,98 +103,72 @@
 
 <script type="text/javascript">
 
-  listarDatos();
-
-  function listarDatos(){
-    cargarGif();
-    var urlCode = "<?php echo $urlCode; ?>";
-      $("#listadoDatos").load("<?php echo site_url('Partes/lista'); ?>",{urlCode}, function(responseText, statusText, xhr){
-        if(statusText == "success"){
-          cerrarGif();
-        }
-        if(statusText == "error"){
-          swal("Información!", "No se pudo cargar listado de Partes Diarios", "info"); 
-          cerrarGif();
-        }
-      });
-  }
-
-
-function gestionRegistro(aObject){
-  switch($(aObject).data('accion')){
-    case 'insertarRegistro':
-        $("#formParte")[0].reset();
-        $("#idParte").val("");
-        $("#modalFormulario").modal('show');
-        $("#tituloModal").text("Nuevo Registro");
-    break;
-    case 'editarRegistro':
-        $("#modalFormulario").modal('show');
-        $("#tituloModal").text("Editar Registro");
-        editarRegistro($(aObject).data('id'));
-    break;
-    case 'eliminarRegistro':
-       
-        swal({
-          title: 'Desea eliminar?',
-          text: "Los datos se perderán!",
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Si, eliminar!'
-        }).then((result) => {
-          if (result.value) {
-            
-                $.ajax({
-                  type : 'post',
-                  url  : "<?php echo site_url('Partes/eliminarRegistro'); ?>",
-                  dataType: 'json',
-                  data: {
-                        idParte   : $(aObject).data('id'),
-                      }
-                })  
-                .done(function(data){
-                  if(data){
-                    $().toastmessage('showSuccessToast', "Registro eliminado");
-                  }else{
-                    $().toastmessage('showErrorToast', "No se pudo eliminar la información (registros enlazados)");
-                  }
-                })
-                .fail(function(){
-                  $().toastmessage('showErrorToast', "Error: No se pudo eliminar la información");
-                })   
-                .always(function(){
-                  cerrarGif();
-                  listarDatos();
-                });
-
+  function generarParteDiario(){
+    if($("#idCae").val() == ""){
+      $().toastmessage('showErrorToast', "Selecione un CAE");
+    }
+    else{
+      cargarGif();
+      var urlCode = "<?php echo $urlCode; ?>";
+      var fechaParte = $("#fechaParte").val();
+      var idCae = $("#idCae").val();
+        $("#listadoDatos").load("<?php echo site_url('Partes/lista'); ?>",{urlCode, idCae, fechaParte}, function(responseText, statusText, xhr){
+          if(statusText == "success"){
+            cerrarGif();
           }
-        })
-
-    break;
-    default:      
-    break;
+          if(statusText == "error"){
+            swal("Información!", "No se pudo cargar listado de Partes Diarios", "info"); 
+            cerrarGif();
+          }
+        });
+    }
   }
-}
+  //listarDatos();
+
+function gestionRegistroParte(aObject){
+    var idParte = $(aObject).data('id');
+    $.ajax({
+      type : 'post',
+      url  : "<?php echo site_url('Partes/buscarRegistroPorID'); ?>",
+      dataType: 'json',
+      data: {
+        idParte   : idParte,
+      },
+    }).done( function(data) {
+      $(data).each(function(i, v){
+        $("#idParte").val(v.idParte);
+        $("#novedadParte").val(v.novedadParte);
+        $("#seguimientoParte").val(v.seguimientoParte);
+        $("#requerimientoSolucionParte").val(v.requerimientoSolucionParte);
+        $("#esSolucionadoParte").val(v.esSolucionadoParte);
+      });  
+      $("#modalFormulario").modal('show');            
+    }).fail( function() {
+      swal("Información!", "No se pudo cargar la información", "warning"); 
+    }).always( function() {
+      $("#modalFormulario").modal('hide');
+    });
+}  
+
+
 
 $(document).ready(function() {
 
  $('#formParte').validate({
   rules: {
-   idEstacion: {
+   novedadParte: {
     required: true
    },
-   idSistema: {
+   seguimientoParte: {
     required: true
    }
   },
   messages: {
-   idEstacion: {
-    required: "Seleccione una estación"
+   novedadParte: {
+    required: "Ingrese una novedad (S.N. para ninguna)"
    },
-   idSistema: {
-    required: "Seleccione un Sistema"
+   seguimientoParte: {
+    required: "Ingrese una texto (S.N. para ninguna)"
    }
   },
   highlight: function(element) {
@@ -239,7 +203,7 @@ $(document).ready(function() {
         $().toastmessage('showErrorToast', "Error: No se pudo procesar la información");
      })
      .always(function(){
-      listarDatos();
+       generarParteDiario()
        $("#modalFormulario").modal('hide');
        $("#formParte").find('.error').removeClass("error");
        $("#formParte").find('.success').removeClass("success");
@@ -248,83 +212,5 @@ $(document).ready(function() {
   }
  });
 }); // end document.ready
-
-function editarRegistro(aId){
-    $.ajax({
-      type : 'post',
-      url  : "<?php echo site_url('Partes/buscarRegistroPorID'); ?>",
-      dataType: 'json',
-      data: {
-        idParte   : aId,
-      },
-    }).done( function(data) {
-      $(data).each(function(i, v){
-        $("#idParte").val(v.idParte);
-        $("#idEstacion").val(v.idEstacion);
-        $("#idEstacion").trigger('change');
-        alert(v.idSistema);
-        $("#idSistema").val(v.idSistema);
-        $("#novedadParte").val(v.novedadParte);
-        $("#seguimientoParte").val(v.seguimientoParte);
-        $("#requerimientoSolucionParte").val(v.requerimientoSolucionParte);
-        $("#fechaParte").val(v.fechaParte);
-        $("#esSolucionadoParte").val(v.esSolucionadoParte);
-      });              
-    }).fail( function() {
-      swal("Información!", "No se pudo cargar la información", "warning"); 
-    }).always( function() {
-      //alert( 'Always' );
-    });
-}
-
-function cargarSistemasEstacion(aObject){
-  cargarGif();
-  $.ajax({
-    url      : "<?php echo site_url('Sistemas/buscarSistemasEstacion');?>",
-    type     : 'post',
-    dataType : 'json',
-    data     :{
-                idEstacion : aObject.value
-             },
-    success: function(data){
-      $('#idSistema').find('option').remove();
-      $('#idSistema').find('option').remove();
-      $(data).each(function(i, v){
-        $('#idSistema').append('<option value="'+ v.idSistema +'">' + v.nombreSistema + '</option');
-      })
-    },
-    complete: function(){
-      cerrarGif();
-    },
-    error: function(){
-      swal("Información!", "No se pudieron cargar los Sistemas", "info");
-    }
-  });
-}
-
-function cargarExistenciasCae(aObject){
-  cargarGif();
-  $.ajax({
-    url      : "<?php echo site_url('TiposExistencias/buscarTiposExistenciasCaeEstacion');?>",
-    type     : 'post',
-    dataType : 'json',
-    data     :{
-                idEstacion : aObject.value
-             },
-    success: function(data){
-      $('#idTipoExistencia').find('option').remove();
-      $('#idTipoExistencia').find('option').remove();
-      $(data).each(function(i, v){
-        $('#idTipoExistencia').append('<option value="'+ v.idTipoExistencia +'">' + v.nombreTipoExistencia + '</option');
-      })
-    },
-    complete: function(){
-      cerrarGif();
-    },
-    error: function(){
-      swal("Información!", "No se pudieron cargar los Tipos de Existencias", "info");
-    }
-  });
-}
 
 </script>

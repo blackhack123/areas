@@ -77,5 +77,9 @@ class Caes extends MX_Controller {
 		}		
 	}
 
+	public function buscarCaes(){
+		$data = $this->Cae->buscarCaes();
+		print_r(json_encode($data));
+	}
 
 }	

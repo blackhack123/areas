@@ -10,6 +10,7 @@ class Fuerzas extends MX_Controller {
 		$this->load->model('PerfilesMenus/PerfilMenu');
 		$this->load->model('Menus/Menu');
 		$this->load->model('Fuerzas/Fuerza');
+		$this->load->model('TiposFuerzas/TipoFuerza');
 
 		$this->load->helper('session_helper');	
 		$this->load->helper('utilidades_helper');	
@@ -26,6 +27,7 @@ class Fuerzas extends MX_Controller {
 		$data['codigoCategoriaMenu'] = $dataSession->codigoCategoriaMenu;
 		$data['codigoMenu'] = $dataSession->codigoMenu;
 		$data['urlCode'] = $urlCode;
+		$data['tipoFuerza'] = $this->TipoFuerza->buscarTipoFuerza();
 		//Vista
 		$data['view'] = 'Fuerzas/index';
 		$data['output'] = '';
@@ -50,7 +52,7 @@ class Fuerzas extends MX_Controller {
        
        $config = [
         "upload_path" => "./application/modules/Fuerzas/photos",
-        "allowed_types" => "jpg|jpeg",
+        "allowed_types" => "jpg|jpeg|png",
         "file_name" => $idFuerza
        ];
 
@@ -66,6 +68,8 @@ class Fuerzas extends MX_Controller {
         }
 
 		$data = array(
+					 "tipo_fuerza_id" => $this->input->post("idTipoFuerza"),
+					 "orden" => $this->input->post("ordenFuerza"),
 					 "nombre" => textoMayuscula($this->input->post("nombreFuerza")),
 					 "logo" => $logoFuerza
 					);

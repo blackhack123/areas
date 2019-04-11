@@ -6,7 +6,8 @@
         <th width="5%">N</th>
         <th width="30%">Nombre</th>
         <th width="30%">Codigo</th>
-        <th width="26%">Icono</th>
+        <th width="16%">Icono</th>
+        <th width="10%">Menús</th>
         <th width="9%"></th>
       </tr>
     </thead>
@@ -18,6 +19,9 @@
         <td><?php echo $lt->nombre; ?></td>
         <td><?php echo $lt->codigo; ?></td>
         <td><?php echo $lt->icono; ?></td>
+        <td>
+          <button type="button" class="btn btn-warning btn-sm" onclick="gestionMenu(this);" data-id="<?php echo $lt->idCategoriaMenu; ?>" <?php echo $status; ?>><i class="fe fe-layers"></i> Menús</button>
+        </td>
         <td>
          <button type="button" class="btn btn-info btn-sm" onclick="gestionRegistro(this);" data-titulo="<b><i class='fa fa-file'></i> Editar Registro</b>" data-accion="editarRegistro" data-id="<?php echo $lt->idCategoriaMenu;?>" <?php echo $status; ?>><i class="fas fa-pencil-alt"></i></button> 
          <button type="button" class="btn btn-danger btn-sm" onclick="gestionRegistro(this);" data-toggle="tooltip" data-placement="left" title="Eliminar Registro" data-accion="eliminarRegistro" data-id="<?php echo $lt->idCategoriaMenu; ?>" <?php echo $status; ?>><i class="fas fa-trash-alt"></i>

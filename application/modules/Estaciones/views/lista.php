@@ -1,13 +1,10 @@
 <script type="text/javascript">
-  $("#tituloPagina").text("<?php echo $menuNombreCae; ?>");
-  $("#btngestionRegistroCae").hide();
-  $("#btngestionRegistroTipoExistencia").hide();
-  $("#btngestionRegistroEstacion").show();
-  $("#btngestionVolverCae").show();
-  $("#btngestionRegistroSeccion").hide();
-  $("#btngestionVolverEstacion").hide();
-  $("#btngestionRegistroSistema").hide();
-  $("#btngestionVolverSeccion").hide();
+  $("#tituloPagina").text("<?php echo $tituloPagina; ?>");
+  $("#btnGestionRegistroCae").hide();
+  $("#btnGestionRegistroEstacion").show();
+  $("#btnGestionRegistroTipoExistencia").hide();
+  $("#btnGestionVolverCae").show();
+  $("#btnGestionVolverEstacion").hide();
   $("#idCaeEstacion").val("<?php echo $idCae; ?>");
 </script>
 
@@ -19,7 +16,7 @@
         <th width="5%">N</th>
         <th width="10%">Nominativo</th>
         <th width="66%">Nombre</th>
-        <th width="10%">Secciones</th>
+        <th width="10%">Existencias</th>
         <th width="9%"></th>
       </tr>
     </thead>
@@ -31,7 +28,7 @@
         <td><?php echo $lt->nominativoEstacion; ?></td>
         <td><?php echo $lt->nombreEstacion; ?></td>
         <td>
-        	<button type="button" class="btn btn-warning btn-sm" onclick="gestionSecciones(this);" data-id="<?php echo $lt->idEstacion; ?>" <?php echo $status; ?>><i class="fe fe-aperture"></i> Secciones</button>
+          <button type="button" class="btn btn-warning btn-sm" onclick="gestionTiposExistencias(this);" data-id="<?php echo $lt->idEstacion; ?>" <?php echo $status; ?>><i class="fe fe-speaker"></i> Existencias</button>
         </td>
         <td>
          <button type="button" class="btn btn-info btn-sm" onclick="gestionRegistroEstacion(this);" data-titulo="<b><i class='fa fa-file'></i> Editar Registro</b>" data-accion="editarRegistro" data-id="<?php echo $lt->idEstacion;?>" <?php echo $status; ?>><i class="fas fa-pencil-alt"></i></button> 
@@ -46,7 +43,7 @@
         <th>N</th>
         <th>Nominativo</th>
         <th>Nombre</th>
-        <th>Secciones</th>
+        <th>Existencias</th>
         <th></th>
       </tr>
     </tfoot>

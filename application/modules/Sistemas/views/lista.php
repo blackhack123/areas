@@ -1,13 +1,8 @@
 <script type="text/javascript">
   $("#tituloPagina").text("<?php echo $menuNombreCae; ?>");
-  $("#btngestionRegistroTipoExistencia").hide();
-  $("#btngestionRegistroCae").hide();
-  $("#btngestionRegistroEstacion").hide();
-  $("#btngestionVolverCae").hide();
-  $("#btngestionRegistroSeccion").hide();
-  $("#btngestionVolverEstacion").hide();
-  $("#btngestionRegistroSistema").show();
-  $("#btngestionVolverSeccion").show();
+  $("#btnGestionRegistroSeccion").hide();
+  $("#btnGestionRegistroSistema").show();
+  $("#btnGestionVolverSeccion").show();
   $("#idSeccionSistema").val("<?php echo $idSeccion; ?>");
 </script>
 

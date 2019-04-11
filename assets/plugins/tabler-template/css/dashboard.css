@@ -72,7 +72,12 @@ body {
   line-height: 1.5;
   color: #495057;
   text-align: left;
-  background-color: #f5f7fb;
+
+  background: url(../../../../assets/img/fondo.jpg) no-repeat center center fixed;
+        background-size: cover;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
+        -o-background-size: cover;
 }
 
 [tabindex="-1"]:focus {
@@ -10313,7 +10318,7 @@ body.fixed-header .header {
   font-weight: 600;
   padding: 0;
   transition: .3s opacity;
-  line-height: 2rem;
+  line-height: 1.3rem;
 }
 
 .header-brand:hover {
@@ -10323,8 +10328,8 @@ body.fixed-header .header {
 }
 
 .header-brand-img {
-  height: 2rem;
-  line-height: 2rem;
+  height: 2.5rem;
+  line-height: 1rem;
   vertical-align: bottom;
   margin-right: .5rem;
   width: auto;

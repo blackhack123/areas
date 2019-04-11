@@ -32,6 +32,46 @@ class Usuario extends CI_Model{
 		}
 	}
 
+	public function buscarUsuarioPorPersonalID($idPersonal){
+		$sql = "SELECT usuario.id AS idUsuario, usuario.personal_id AS idPersonal, usuario.es_superadmin AS esSuperadminUsuario, usuario.usuario AS usuarioUsuario, usuario.clave AS claveUsuario, usuario.email AS emailUsuario, usuario.estado AS estadoUsuario FROM usuario WHERE usuario.personal_id = ".$idPersonal." GROUP BY usuario.id";
+		
+		$resultado = $this->db->query($sql);
+
+		if($resultado->num_rows() > 0){
+			return $resultado->row();
+		}
+		else{
+			return false;
+		}
+	}
+
+	public function insertarRegistro($data){
+		$this->db->insert('usuario', $data);
+		return $this->db->insert_id();			
+	}
+
+	public function editarRegistro($idUsuario, $data){
+		$this->db->where('id', $idUsuario);
+		$this->db->update('usuario', $data);
+		return $this->db->affected_rows();			
+	}
+
+	public function eliminarRegistro($idUsuario){
+		$this->db->where('id', $idUsuario);
+		return $this->db->delete('usuario');
+	}
+
+	public function buscarPerfilesDelUsuario($idUsuario){
+		$sql = "SELECT perfil_id as idPerfil FROM usuario_perfil WHERE usuario_id=".$idUsuario;
+		$result = $this->db->query($sql);			
+		if($result->num_rows()>0){
+			return $result->result();
+		}
+		else{
+			return false;
+		}
+	}
+
 }
 
 ?>

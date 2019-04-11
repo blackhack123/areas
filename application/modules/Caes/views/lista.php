@@ -4,8 +4,7 @@
     <thead>
       <tr>
         <th width="5%">N</th>
-        <th width="66%">Nombre</th>
-        <th width="10%">Existencias</th>
+        <th width="76%">Nombre</th>
         <th width="10%">Estaciones</th>
         <th width="9%"></th>
       </tr>
@@ -16,9 +15,6 @@
       <tr>
         <td><?php echo $i; $i++; ?></td>
         <td><?php echo $lt->nombreCae; ?></td>
-        <td>
-          <button type="button" class="btn btn-warning btn-sm" onclick="gestionTiposExistencias(this);" data-id="<?php echo $lt->idCae; ?>" <?php echo $status; ?>><i class="fe fe-speaker"></i> Existencias</button>
-        </td>
         <td>
           <button type="button" class="btn btn-warning btn-sm" onclick="gestionEstaciones(this);" data-id="<?php echo $lt->idCae; ?>" <?php echo $status; ?>><i class="fe fe-layers"></i> Estaciones</button>
         </td>
@@ -34,7 +30,6 @@
       <tr>
         <th>N</th>
         <th>Nombre</th>
-        <th>Existencias</th>
         <th>Estaciones</th>
         <th></th>
       </tr>

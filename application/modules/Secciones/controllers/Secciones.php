@@ -17,22 +17,38 @@ class Secciones extends MX_Controller {
 		$this->load->helper('notas_helper');
 	}
 
+	public function index($idMenu){
+	  $urlCode = $idMenu;
+	  $idMenu = desencriptar($idMenu);
+	  if(verficarAcceso($idMenu)){
+	    $dataSession = verificarPrivilegios($idMenu);
+	    $data['status'] = $dataSession->status;
+		$data['menuNombre'] = $dataSession->nombreMenu;
+		$data['codigoCategoriaMenu'] = $dataSession->codigoCategoriaMenu;
+		$data['codigoMenu'] = $dataSession->codigoMenu;
+		$data['urlCode'] = $urlCode;
+		//Vista
+		$data['view'] = 'Secciones/index';
+		$data['output'] = '';
+		$this->load->view('Modulos/main',$data);	
+	  }
+	  else{ 
+	  	redirect('Login/Login');
+	  }
+	}	
+
 	public function lista(){
-		$idEstacion = $this->input->post("idEstacion");
-		$data['lista'] = $this->Seccion->buscarSeccionesEstacion($idEstacion);
+		$data['lista'] = $this->Seccion->buscarSecciones();
 		$urlCode = $this->input->post("urlCode");
 		$idMenu = desencriptar($urlCode);
 		$dataSession = verificarPrivilegios($idMenu);
-		$estacion = $this->Estacion->buscarRegistroPorID($idEstacion);
-		$data['idEstacion'] = $idEstacion;
-		$data['menuNombreEstacion'] = "SECCIONES ESTACION ".$estacion->nombreEstacion;
 		$data['status'] = $dataSession->status;
 		$this->load->view('Secciones/lista',$data);		
 	}
 
 	public function gestionRegistro(){
 		$idSeccion = $this->input->post("idSeccion");
-		$data = array("estacion_id" => $this->input->post("idEstacionSeccion"),
+		$data = array(
 					 "nombre" => textoMayuscula($this->input->post("nombreSeccion"))
 					);
 		if($idSeccion > 0){

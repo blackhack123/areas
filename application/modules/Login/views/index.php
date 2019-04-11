@@ -27,11 +27,15 @@
   <body class="">
     <div class="page">
       <div class="page-single">
+
+
         <div class="container">
+          
           <div class="row">
             <div class="col col-login mx-auto">
+
               <div class="text-center mb-6">
-                <img src="<?php echo base_url('assets/img/logo.gif'); ?>" class="h-6" alt="">
+                <img src="<?php echo base_url('assets/img/logo_cc.png'); ?>" class="h-9" alt="">
               </div>
               
               <form name="formLogin" id="formLogin" class="card" action="<?php echo base_url('Login/validarIngreso'); ?>" method="post">

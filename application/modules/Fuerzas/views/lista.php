@@ -4,9 +4,10 @@
     <thead>
       <tr>
         <th width="5%">N</th>
-        <th width="71%">Nombre</th>
+        <th width="61%">Nombre</th>
         <th width="5%">Logo</th>
         <th width="10%">Grados</th>
+        <th width="10%">Armas</th>
         <th width="9%"></th>
       </tr>
     </thead>
@@ -25,6 +26,9 @@
           <button type="button" class="btn btn-warning btn-sm" onclick="gestionGrados(this);" data-id="<?php echo $lt->idFuerza; ?>" <?php echo $status; ?>><i class="fe fe-layers"></i> Grados</button>
         </td>
         <td style="vertical-align: middle;">
+          <button type="button" class="btn btn-warning btn-sm" onclick="gestionArmas(this);" data-id="<?php echo $lt->idFuerza; ?>" <?php echo $status; ?>><i class="fe fe-square"></i> Armas</button>
+        </td>
+        <td style="vertical-align: middle;">
          <button type="button" class="btn btn-info btn-sm" onclick="gestionRegistro(this);" data-titulo="<b><i class='fa fa-file'></i> Editar Registro</b>" data-accion="editarRegistro" data-id="<?php echo $lt->idFuerza;?>" <?php echo $status; ?>><i class="fas fa-pencil-alt"></i></button> 
          <button type="button" class="btn btn-danger btn-sm" onclick="gestionRegistro(this);" data-toggle="tooltip" data-placement="left" title="Eliminar Registro" data-accion="eliminarRegistro" data-id="<?php echo $lt->idFuerza; ?>" <?php echo $status; ?>><i class="fas fa-trash-alt"></i>
         </button>
@@ -38,6 +42,7 @@
         <th>Nombre</th>
         <th>Logo</th>
         <th>Grados</th>
+        <th>Armas</th>
         <th></th>
       </tr>
     </tfoot>

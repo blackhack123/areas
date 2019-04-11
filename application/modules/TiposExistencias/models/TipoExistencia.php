@@ -3,8 +3,8 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class TipoExistencia extends CI_Model{
-	public function buscarTiposExistenciasCae($idCae){
-		$sql = "SELECT tipo_existencia.id AS idTipoExistencia, tipo_existencia.nombre AS nombreTipoExistencia, tipo_existencia.propiedad AS propiedadTipoExistencia FROM tipo_existencia WHERE tipo_existencia.cae_id = ".$idCae." ORDER BY nombreTipoExistencia ASC";
+	public function buscarTiposExistenciasEstacion($idEstacion){
+		$sql = "SELECT tipo_existencia.id AS idTipoExistencia, tipo_existencia.nombre AS nombreTipoExistencia, tipo_existencia.propiedad AS propiedadTipoExistencia FROM tipo_existencia WHERE tipo_existencia.estacion_id = ".$idEstacion." ORDER BY nombreTipoExistencia ASC";
 		$resultado = $this->db->query($sql);
 		if($resultado->num_rows() > 0){
 			return $resultado->result();
@@ -42,8 +42,8 @@ class TipoExistencia extends CI_Model{
 		return $this->db->affected_rows();
 	}
 
-	public function buscarTiposExistenciasCaeEstacion($idEstacion){
-		$sql = "SELECT tipo_existencia.id idTipoExistencia, tipo_existencia.nombre nombreTipoExistencia, tipo_existencia.propiedad FROM tipo_existencia INNER JOIN cae ON tipo_existencia.cae_id = cae.id INNER JOIN estacion ON estacion.cae_id = cae.id WHERE estacion.id = ".$idEstacion." ORDER BY tipo_existencia.nombre ASC";
+	public function buscarTipoExistenciaCae($idCae){
+		$sql = "SELECT tipo_existencia.id AS idTipoExistencia, tipo_existencia.nombre AS nombreTipoExistencia FROM tipo_existencia INNER JOIN estacion ON tipo_existencia.estacion_id = estacion.id WHERE estacion.cae_id = ".$idCae;
 		$resultado = $this->db->query($sql);
 		if($resultado->num_rows() > 0){
 			return $resultado->result();

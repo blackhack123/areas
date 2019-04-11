@@ -15,7 +15,7 @@ class Unidad extends CI_Model{
 	}
 
 	public function buscarRegistroPorID($idUnidad){
-		$sql = "SELECT unidad.id AS idUnidad, unidad.nombre AS nombreUnidad, unidad.abreviatura AS abreviaturaUnidad, unidad.logo AS logoUnidad, unidad.direccion AS direccionUnidad, unidad.telefono_fijo AS telefonoFijoUnidad, unidad.telefono_movil AS telefonoMovilUnidad, unidad.email AS emailUnidad FROM unidad WHERE unidad.id = ".$idUnidad;
+		$sql = "SELECT unidad.id AS idUnidad, unidad.nombre_comando AS nombreComandoUnidad, unidad.nombre AS nombreUnidad, unidad.abreviatura AS abreviaturaUnidad, unidad.logo AS logoUnidad, unidad.direccion AS direccionUnidad, unidad.telefono_fijo AS telefonoFijoUnidad, unidad.telefono_movil AS telefonoMovilUnidad, unidad.email AS emailUnidad FROM unidad WHERE unidad.id = ".$idUnidad;
 		
 		$resultado = $this->db->query($sql);
 		

@@ -73,11 +73,20 @@
         <div class="header py-4">
           <div class="container">
             <div class="d-flex">
+             
               <a class="header-brand" href="<?php echo site_url('Modulos/escritorio'); ?>">
+                
                 <img src="<?php echo base_url('application/modules/Unidades/photos/').$this->session->userdata('logoUnidad'); ?>" class="header-brand-img" alt="Logo Institución">
-                <?php echo $this->session->userdata('nombreUnidad'); ?>
+                
+
               </a>
+                    <div class="row" style="line-height: 1em;">
+                      <?php echo $this->session->userdata('nombreComandoUnidad'); ?><br>
+                      <?php echo $this->session->userdata('nombreUnidad'); ?><br>
+                      <?php echo $this->session->userdata('nombreCae'); ?>
+                    </div>
               <div class="d-flex order-lg-2 ml-auto">
+                
                 <div class="nav-item d-none d-md-flex">
                 </div>
                 <div class="dropdown d-none d-md-flex">
@@ -120,7 +129,7 @@
                     </span>
                   </a>
                   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="<?php echo base_url('Personales/perfilPersonal/cdmx'); ?>">
                       <i class="dropdown-icon fe fe-user"></i> Perfil
                     </a>
                     <a class="dropdown-item" href="#">

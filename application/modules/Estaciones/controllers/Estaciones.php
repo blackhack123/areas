@@ -25,7 +25,8 @@ class Estaciones extends MX_Controller {
 		$dataSession = verificarPrivilegios($idMenu);
 		$cae = $this->Cae->buscarRegistroPorID($idCae);
 		$data['idCae'] = $idCae;
-		$data['menuNombreCae'] = "ESTACIONES CAE ".$cae->nombreCae;
+		$nombreCae = str_replace('"', '\"', $cae->nombreCae);
+		$data['tituloPagina'] = "ESTACIONES CAE ".$nombreCae;
 		$data['status'] = $dataSession->status;
 		$this->load->view('Estaciones/lista',$data);		
 	}

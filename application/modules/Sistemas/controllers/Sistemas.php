@@ -69,4 +69,9 @@ class Sistemas extends MX_Controller {
 		print_r(json_encode($data));
 	}
 
+	public function buscarSistemasSecciones(){
+		$data = $this->Sistema->buscarSistemasSecciones();
+		print_r(json_encode($data));
+	}
+
 }

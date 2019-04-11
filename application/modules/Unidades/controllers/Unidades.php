@@ -44,7 +44,7 @@ class Unidades extends MX_Controller {
       
        $config = [
         "upload_path" => "./application/modules/Unidades/photos",
-        "allowed_types" => "jpg|jpeg",
+        "allowed_types" => "jpg|jpeg|png",
         "file_name" => $this->input->post('idUnidad')
        ];
 
@@ -59,7 +59,8 @@ class Unidades extends MX_Controller {
             $logoUnidad = $this->input->post('logoUnidadAuxiliar');
         }
 
-		$data = array("nombre" => textoMayuscula($this->input->post("nombreUnidad")),
+		$data = array("nombre_comando" => textoMayuscula($this->input->post("nombreComandoUnidad")),
+					  "nombre" => textoMayuscula($this->input->post("nombreUnidad")),
 					  "abreviatura" => textoMayuscula($this->input->post("abreviaturaUnidad")),
 					  "direccion" => textoMayuscula($this->input->post("direccionUnidad")),
 					  "telefono_fijo" => textoMayuscula($this->input->post("telefonoFijoUnidad")),

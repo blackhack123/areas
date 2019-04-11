@@ -38,7 +38,7 @@ class Estacion extends CI_Model{
 	}
 
 	public function buscarRegistroPorID($idEstacion){
-		$sql = "SELECT estacion.id AS idEstacion, estacion.cae_id, estacion.nominativo AS nominativoEstacion, estacion.nombre AS nombreEstacion, estacion.direccion AS direccionEstacion, estacion.telefono_fijo AS telefonoFijoEstacion, estacion.telefono_movil AS telefonoMovilEstacion FROM estacion WHERE estacion.id = ".$idEstacion;
+		$sql = "SELECT estacion.id AS idEstacion, estacion.nominativo AS nominativoEstacion, estacion.nombre AS nombreEstacion, estacion.direccion AS direccionEstacion, estacion.telefono_fijo AS telefonoFijoEstacion, estacion.telefono_movil AS telefonoMovilEstacion FROM estacion WHERE estacion.id = ".$idEstacion;
 		$resultado = $this->db->query($sql);
 		if($resultado->num_rows() > 0){
 			return $resultado->row();

@@ -9,7 +9,7 @@ class TiposExistencias extends MX_Controller {
 		$this->load->model('CategoriasMenus/CategoriaMenu');
 		$this->load->model('PerfilesMenus/PerfilMenu');
 		$this->load->model('Menus/Menu');
-		$this->load->model('Caes/Cae');
+		$this->load->model('Estaciones/Estacion');
 		$this->load->model('TiposExistencias/TipoExistencia');
 
 		$this->load->helper('session_helper');	
@@ -18,21 +18,23 @@ class TiposExistencias extends MX_Controller {
 	}
 
 	public function lista(){
-		$idCae = $this->input->post("idCae");
-		$data['lista'] = $this->TipoExistencia->buscarTiposExistenciasCae($idCae);
+		$idEstacion = $this->input->post("idEstacion");
+		$data['lista'] = $this->TipoExistencia->buscarTiposExistenciasEstacion($idEstacion);
 		$urlCode = $this->input->post("urlCode");
 		$idMenu = desencriptar($urlCode);
 		$dataSession = verificarPrivilegios($idMenu);
-		$cae = $this->Cae->buscarRegistroPorID($idCae);
-		$data['idCae'] = $idCae;
-		$data['menuNombreCae'] = "TIPOS EXISTENCIAS CAE ".$cae->nombreCae;
+		$estacion = $this->Estacion->buscarRegistroPorID($idEstacion);
+		$data['idEstacion'] = $idEstacion;
+		$nombreEstacion = str_replace('"', '\"', $estacion->nombreEstacion);
+		$data['tituloPagina'] = "TIPOS EXISTENCIAS ESTACIÓN ".$nombreEstacion;
 		$data['status'] = $dataSession->status;
 		$this->load->view('TiposExistencias/lista',$data);		
 	}
 
 	public function gestionRegistro(){
 		$idTipoExistencia = $this->input->post("idTipoExistencia");
-		$data = array("cae_id" => $this->input->post("idCaeTipoExistencia"),
+		$data = array("sistema_id" => $this->input->post("idSistema"),
+					  "estacion_id" => $this->input->post("idEstacionTipoExistencia"),
 					  "nombre" => textoMayuscula($this->input->post("nombreTipoExistencia")),
 					  "propiedad" => textoMayuscula($this->input->post("propiedadTipoExistencia"))
 					);
@@ -63,9 +65,9 @@ class TiposExistencias extends MX_Controller {
 		}		
 	}	
 
-	public function buscarTiposExistenciasCaeEstacion(){
+	public function buscarTiposExistenciasEstacion(){
 		$idEstacion = $this->input->post("idEstacion");
-		$data = $this->TipoExistencia->buscarTiposExistenciasCaeEstacion($idEstacion);
+		$data = $this->TipoExistencia->buscarTiposExistenciasEstacion($idEstacion);
 		print_r(json_encode($data));		
 	}
 

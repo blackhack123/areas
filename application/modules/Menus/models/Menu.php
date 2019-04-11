@@ -34,7 +34,7 @@
 		}
 
 		public function buscarMenuPorCategoria($idCategoriaMenu){
-			$sql = "SELECT menu.id AS idMenu, menu.codigo AS codigoMenu, menu.nombre AS nombreMenu FROM categoria_menu INNER JOIN menu ON menu.categoria_menu_id = categoria_menu.id WHERE menu.categoria_menu_id = ".$idCategoriaMenu." ORDER BY menu.nombre";
+			$sql = "SELECT menu.id AS idMenu, menu.codigo AS codigoMenu, menu.nombre AS nombreMenu, menu.icono as iconoMenu FROM categoria_menu INNER JOIN menu ON menu.categoria_menu_id = categoria_menu.id WHERE menu.categoria_menu_id = ".$idCategoriaMenu." ORDER BY menu.nombre";
 			$result = $this->db->query($sql);
 			if($result->num_rows() > 0){
 				return $result->result();

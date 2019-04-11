@@ -3,8 +3,8 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Seccion extends CI_Model{
-	public function buscarSeccionesEstacion($idEstacion){
-		$sql = "SELECT seccion.id AS idSeccion, seccion.nombre AS nombreSeccion FROM seccion WHERE seccion.estacion_id = ".$idEstacion." ORDER BY nombreSeccion ASC";
+	public function buscarSecciones(){
+		$sql = "SELECT seccion.id AS idSeccion, seccion.nombre AS nombreSeccion FROM seccion ORDER BY nombreSeccion ASC";
 		$resultado = $this->db->query($sql);
 		if($resultado->num_rows() > 0){
 			return $resultado->result();

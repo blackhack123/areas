@@ -1,14 +1,11 @@
 <script type="text/javascript">
-  $("#tituloPagina").text("<?php echo $menuNombreCae; ?>");
-  $("#btngestionRegistroTipoExistencia").show();
-  $("#btngestionRegistroCae").hide();
-  $("#btngestionRegistroEstacion").hide();
-  $("#btngestionVolverCae").show();
-  $("#btngestionRegistroSeccion").hide();
-  $("#btngestionVolverEstacion").hide();
-  $("#btngestionRegistroSistema").hide();
-  $("#btngestionVolverSeccion").hide();
-  $("#idCaeTipoExistencia").val("<?php echo $idCae; ?>");
+  $("#tituloPagina").text("<?php echo $tituloPagina; ?>");
+  $("#btnGestionRegistroCae").hide();
+  $("#btnGestionRegistroEstacion").hide();
+  $("#btnGestionRegistroTipoExistencia").show();
+  $("#btnGestionVolverCae").hide();
+  $("#btnGestionVolverEstacion").show();
+  $("#idEstacionTipoExistencia").val("<?php echo $idEstacion; ?>");
 </script>
 
 <div class="table-responsive">

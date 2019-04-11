@@ -53,4 +53,15 @@ class Sistema extends CI_Model{
 		return $this->db->affected_rows();
 	}
 
+	public function buscarSistemasSecciones(){
+		$sql = "SELECT sistema.id AS idSistema, CONCAT(sistema.nombre,' - ',seccion.nombre) as nombreSistema FROM seccion INNER JOIN sistema ON sistema.seccion_id = seccion.id ORDER BY seccion.nombre ASC, sistema.nombre ASC";
+		$resultado = $this->db->query($sql);
+		if($resultado->num_rows() > 0){
+			return $resultado->result();
+		}
+		else{
+			return false;
+		}		
+	}
+
 }	

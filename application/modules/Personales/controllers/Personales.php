@@ -14,6 +14,9 @@ class Personales extends MX_Controller {
 		$this->load->model('Grados/Grado');
 		$this->load->model('EstadosCiviles/EstadoCivil');
 		$this->load->model('Funciones/Funcion');
+		$this->load->model('Usuarios/Usuario');
+		$this->load->model('Armas/Arma');
+		$this->load->model('Pases/Pase');
 
 		$this->load->helper('session_helper');	
 		$this->load->helper('utilidades_helper');	
@@ -41,7 +44,8 @@ class Personales extends MX_Controller {
 	}
 
 	public function lista(){
-		$data['lista'] = $this->Personal->buscarPersonal();
+		$idTipoFuerza = $this->input->post("idTipoFuerza");
+		$data['lista'] = $this->Personal->buscarPersonalFuerza($idTipoFuerza);
 		$urlCode = $this->input->post("urlCode");
 		$idMenu = desencriptar($urlCode);
 		$dataSession = verificarPrivilegios($idMenu);
@@ -51,6 +55,8 @@ class Personales extends MX_Controller {
 
 	public function formulario(){
 		$idPersonal = $this->input->post("idPersonal");
+		$idTipoFuerza = $this->input->post("idTipoFuerza");
+		$urlCode = $this->input->post("urlCode");
 
 		if($idPersonal > 0){
 			$personal = $this->Personal->buscarRegistroPorID($idPersonal);
@@ -61,14 +67,17 @@ class Personales extends MX_Controller {
 			$data['personal'] = $personal;
 			$data['idFuncion'] = $personal->idFuncion;
 			$data['tituloPagina'] = "Editar Registro";
+			//Enviar los datos del usuario
 		}
 		else{
 			$data['personal'] = "";
 			$data['tituloPagina'] = "Nuevo Registro";
 		}
+		$data['arma'] = $this->Arma->buscarArmasTipoFuerza($idTipoFuerza);
 		$data['funcion'] = $this->Funcion->buscarFunciones();
-		$data['fuerza'] = $this->Fuerza->buscarFuerzas();
+		$data['fuerza'] = $this->Fuerza->buscarFuerzasPorTipo($idTipoFuerza);
 		$data['estadoCivil'] = $this->EstadoCivil->buscarEstadosCiviles();
+		$data['urlCode'] = $urlCode;
 		
 		$this->load->view('Personales/formulario',$data);
 	}
@@ -97,6 +106,7 @@ class Personales extends MX_Controller {
 
 		$data = array("fuerza_id" => $this->input->post("idFuerza"),
 					 "grado_id" => $this->input->post("idGrado"),
+					 "arma_id" => $this->input->post("idArma"),
 					 "funcion_id" => $this->input->post("idFuncion"),
 					 "estado_civil_id" => $this->input->post("idEstadoCivil"),
 					 "apellido" => textoMayuscula($this->input->post("apellidoPersonal")),
@@ -109,6 +119,7 @@ class Personales extends MX_Controller {
 					 "direccion" => textoMayuscula($this->input->post("direccionPersonal")),
 					 "email" => $this->input->post("emailPersonal"),
 					 "tipo_sangre" => $this->input->post("tipoSangrePersonal"),
+					 "sexo" => $this->input->post("sexoPersonal"),
 					 "foto" => $fotoPersonal
 					);
 		if($idPersonal > 0){
@@ -131,5 +142,44 @@ class Personales extends MX_Controller {
 			echo json_encode(false);
 		}		
 	}
+
+	//*************************************//
+	// Gestionar El perfil del personal //
+	//*************************************//
+
+	public function perfilPersonal($idMenu){
+	  if($this->session->userdata('login')){
+		//Vista
+		$data['menuNombre'] = 'PERFIL';
+		$data['codigoCategoriaMenu'] = 'configuracion';
+		$data['codigoMenu'] = 'perfil';
+	    $data['status'] = "";
+		$data['view'] = 'Personales/indexPerfil';
+		$data['urlCode'] = "1";
+		$data['output'] = '';
+		$this->load->view('Modulos/main',$data);	
+	  }
+	  else{ 
+	  	redirect('Login/Login');
+	  }
+	}
+
+	//*************************************//
+	// Gestionar pases del personal //
+	//*************************************//
+
+	public function pasePersonal(){
+		$idPersonal = $this->input->post("idPersonal");
+		$urlCode = $this->input->post("urlCode");
+		$data['lista'] = $this->Pase->buscarPasePersonal($idPersonal);
+		$idMenu = desencriptar($urlCode);
+		$dataSession = verificarPrivilegios($idMenu);
+		$data['status'] = $dataSession->status;
+		$data['idPersonal'] = $idPersonal;
+		$personal = $this->Personal->buscarRegistroPorID($idPersonal);
+		$data['tituloPagina'] = $personal->abreviaturaGrado." ".$personal->apellidoPersonal." ".$personal->nombrePersonal;
+		$this->load->view('Pases/lista',$data);		
+	}
+
 
 }	

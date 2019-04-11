@@ -9,7 +9,7 @@
               <div class="card-header">
                 <h3 class="card-title"><?php echo $menuNombre; ?></h3>
                 <div class="card-options">
-                  <button type="button" id="btngestionRegistro" class="btn btn-success bnt-sm" onclick="gestionRegistro(this);" data-titulo="<b><i class='fa fa-file'></i> Nuevo Registro</b>" data-accion="insertarRegistro" <?php echo $status; ?>><i class="fa fa-file"></i> Nuevo Registro</button>
+                  <button type="button" id="btnGestionRegistro" class="btn btn-success bnt-sm" onclick="gestionRegistro(this);" data-titulo="<b><i class='fa fa-file'></i> Nuevo Registro</b>" data-accion="insertarRegistro" <?php echo $status; ?>><i class="fa fa-file"></i> Nuevo Registro</button>
                 </div>
               </div>
               <div id="listadoDatos" class="box-body"></div>
@@ -279,5 +279,8 @@ function editarRegistro(aId){
       //alert( 'Always' );
     });
 }
+
+
+
 
 </script>    

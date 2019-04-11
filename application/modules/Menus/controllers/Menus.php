@@ -38,17 +38,21 @@ class Menus extends MX_Controller {
 	}
 
 	public function lista(){
-		$data['lista'] = $this->Menu->buscarMenus();
+		$idCategoriaMenu = $this->input->post("idCategoriaMenu");
+		$data['lista'] = $this->Menu->buscarMenuPorCategoria($idCategoriaMenu);
 		$urlCode = $this->input->post("urlCode");
 		$idMenu = desencriptar($urlCode);
 		$dataSession = verificarPrivilegios($idMenu);
+		$categoriaMenu = $this->CategoriaMenu->buscarCategoriaMenuPorID($idCategoriaMenu);
+		$data['idCategoriaMenu'] = $idCategoriaMenu;
+		$data['menuNombre'] = "Submenú de ".$categoriaMenu->nombreCategoriaMenu;
 		$data['status'] = $dataSession->status;
 		$this->load->view('Menus/lista',$data);
 	}
 
 	public function gestionRegistro(){
 		$idMenu = $this->input->post("idMenu");
-		$idCategoriaMenu = $this->input->post("idCategoriaMenu");
+		$idCategoriaMenu = $this->input->post("idMenuCategoriaMenu");
 		$nombre = $this->input->post("nombreMenu");
 		$ruta = $this->input->post("rutaMenu");
 		$codigo = normalizaCadena($nombre);
