@@ -16,9 +16,9 @@
     <?php foreach ($lista as $lt) { ?>
       <tr>
         <td><?php echo $i; $i++; ?></td>
-        <td><?php echo $lt->nombre; ?></td>
-        <td><?php echo $lt->codigo; ?></td>
-        <td><?php echo $lt->icono; ?></td>
+        <td><?php echo $lt->nombreCategoriaMenu; ?></td>
+        <td><?php echo $lt->codigoCategoriaMenu; ?></td>
+        <td><?php echo $lt->iconoCategoriaMenu; ?></td>
         <td>
           <button type="button" class="btn btn-warning btn-sm" onclick="gestionMenu(this);" data-id="<?php echo $lt->idCategoriaMenu; ?>" <?php echo $status; ?>><i class="fe fe-layers"></i> Menús</button>
         </td>
@@ -36,6 +36,7 @@
         <th>Nombre</th>
         <th>Codigo</th>
         <th>Icono</th>
+        <th>Menús</th>
         <th></th>
       </tr>
     </tfoot>

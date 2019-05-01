@@ -5,7 +5,7 @@
       <tr>
         <th width="5%">N</th>
         <th width="76%">Nombre</th>
-        <th width="10%">Estaciones</th>
+        <th width="10%">Sector</th>
         <th width="9%"></th>
       </tr>
     </thead>
@@ -16,7 +16,7 @@
         <td><?php echo $i; $i++; ?></td>
         <td><?php echo $lt->nombreCae; ?></td>
         <td>
-          <button type="button" class="btn btn-warning btn-sm" onclick="gestionEstaciones(this);" data-id="<?php echo $lt->idCae; ?>" <?php echo $status; ?>><i class="fe fe-layers"></i> Estaciones</button>
+          <button type="button" class="btn btn-warning btn-sm" onclick="gestionSectores(this);" data-id="<?php echo $lt->idCae; ?>" <?php echo $status; ?>><i class="fe fe-layers"></i> Sectores</button>
         </td>
         <td>
          <button type="button" class="btn btn-info btn-sm" onclick="gestionRegistro(this);" data-titulo="<b><i class='fa fa-file'></i> Editar Registro</b>" data-accion="editarRegistro" data-id="<?php echo $lt->idCae;?>" <?php echo $status; ?>><i class="fas fa-pencil-alt"></i></button> 
@@ -30,7 +30,7 @@
       <tr>
         <th>N</th>
         <th>Nombre</th>
-        <th>Estaciones</th>
+        <th>Sector</th>
         <th></th>
       </tr>
     </tfoot>

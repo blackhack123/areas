@@ -26,6 +26,7 @@ class CategoriasMenus extends MX_Controller {
 		$data['codigoMenu'] = $dataSession->codigoMenu;
 		$data['urlCode'] = $urlCode;
 		//Vista
+		$data['categoriaMenu'] = $this->CategoriaMenu->buscarCategoriaMenu();
 		$data['view'] = 'CategoriasMenus/index';
 		$data['output'] = '';
 		$this->load->view('Modulos/main',$data);	

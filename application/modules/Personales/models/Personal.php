@@ -54,4 +54,16 @@ class Personal extends CI_Model{
 		}
 	}
 
+	public function buscarPersonalCae($idCae){
+		$sql = "SELECT personal.id AS idPersonal, CONCAT(grado.abreviatura,' ',personal.apellido,' ',personal.nombre) AS datoPersonal FROM grado INNER JOIN personal ON personal.grado_id = grado.id INNER JOIN pase ON pase.personal_id = personal.id WHERE pase.cae_id = ".$idCae." AND pase.estado = 'A' ORDER BY grado.orden ASC";
+		
+		$resultado = $this->db->query($sql);
+		if($resultado->num_rows() > 0){
+			return $resultado->result();
+		}
+		else{
+			return false;
+		}		
+	}
+
 }

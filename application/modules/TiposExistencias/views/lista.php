@@ -1,10 +1,15 @@
 <script type="text/javascript">
   $("#tituloPagina").text("<?php echo $tituloPagina; ?>");
+
   $("#btnGestionRegistroCae").hide();
+  $("#btnGestionRegistroSector").hide();
   $("#btnGestionRegistroEstacion").hide();
   $("#btnGestionRegistroTipoExistencia").show();
+  
   $("#btnGestionVolverCae").hide();
+  $("#btnGestionVolverSector").hide();
   $("#btnGestionVolverEstacion").show();
+
   $("#idEstacionTipoExistencia").val("<?php echo $idEstacion; ?>");
 </script>
 

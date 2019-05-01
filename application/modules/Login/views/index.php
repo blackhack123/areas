@@ -1,86 +1,108 @@
-<!doctype html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta http-equiv="Content-Language" content="en" />
-    <meta name="msapplication-TileColor" content="#2d89ef">
-    <meta name="theme-color" content="#4188c9">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="MobileOptimized" content="320">
-    <link rel="icon" href="./favicon.ico" type="image/x-icon"/>
-    <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico" />
-    <!-- Generated: 2018-04-16 09:29:05 +0200 -->
-    <title>Login</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,500,500i,600,600i,700,700i&amp;subset=latin-ext">
-    <!-- JS -->
-    <script src="<?php echo base_url('assets/plugins/tabler-template/js/vendors/jquery-3.2.1.min.js'); ?>"></script>
-    <!-- Dashboard Core -->
-    <link href="<?php echo base_url('assets/plugins/tabler-template/css/dashboard.css'); ?>" rel="stylesheet" />
-
-  </head>
-  <body class="">
-    <div class="page">
-      <div class="page-single">
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Login</title>
+  <!-- Mobile Specific Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- Font-->
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/plugins/login30/css/opensans-font.css'); ?>">
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/plugins/login30/fonts/line-awesome/css/line-awesome.min.css'); ?>">
+  <!-- Jquery -->
+  <link rel="stylesheet" href="<?php echo base_url('assets/plugins/login30/css/site-demos.css'); ?>">
+  <!-- Main Style Css -->
+    <link rel="stylesheet" href="<?php echo base_url('assets/plugins/login30/css/style.css'); ?>"/>
+  
+  <script src="<?php echo base_url('assets/plugins/bootstrap/js/bootstrap.min.js'); ?>"></script>
+  <link rel="stylesheet" href="<?php echo base_url('assets/plugins/bootstrap/css/bootstrap.min.css'); ?>">
 
 
-        <div class="container">
-          
-          <div class="row">
-            <div class="col col-login mx-auto">
+</head>
+<body class="form-v4">
+  <div class="page-content">
+    <div class="form-v4-content">
+      <div class="form-left">
+        <h2>Consejos de seguridad</h2>
+        
+      <div class="text-element content-element circles-list">
+      <ol>
+        <li>Cuide que nadie observe mientras escribe su clave.</li>
+        <li>No comparta su clave con otra persona.</li>
+        <li>No habilite la opción de "recordar claves" en los programas que utilice.</li>
+        <li>No envíe su clave por correo electrónico, mensajes de celular, mensajería instantánea, ni la divulgues en una conversación.</li>
+        <li>Cambie su clave regularmente o con frecuencia establecida por la Unidad de Tecnología Información Digital.</li>
+        
+      </ol>
+      </div>
 
-              <div class="text-center mb-6">
-                <img src="<?php echo base_url('assets/img/logo_cc.png'); ?>" class="h-9" alt="">
-              </div>
+      </div>
+      <form class="form-detail" action="<?php echo base_url('Login/validarIngreso'); ?>" method="post" id="formLogin">
               
-              <form name="formLogin" id="formLogin" class="card" action="<?php echo base_url('Login/validarIngreso'); ?>" method="post">
-                <div class="card-body p-6">
-                  <div class="card-title">
-                    <center>
-                      Iniciar sesión
-                    </center>
-                  </div>
-                
-
-                  <div class="form-group">
-                    <label class="form-label">Usuario / Email</label>
-                    <input type="text" class="form-control" name="emailUsuario" id="emailUsuario" aria-describedby="emailHelp" placeholder="Usuario / Email">
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">
-                      Contraseña
-                    </label>
-                    <input type="password" class="form-control" name="clave" id="clave" placeholder="Contraseña">
-                  </div>
-                  <div class="form-group">
-                    <label class="custom-control custom-checkbox col-sm-12">
-                            <?php if( isset($output['mensaje']) ){ ?>
-                                <div class="alert alert-<?php echo $output['mensaje']['tipo'] ?>">
-                                    <?php echo $output['mensaje']['valor']; ?>
-                                </div>
-                            <?php } ?>  
-                    </label>
-                  </div>
-                  <div class="form-footer">
-                    <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
-                  </div>
-
-                </div>
-
-              </form>
-
-              <div class="text-center text-muted">
-                
+              <div class="form-row">
+                <center>
+                <img src="<?php echo base_url('assets/img/logo_cc.png'); ?>" style="height: 130px; width: 130px;";>
+                </center>
               </div>
-            </div>
+
+        <h2><center><?php echo $this->config->item('app-title'); ?></center></h2>
+        
+        <div class="form-group">
+          <div class="form-row">
+            <label for="first_name">Usuario / email:</label>
+            <input type="text" class="input-text" name="emailUsuario" id="emailUsuario" aria-describedby="emailHelp" placeholder="Usuario / Email">
           </div>
         </div>
-      </div>
+        
+        <div class="form-group">
+          <div class="form-row">
+            <label for="your_email">Clave: </label>
+            <input type="password" class="input-text" name="clave" id="clave" placeholder="Contraseña">
+          </div>
+        </div>
+
+                  <div class="form-row ">
+                            <?php if( isset($output['mensaje']) ){ ?>
+                                <div class="alert alert-<?php echo $output['mensaje']['tipo'] ?> col-sm-12">
+                                    <?php echo $output['mensaje']['valor']; ?>
+                                </div>
+                            <?php }else{ ?>
+                                <div class="alert col-sm-12">
+                                </div>
+                            <?php  } ?>
+                  </div>
+
+        <div class="form-row-last">
+          <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+        </div>
+
+      </form>
     </div>
-  </body>
+  </div>
+  <script src="<?php echo base_url('assets/plugins/login30/js/jquery-1.11.1.min.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/plugins/login30/js/jquery.validate.min.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/plugins/login30/js/additional-methods.min.js'); ?>"></script>
+  <script>
+    // just for the demos, avoids form submit
+
+    
+    $( "#formLogin" ).validate({
+        rules: {
+          emailUsuario: {
+            required: true
+          },
+          clave: {
+            required: true
+          }
+        },
+        messages: {
+          emailUsuario: {
+            required: "Ingrese usuario o email"
+          },
+          clave: {
+            required: "Ingrese la clave"
+          }
+        }
+    });
+  </script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>

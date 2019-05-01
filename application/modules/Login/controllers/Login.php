@@ -47,6 +47,7 @@ class Login extends MX_Controller {
 									"esSuperadmin" => $usuario->esSuperadminUsuario,
 									"idUnidad" => $unidad->idUnidad,
 									"nombreComandoUnidad" => $unidad->nombreComandoUnidad,
+									"abreviaturaUnidad" => $unidad->abreviaturaUnidad,
 									"nombreUnidad" => $unidad->nombreUnidad,
 									"logoUnidad" => $unidad->logoUnidad,
 									"login" => true

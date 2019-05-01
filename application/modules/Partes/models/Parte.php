@@ -1,5 +1,4 @@
-<?php 
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Parte extends CI_Model{
 	public function buscarPartesCompleto(){
@@ -37,7 +36,7 @@ class Parte extends CI_Model{
 	}
 
 	public function buscarRegistroPorID($idParte){
-		$sql = "SELECT parte.id AS idParte, parte.novedad AS novedadParte, parte.seguimiento AS seguimientoParte, parte.requerimiento_solucion AS requerimientoSolucionParte, parte.es_solucionado AS esSolucionadoParte FROM parte WHERE parte.id=".$idParte;
+		$sql = "SELECT parte.id AS idParte, parte.novedad AS novedadParte, parte.seguimiento AS seguimientoParte, parte.requerimiento_solucion AS requerimientoSolucionParte, parte.es_solucionado AS esSolucionadoParte, parte.horas_fuera_servicio_dia AS horasFueraServicioDiaParte FROM parte WHERE parte.id=".$idParte;
 		$resultado = $this->db->query($sql);
 		if($resultado->num_rows() > 0){
 			return $resultado->row();
@@ -69,6 +68,18 @@ class Parte extends CI_Model{
 		$resultado = $this->db->query($sql);
 		if($resultado->num_rows() > 0){
 			return $resultado->result();
+		}
+		else{
+			return false;
+		}
+	}
+
+	public function buscarCabeceraParte($idParte){
+		$sql = "SELECT cae.nombre AS nombreCae, estacion.nombre AS nombreEstacion, sistema.nombre AS nombreSistema, tipo_existencia.nombre AS nombreTipoExistencia FROM cae INNER JOIN estacion ON estacion.cae_id = cae.id INNER JOIN tipo_existencia ON tipo_existencia.estacion_id = estacion.id INNER JOIN sistema ON tipo_existencia.sistema_id = sistema.id INNER JOIN parte ON parte.tipo_existencia_id = tipo_existencia.id WHERE parte.id = ".$idParte;
+		
+		$resultado = $this->db->query($sql);
+		if($resultado->num_rows() > 0){
+			return $resultado->row();
 		}
 		else{
 			return false;

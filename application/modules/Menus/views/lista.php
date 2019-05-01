@@ -4,6 +4,8 @@
   $("#btnGestionVolverCategoriamenu").show();
   $("#tituloPagina").text("<?php echo $menuNombre; ?>");
   $("#idMenuCategoriaMenu").val("<?php echo $idCategoriaMenu; ?>");
+  $("#chk_"+"<?php echo $idCategoriaMenu; ?>").attr("checked", true);
+  
 </script>
 
 <div class="table-responsive">
@@ -13,7 +15,8 @@
       <tr>
         <th width="5%">N</th>
         <th width="60%">Menú</th>
-        <th width="26%">Icono</th>
+        <th width="6%">Icono</th>
+        <th width="10%">Mover a</th>
         <th width="9%"></th>
       </tr>
     </thead>
@@ -24,6 +27,8 @@
         <td><?php echo $i; $i++; ?></td>
         <td><?php echo $lt->nombreMenu; ?></td>
         <td><?php echo $lt->iconoMenu; ?></td>
+        <td align="center"><a href="#" onclick="cambiarCategoriaMenu(this);" data-id="<?php echo $lt->idMenu; ?>"><i class="fa fa-exchange"></i></a>
+        </td>
         <td>
          <button type="button" class="btn btn-info btn-sm" onclick="gestionRegistroMenu(this);" title="Editar Registro" data-accion="editarRegistro" data-id="<?php echo $lt->idMenu;?>" <?php echo $status; ?>><i class="fas fa-pencil-alt" ></i></button> 
          <button type="button" class="btn btn-danger btn-sm" onclick="gestionRegistroMenu(this);" data-toggle="tooltip" data-placement="left" title="Eliminar Registro" data-accion="eliminarRegistro" data-id="<?php echo $lt->idMenu; ?>"  <?php echo $status; ?>><i class="fas fa-trash-alt"></i>
@@ -37,6 +42,7 @@
         <th>N</th>
         <th>Menú</th>
         <th>Icono</th>
+        <th>Mover a</th>
         <th></th>
       </tr>
     </tfoot>

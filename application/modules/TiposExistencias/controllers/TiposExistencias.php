@@ -26,7 +26,7 @@ class TiposExistencias extends MX_Controller {
 		$estacion = $this->Estacion->buscarRegistroPorID($idEstacion);
 		$data['idEstacion'] = $idEstacion;
 		$nombreEstacion = str_replace('"', '\"', $estacion->nombreEstacion);
-		$data['tituloPagina'] = "TIPOS EXISTENCIAS ESTACIÓN ".$nombreEstacion;
+		$data['tituloPagina'] = "EQUIPOS ESTACIÓN ".$nombreEstacion;
 		$data['status'] = $dataSession->status;
 		$this->load->view('TiposExistencias/lista',$data);		
 	}

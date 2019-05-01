@@ -181,5 +181,11 @@ class Personales extends MX_Controller {
 		$this->load->view('Pases/lista',$data);		
 	}
 
+	public function buscarPersonalCae(){
+		$idCae = $this->input->post('idCae');
+		$data = $this->Personal->buscarPersonalCae($idCae);
+		print_r(json_encode($data));		
+	}
+
 
 }	

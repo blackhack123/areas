@@ -51,7 +51,7 @@
 
                     <div class="row">
                         <div class="form-group col-sm-12">
-                          <label class="form-label">Nombre del Comando: </label>
+                          <label class="form-label"> </label>
                           <input type="text" class="form-control" name="nombreComandoUnidad" id="nombreComandoUnidad" placeholder="" value="<?php echo isset($unidad->nombreComandoUnidad) ? $unidad->nombreComandoUnidad : ''; ?>">
                         </div>                  
                     </div>

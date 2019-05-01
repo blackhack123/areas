@@ -6,7 +6,7 @@
 
 
 		public function buscarCategoriaMenu(){
-			$sql = "SELECT categoria_menu.id AS idCategoriaMenu, categoria_menu.codigo, categoria_menu.nombre, categoria_menu.icono FROM categoria_menu ORDER BY categoria_menu.nombre";
+			$sql = "SELECT categoria_menu.id AS idCategoriaMenu, categoria_menu.codigo AS codigoCategoriaMenu, categoria_menu.nombre AS nombreCategoriaMenu, categoria_menu.icono AS iconoCategoriaMenu FROM categoria_menu ORDER BY categoria_menu.nombre";
 			$result = $this->db->query($sql);
 
 			if($result->num_rows()>0){

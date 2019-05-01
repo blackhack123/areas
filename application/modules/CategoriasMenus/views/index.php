@@ -122,6 +122,43 @@
   </div>
 </div>
 
+
+  <!-- Modal Cambiar de Categoría Menú-->
+<div id="modalFormularioCambio" class="modal fade" role="dialog" tabindex="-1">
+  <div class="modal-dialog modal-sm" role="document">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="tituloModalCambio">Seleccione la Categoría</h4>
+      </div>
+     
+     <form id="formCambio"  method="post" class="animate-form" >
+      <input name="idMenuCambio" id="idMenuCambio" type="hidden" value="">
+      <div class="modal-body">
+
+      <?php foreach ($categoriaMenu as $dt) { ?>
+        <div class="row">
+          <div class="col-sm-12">
+            <input type="radio" name="idCategoriaMenuCambio[]" id="chk_<?php echo $dt->idCategoriaMenu; ?>" value="<?php echo $dt->idCategoriaMenu; ?>">
+            <label for="idCategoriaMenuCambio"><?php echo $dt->nombreCategoriaMenu; ?></label>
+          </div>
+       </div>  
+     <?php } ?>  
+       
+      </div><!-- Fin modal body -->
+      <div class="modal-footer">
+        <button type="button" id="botonGuardar" class="btn btn-success" onclick="cambiarMenu();">Cambiar</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+      </div>
+       </form>
+
+    </div>
+
+  </div>
+</div>
+
 <script type="text/javascript">
 
     listarDatos();
@@ -510,5 +547,31 @@ function editarRegistroMenu(aId){
     });
 }
 
+function cambiarCategoriaMenu(aObject){
+  $("#modalFormularioCambio").modal("show");
+  $("#idMenuCambio").val($(aObject).data("id"));
+}
+ 
+function cambiarMenu(){
+   
+   $.post("<?php echo site_url('Menus/cambiarCategoriaMenu')?>", $("#formCambio").serialize())
+     .done(function(data){
+        if(data){
+          $().toastmessage('showSuccessToast', "Movido exitosamente");
+        }
+        else{
+          $().toastmessage('showErrorToast', "No se pudo procesar la información");
+        }
+     })
+     .fail(function(err){
+        //swal("Información!", "Error: No se pudo procesar la información", "warning"); 
+        $().toastmessage('showErrorToast', "Error: No se pudo procesar la información");
+     })
+     .always(function(){
+       listarDatosMenuCategoriaMenu($("#idMenuCategoriaMenu").val());
+       $("#modalFormularioCambio").modal('hide');
+     });
+
+}
 
 </script>

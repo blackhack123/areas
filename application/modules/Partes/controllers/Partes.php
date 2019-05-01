@@ -92,7 +92,8 @@ class Partes extends MX_Controller {
 					  "novedad" => textoMayuscula($this->input->post("novedadParte")),
 					  "seguimiento" => textoMayuscula($this->input->post("seguimientoParte")),
 					  "requerimiento_solucion" => textoMayuscula($this->input->post("requerimientoSolucionParte")),
-					  "es_solucionado" => $this->input->post("esSolucionadoParte")
+					  "es_solucionado" => $this->input->post("esSolucionadoParte"),
+					  "horas_fuera_servicio_dia" => $this->input->post("horasFueraServicioDiaParte")
 					);
 		if($idParte > 0){
 			$data = array_merge($data, datosUsuarioEditar());

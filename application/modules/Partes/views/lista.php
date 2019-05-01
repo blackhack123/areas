@@ -21,7 +21,14 @@
     <tbody>
     <?php $i=1; ?>
     <?php foreach ($lista as $lt) { ?>
-      <tr>
+
+          <?php if($lt->esSolucionadoParte=='SI'){ ?>
+            <?php $color = '#ffffff'; $verComision = "hidden"; ?>
+          <?php }else{ ?>
+            <?php $color = '#f9cdd0'; $verComision = "visible"; ?>
+          <?php } ?>          
+      
+      <tr style="background-color: <?php echo $color; ?>;">
         <td><?php echo $i; $i++; ?></td>
         <td><?php echo $lt->fechaParte; ?></td>
         <td><?php echo $lt->nombreCae; ?></td>
@@ -40,6 +47,9 @@
             <?php $clase = 'danger'; ?>
           <?php } ?>          
           <span class="badge badge-pill badge-<?php echo $clase; ?>"><?php echo $lt->esSolucionadoParte; ?></span>
+          
+          <button style="visibility: <?php echo $verComision; ?>" type="button" class="btn btn-warning btn-sm" onclick="gestionRegistroParteComision(this);"  data-accion="editarRegistro" data-id="<?php echo $lt->idParte;?>" <?php echo $status; ?>><i class="fas fa-wrench"></i> Comisión</button>
+
         <td>
          <button type="button" class="btn btn-info btn-sm" onclick="gestionRegistroParte(this);"  data-accion="editarRegistro" data-id="<?php echo $lt->idParte;?>" <?php echo $status; ?>><i class="fas fa-pencil-alt"></i></button> 
         </td>

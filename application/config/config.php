@@ -525,7 +525,7 @@ $config['rewrite_short_tags'] = FALSE;
 */
 $config['proxy_ips'] = '';
 $config['version'] = '1.0';
-$config['app-title'] = 'Ares :: Gestión de Casos';
+$config['app-title'] = 'Sistema de Gestión y Control "GRUSICOMGE"';
 $config['password_key'] = 'CronOSSoftwareERP';
 
 

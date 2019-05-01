@@ -78,6 +78,13 @@ class Menus extends MX_Controller {
 		}
 	}
 
+	public function cambiarCategoriaMenu(){
+		$idMenu = $this->input->post("idMenuCambio");
+		$idCategoriaMenu = $this->input->post("idCategoriaMenuCambio");
+		$data = array('categoria_menu_id' => $idCategoriaMenu[0]);
+		echo json_encode($this->Menu->editarMenu($idMenu, $data));
+	}
+
 	public function eliminarRegistro(){
 		$idMenu = $this->input->post("idMenu");
 		// Primero buscar si no hay registros asociados

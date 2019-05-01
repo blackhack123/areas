@@ -1,11 +1,16 @@
 <script type="text/javascript">
   $("#tituloPagina").text("<?php echo $tituloPagina; ?>");
+
   $("#btnGestionRegistroCae").hide();
+  $("#btnGestionRegistroSector").hide();
   $("#btnGestionRegistroEstacion").show();
   $("#btnGestionRegistroTipoExistencia").hide();
-  $("#btnGestionVolverCae").show();
+  
+  $("#btnGestionVolverCae").hide();
+  $("#btnGestionVolverSector").show();
   $("#btnGestionVolverEstacion").hide();
-  $("#idCaeEstacion").val("<?php echo $idCae; ?>");
+
+  $("#idSectorEstacion").val("<?php echo $idSector; ?>");
 </script>
 
 <div class="table-responsive">
@@ -16,7 +21,7 @@
         <th width="5%">N</th>
         <th width="10%">Nominativo</th>
         <th width="66%">Nombre</th>
-        <th width="10%">Existencias</th>
+        <th width="10%">Equipos</th>
         <th width="9%"></th>
       </tr>
     </thead>
@@ -28,7 +33,7 @@
         <td><?php echo $lt->nominativoEstacion; ?></td>
         <td><?php echo $lt->nombreEstacion; ?></td>
         <td>
-          <button type="button" class="btn btn-warning btn-sm" onclick="gestionTiposExistencias(this);" data-id="<?php echo $lt->idEstacion; ?>" <?php echo $status; ?>><i class="fe fe-speaker"></i> Existencias</button>
+          <button type="button" class="btn btn-warning btn-sm" onclick="gestionTiposExistencias(this);" data-id="<?php echo $lt->idEstacion; ?>" <?php echo $status; ?>><i class="fe fe-speaker"></i> Equipos</button>
         </td>
         <td>
          <button type="button" class="btn btn-info btn-sm" onclick="gestionRegistroEstacion(this);" data-titulo="<b><i class='fa fa-file'></i> Editar Registro</b>" data-accion="editarRegistro" data-id="<?php echo $lt->idEstacion;?>" <?php echo $status; ?>><i class="fas fa-pencil-alt"></i></button> 
@@ -43,7 +48,7 @@
         <th>N</th>
         <th>Nominativo</th>
         <th>Nombre</th>
-        <th>Existencias</th>
+        <th>Equipos</th>
         <th></th>
       </tr>
     </tfoot>

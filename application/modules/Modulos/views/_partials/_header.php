@@ -51,7 +51,9 @@
   
     <script src="<?php echo base_url('assets/plugins/sweetalert2/sweetalert2.all.js'); ?>"></script>
     <script src="<?php echo base_url('assets/plugins/date-time-picker/js/jquery.datetimepicker.full.min.js'); ?>"></script>
+    
     <script src="<?php echo base_url('assets/plugins/select2/select2.full.min.js'); ?>"></script>
+    
     <script src="<?php echo base_url('assets/plugins/overlay/js/loadingoverlay.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/plugins/overlay/js/loadingoverlay_progress.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/plugins/jquery-validation/jquery.validate.min.js'); ?>"></script>
@@ -82,7 +84,7 @@
               </a>
                     <div class="row" style="line-height: 1em;">
                       <?php echo $this->session->userdata('nombreComandoUnidad'); ?><br>
-                      <?php echo $this->session->userdata('nombreUnidad'); ?><br>
+                      <?php echo $this->session->userdata('abreviaturaUnidad'); ?><br>
                       <?php echo $this->session->userdata('nombreCae'); ?>
                     </div>
               <div class="d-flex order-lg-2 ml-auto">

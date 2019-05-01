@@ -51,7 +51,18 @@ date_default_timezone_set('America/Guayaquil');
 	    return $fechaHoraActual;
 	}
 
-	
+	function fechaActual(){
+	    $fechaActual = date("Y-m-d");	
+	    return $fechaActual;
+	}
+
+	function contarDiasFechas($fechaInicio, $fechaFin){
+		$fecha1= new DateTime($fechaInicio);
+		$fecha2= new DateTime($fechaFin);
+		$diff = $fecha1->diff($fecha2);
+		return $diff->days . ' dias';
+	}
+
 	function textoMatricula($numeroMatricula){
 		switch($numeroMatricula){
 			case '1':

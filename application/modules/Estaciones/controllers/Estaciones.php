@@ -9,7 +9,7 @@ class Estaciones extends MX_Controller {
 		$this->load->model('CategoriasMenus/CategoriaMenu');
 		$this->load->model('PerfilesMenus/PerfilMenu');
 		$this->load->model('Menus/Menu');
-		$this->load->model('Caes/Cae');
+		$this->load->model('Sectores/Sector');
 		$this->load->model('Estaciones/Estacion');
 
 		$this->load->helper('session_helper');	
@@ -18,27 +18,28 @@ class Estaciones extends MX_Controller {
 	}
 
 	public function lista(){
-		$idCae = $this->input->post("idCae");
-		$data['lista'] = $this->Estacion->buscarEstacionesCae($idCae);
+		$idSector = $this->input->post("idSector");
+		$data['lista'] = $this->Estacion->buscarEstacionesSector($idSector);
 		$urlCode = $this->input->post("urlCode");
 		$idMenu = desencriptar($urlCode);
 		$dataSession = verificarPrivilegios($idMenu);
-		$cae = $this->Cae->buscarRegistroPorID($idCae);
-		$data['idCae'] = $idCae;
-		$nombreCae = str_replace('"', '\"', $cae->nombreCae);
-		$data['tituloPagina'] = "ESTACIONES CAE ".$nombreCae;
+		$sector = $this->Sector->buscarRegistroPorID($idSector);
+		$data['idSector'] = $idSector;
+		$nombreSector = str_replace('"', '\"', $sector->nombreSector);
+		$data['tituloPagina'] = "ESTACIONES SECTOR ".$nombreSector;
 		$data['status'] = $dataSession->status;
 		$this->load->view('Estaciones/lista',$data);		
 	}
 
 	public function gestionRegistro(){
 		$idEstacion = $this->input->post("idEstacion");
-		$data = array("cae_id" => $this->input->post("idCaeEstacion"),
+		$data = array("sector_id" => $this->input->post("idSectorEstacion"),
 					 "nominativo" => textoMayuscula($this->input->post("nominativoEstacion")),
 					 "nombre" => textoMayuscula($this->input->post("nombreEstacion")),
 					 "direccion" => textoMayuscula($this->input->post("direccionEstacion")),
 					 "telefono_fijo" => $this->input->post("telefonoFijoEstacion"),
-					 "telefono_movil" => textoMayuscula($this->input->post("telefonoMovilEstacion"))
+					 "telefono_movil" => textoMayuscula($this->input->post("telefonoMovilEstacion")),
+					 "coordenada" => $this->input->post("coordenadaEstacion")
 					);
 		if($idEstacion > 0){
 			$data = array_merge($data, datosUsuarioEditar());

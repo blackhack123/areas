@@ -84,7 +84,7 @@ $db['default'] = array(
 	'hostname' => 'localhost',
 	'username' => 'root',
 	'password' => '',
-	'database' => 'ares_db',
+	'database' => 'ipwebec_ares',
 	
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
