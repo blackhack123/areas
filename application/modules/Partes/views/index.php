@@ -13,25 +13,56 @@
                 </div>
               </div>
       
-              <div class="row card-body">
+              <div class="card-body">
                 
-                <div class="form-group col-sm-4">
+              <div class="row">
+
+                <div class="form-group col-sm-5">
                   <label class="form-label">CAE: </label>
-                  <select name="idCae" id="idCae" class="form-control" onchange="buscarPersonalCae(this);">
+                  <select name="idCae" id="idCae" class="form-control" onchange="buscarPersonalCae(this);buscarSectoresCae(this);">
                     <option value="">SELECCIONE...</option>
                     <?php foreach ($cae as $dt){ ?>
                     <option value="<?php echo $dt->idCae; ?>"><?php echo $dt->nombreCae; ?></option>
                     <?php } ?>            
                   </select>
                 </div>                  
-                <div class="form-group col-sm-4">
+
+                <div class="form-group col-sm-5">
+                  <label class="form-label">SECTOR: </label>
+                  <select name="idSector" id="idSector" class="form-control" onchange="buscarEstacionesSector(this);">
+                  </select>
+                </div>                  
+
+                <div class="form-group col-sm-2">
                   <label class="form-label">Fecha: </label>
                   <input type="text" name="fechaParte" id="fechaParte" class="form-control" value="<?php echo date("Y-m-d"); ?>">
                 </div>  
-                <div class="form-group col-sm-4">
+
+              
+              </div>
+              
+               <div class="row">
+
+                <div class="form-group col-sm-12">
+                  <label class="form-label">ESTACIÓN: </label>
+                  <select name="idEstacion" id="idEstacion" class="form-control" onchange="buscarTiposExistenciasEstacion(this);">
+                  </select>
+                </div>      
+
+              </div>
+
+              <div class="row">
+
+                <div class="form-group col-sm-10">
+                  <label class="form-label">Equipos: </label>
+                  <select class="form-control" name="idTipoExistencia" id="idTipoExistencia"></select>
+                </div>
+
+                <div class="form-group col-sm-2">
                   <label class="form-label">Acción: </label>
-                  <button type="button" class="btn btn-success" onclick="generarParteDiario();">Generar</button>
+                  <button type="button" class="btn btn-success" onclick="gestionRegistroParte();">Crear Parte</button>
                 </div>  
+
 
               </div>
 
@@ -55,43 +86,31 @@
 
       </div>
      <form id="formParte"  method="post" class="animate-form" >
-      <input name="idParte" id="idParte" type="hidden" value="">
+      <input name="idDetalleParte" id="idDetalleParte" type="hidden" value="">
       <div class="modal-body">
         
       <div class="row">
         <div class="form-group col-sm-12">
           <label class="form-label">Novedad: </label>
-          <textarea name="novedadParte" id="novedadParte" class="form-control"></textarea>
+          <textarea name="novedadDetalleParte" id="novedadDetalleParte" class="form-control"></textarea>
         </div>                  
       </div>
 
-      <div class="row">
-        <div class="form-group col-sm-12">
-          <label class="form-label">Seguimiento: </label>
-          <textarea name="seguimientoParte" id="seguimientoParte" class="form-control"></textarea>
-        </div>                  
-      </div>
 
       <div class="row">
         <div class="form-group col-sm-12">
           <label class="form-label">Requerimiento/Solución: </label>
-          <textarea name="requerimientoSolucionParte" id="requerimientoSolucionParte" class="form-control"></textarea>
+          <textarea name="requerimientoSolucionDetalleParte" id="requerimientoSolucionDetalleParte" class="form-control"></textarea>
         </div>                  
       </div>
 
       <div class="row">
         
-        <div class="form-group col-sm-2">
-          <label class="form-label">Solucionado? </label>
-          <select name="esSolucionadoParte" id="esSolucionadoParte" class="form-control">
-            <option value="NO">NO</option>
-            <option value="SI">SI</option>
-          </select>
-        </div>   
+
 
         <div class="form-group col-sm-4">
-          <label class="form-label">N° horas fura de servicio día: </label>
-          <input type="text" name="horasFueraServicioDiaParte" id="horasFueraServicioDiaParte" class="form-control">
+          <label class="form-label">Fecha/hora reporte del daño: </label>
+          <input type="text" name="fechaFalloDetalleParte" id="fechaFalloDetalleParte" class="form-control required">
         </div>                  
 
       </div>
@@ -109,74 +128,7 @@
 </div>
 
 
-<!-- Modal Comisión-->
-<div id="modalFormularioComision" class="modal fade" role="dialog" tabindex="-1">
-  <div class="modal-dialog modal-lg" role="document">
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title" id="tituloModalComision"></h4>
-      </div>
-       
-       <form id="formComision"  method="post" class="animate-form" >
-        <input name="idComision" id="idComision" type="hidden" value="">
-        <input name="idParteComision" id="idParteComision" type="hidden" value="">
-        
-      <div class="modal-body">
-          
-        <div class="row">
-          <div class="form-group col-sm-6">
-            <label class="form-label">Fecha Inicio: </label>
-            <input type="text" name="fechaInicioComision" id="fechaInicioComision" class="form-control">
-          </div>                  
-          <div class="form-group col-sm-6">
-            <label class="form-label">Fecha Fin: </label>
-            <input type="text" name="fechaFinComision" id="fechaFinComision" class="form-control">
-          </div>                  
-        </div>
-
-        <div class="row">
-          <div class="form-group col-sm-12">
-            <label class="form-label">Tipo de Mantenimiento: </label>
-            <select name="idTipoMantenimiento" id="idTipoMantenimiento" class="form-control"></select>
-          </div>                  
-        </div>
-
-      <div class="row">
-        <div class="form-group col-sm-12">
-          <label class="form-label">Situación Previa: </label>
-          <textarea name="situacionPreviaComision" id="situacionPreviaComision" class="form-control"></textarea>
-        </div>                  
-      </div>
-
-      <div class="row">
-        <div class="form-group col-sm-12">
-          <label class="form-label">Actividad Planificada: </label>
-          <textarea name="actividadPlanificadaComision" id="actividadPlanificadaComision" class="form-control"></textarea>
-        </div>                  
-      </div>
-
-      <div class="row">
-        <div class="form-group col-sm-12">
-          <label class="form-label">Personal asignado: </label>
-          <select multiple class="form-control" name="idPersonal[]" id="idPersonal" data-live-search="true" style="width: 100%;">
-          </select>
-        </div>                  
-      </div>
-
-      </div><!-- Fin modal body -->
-      <div class="modal-footer">
-        <button type="submit" id="botonGuardar" class="btn btn-success">Guardar</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-      </div>
-       </form>
-
-    </div>
-
-  </div>
-</div>
 
 <script type="text/javascript">
 
@@ -185,6 +137,22 @@
         allowClear: true,
         theme: "classic"
     });
+
+    $("#idTipoExistencia").select2({
+        placeholder: "Seleccione el equipo",
+        allowClear: true,
+        theme: "bootstrap"
+    });
+
+  d = new Date();
+  var fechaHoraActual = d.fechaHoraActual();
+
+  jQuery('#fechaFalloDetalleParte').datetimepicker({
+   format:'Y-m-d H:i:s',
+   value : fechaHoraActual,
+   step : 10
+  });
+
 
 $(document).ready(function () {
     $('#fechaParte').datetimepicker({
@@ -224,53 +192,9 @@ $(document).ready(function () {
 
   }
 
-  function generarParteDiario(){
-    if($("#idCae").val() == ""){
-      $().toastmessage('showErrorToast', "Selecione un CAE");
-    }
-    else{
-      cargarGif();
-      var urlCode = "<?php echo $urlCode; ?>";
-      var fechaParte = $("#fechaParte").val();
-      var idCae = $("#idCae").val();
-        $("#listadoDatos").load("<?php echo site_url('Partes/lista'); ?>",{urlCode, idCae, fechaParte}, function(responseText, statusText, xhr){
-          if(statusText == "success"){
-            cerrarGif();
-          }
-          if(statusText == "error"){
-            swal("Información!", "No se pudo cargar listado de Partes Diarios", "info"); 
-            cerrarGif();
-          }
-        });
-    }
-  }
-  //listarDatos();
-
 function gestionRegistroParte(aObject){
-    var idParte = $(aObject).data('id');
-    $.ajax({
-      type : 'post',
-      url  : "<?php echo site_url('Partes/buscarRegistroPorID'); ?>",
-      dataType: 'json',
-      data: {
-        idParte   : idParte,
-      },
-    }).done( function(data) {
-      $(data).each(function(i, v){
-        $("#idParte").val(v.idParte);
-        $("#novedadParte").val(v.novedadParte);
-        $("#seguimientoParte").val(v.seguimientoParte);
-        $("#requerimientoSolucionParte").val(v.requerimientoSolucionParte);
-        $("#esSolucionadoParte").val(v.esSolucionadoParte);
-        $("#horasFueraServicioDiaParte").val(v.horasFueraServicioDiaParte);
-      });  
-      $("#modalFormulario").modal('show');            
-    }).fail( function() {
-      swal("Información!", "No se pudo cargar la información", "warning"); 
-    }).always( function() {
-      $("#modalFormulario").modal('hide');
-    });
-}  
+  $("#modalFormulario").modal('show'); 
+}
 
 
 
@@ -351,6 +275,69 @@ function buscarPersonalCae(aObject){
       })              
     }).fail( function() {
       swal("Información!", "No se pudo cargar el Personal", "warning"); 
+    }).always( function() {
+      //alert( 'Always' );
+    });  
+}
+
+function buscarSectoresCae(aObject){
+    $.ajax({
+      type : 'post',
+      url  : "<?php echo site_url('Sectores/buscarSectoresCae'); ?>",
+      dataType: 'json',
+      data: {
+        idCae   : $(aObject).val(),
+      },
+    }).done( function(data) {
+      $('#idSector').find('option').remove();
+        $('#idSector').append('<option value="">SELECCIONE...</option');
+      $(data).each(function(i, v){
+        $('#idSector').append('<option value="'+ v.idSector +'">' + v.nombreSector+ '</option');
+      })              
+    }).fail( function() {
+      swal("Información!", "No se pudierson cargar los sectores", "warning"); 
+    }).always( function() {
+      //alert( 'Always' );
+    });  
+}
+
+
+function buscarEstacionesSector(aObject){
+    $.ajax({
+      type : 'post',
+      url  : "<?php echo site_url('Estaciones/buscarEstacionesSector'); ?>",
+      dataType: 'json',
+      data: {
+        idSector   : $(aObject).val(),
+      },
+    }).done( function(data) {
+      $('#idEstacion').find('option').remove();
+        $('#idEstacion').append('<option value="">SELECCIONE...</option');
+      $(data).each(function(i, v){
+        $('#idEstacion').append('<option value="'+ v.idEstacion +'">' + v.nombreEstacion+ '</option');
+      })              
+    }).fail( function() {
+      swal("Información!", "No se pudierson cargar las estaciones", "warning"); 
+    }).always( function() {
+      //alert( 'Always' );
+    }); 
+}
+
+function buscarTiposExistenciasEstacion(aObject){
+    $.ajax({
+      type : 'post',
+      url  : "<?php echo site_url('TiposExistencias/buscarTiposExistenciasEstacionParte'); ?>",
+      dataType: 'json',
+      data: {
+        idEstacion   : $(aObject).val(),
+      },
+    }).done( function(data) {
+      $('#idTipoExistencia').find('option').remove();
+      $(data).each(function(i, v){
+        $('#idTipoExistencia').append('<option value="'+ v.idTipoExistencia +'">' + v.nombreTipoExistencia+ '</option');
+      })              
+    }).fail( function() {
+      swal("Información!", "No se pudieron cargar los equipos", "warning"); 
     }).always( function() {
       //alert( 'Always' );
     });  

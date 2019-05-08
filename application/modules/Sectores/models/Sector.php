@@ -38,7 +38,7 @@ class Sector extends CI_Model{
 	}
 
 	public function buscarRegistroPorID($idSector){
-		$sql = "SELECT sector.id AS idSector, sector.nombre AS nombreSector FROM Sector WHERE sector.id = ".$idSector;
+		$sql = "SELECT sector.id AS idSector, sector.nombre AS nombreSector FROM sector WHERE sector.id = ".$idSector;
 		$resultado = $this->db->query($sql);
 		if($resultado->num_rows() > 0){
 			return $resultado->row();

@@ -63,4 +63,10 @@ class Sectores extends MX_Controller {
 		}		
 	}	
 
+	public function buscarSectoresCae(){
+		$idCae = $this->input->post("idCae");
+		$data = $this->Sector->buscarSectoresCae($idCae);
+		print_r(json_encode($data));
+	}
+	
 }
