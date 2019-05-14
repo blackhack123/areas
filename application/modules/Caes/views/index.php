@@ -212,6 +212,41 @@
 </div>
 
 
+<!-- Modal Cambio sector -->
+<div id="modalFormularioCambioSector" class="modal fade" role="dialog" tabindex="-1">
+  <div class="modal-dialog modal-sm" role="document">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="tituloModalCambioSector"></h4>
+        
+
+      </div>
+     <form id="formCambioSector"  method="post" class="animate-form" >
+      <input name="idEstacionCambioSector" id="idEstacionCambioSector" type="hidden" value="">
+      <div class="modal-body">
+        
+
+      <div class="row">
+        <div class="form-group col-sm-12">
+          <label class="form-label">Sector: </label>
+          <select name="idSectorCambioSector" id="idSectorCambioSector" class="form-control"></select>
+        </div>                  
+      </div>
+
+      </div><!-- Fin modal body -->
+      <div class="modal-footer">
+        <button type="button" onclick="cambiarSectorBtn();" class="btn btn-success">Guardar</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+      </div>
+       </form>
+
+    </div>
+
+  </div>
+</div>
 
 
 <script type="text/javascript">
@@ -915,8 +950,54 @@ function editarRegistroTipoExistencia(aId){
 }
 
 
+//------ Cambio de sector ----/
+
+function cambiarSector(aObject){
+  var idEstacion = $(aObject).data("id");
+  var idCae = $("#idCaeSector").val();
+  $("#idEstacionCambioSector").val(idEstacion);  
+    $.ajax({
+      type : 'post',
+      url  : "<?php echo site_url('Sectores/buscarSectoresCae'); ?>",
+      dataType: 'json',
+      data: {
+        idCae   : idCae,
+      },
+    }).done( function(data) {
+      $('#idSectorCambioSector').find('option').remove();
+      $(data).each(function(i, v){
+        $('#idSectorCambioSector').append('<option value="'+ v.idSector +'">' + v.nombreSector+ '</option');
+      });
+      $("#modalFormularioCambioSector").modal("show");            
+    }).fail( function() {
+      swal("Información!", "No se pudo cargar la información", "warning"); 
+    }).always( function() {
+      //alert( 'Always' );
+      //listarDatosTiposExistecias();
+    });
+}
 
 
+function cambiarSectorBtn(){
+   
+   $.post("<?php echo site_url('Estaciones/cambiarSector')?>", $("#formCambioSector").serialize())
+     .done(function(data){
+        if(data){
+          $().toastmessage('showSuccessToast', "Movido exitosamente");
+        }
+        else{
+          $().toastmessage('showErrorToast', "No se pudo procesar la información");
+        }
+     })
+     .fail(function(err){
+        //swal("Información!", "Error: No se pudo procesar la información", "warning"); 
+        $().toastmessage('showErrorToast', "Error: No se pudo procesar la información");
+     })
+     .always(function(){
+       listarDatosEstacion($("#idSectorEstacion").val());
+       $("#modalFormularioCambioSector").modal('hide');
+     });
 
+}
 
 </script>

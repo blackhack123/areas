@@ -68,6 +68,19 @@ class Estaciones extends MX_Controller {
 		}		
 	}	
 
+	public function cambiarSector(){
+		$idEstacion = $this->input->post("idEstacionCambioSector");
+		$idSector = $this->input->post("idSectorCambioSector");
+		$data = array('sector_id' => $idSector);
+		$resultado = $this->Estacion->editarRegistro($idEstacion, $data);
+		if($resultado){
+			echo json_encode(true);
+		}
+		else{
+			echo json_encode(false);
+		}		
+	}
+
 	public function buscarEstacionesSector(){
 		$idSector = $this->input->post("idSector");
 		$data = $this->Estacion->buscarEstacionesSector($idSector);

@@ -20,7 +20,8 @@
       <tr>
         <th width="5%">N</th>
         <th width="10%">Nominativo</th>
-        <th width="66%">Nombre</th>
+        <th width="56%">Nombre</th>
+        <th width="10%">Mover a</th>
         <th width="10%">Equipos</th>
         <th width="9%"></th>
       </tr>
@@ -32,6 +33,9 @@
         <td><?php echo $i; $i++; ?></td>
         <td><?php echo $lt->nominativoEstacion; ?></td>
         <td><?php echo $lt->nombreEstacion; ?></td>
+        <td align="center"> 
+          <a href="#" onclick="cambiarSector(this);" data-id="<?php echo $lt->idEstacion; ?>"><i class="fe fe-refresh-cw"></i></a>
+        </td>        
         <td>
           <button type="button" class="btn btn-warning btn-sm" onclick="gestionTiposExistencias(this);" data-id="<?php echo $lt->idEstacion; ?>" <?php echo $status; ?>><i class="fe fe-speaker"></i> Equipos</button>
         </td>
@@ -48,6 +52,7 @@
         <th>N</th>
         <th>Nominativo</th>
         <th>Nombre</th>
+        <th>Mover a</th>
         <th>Equipos</th>
         <th></th>
       </tr>

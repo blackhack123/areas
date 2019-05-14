@@ -1,7 +1,43 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Parte extends CI_Model{
-	public function buscarPartesCompleto(){
+	
+	public function buscarParteFechaCae($idCae, $fechaParte){
+		$sql = "SELECT parte.id AS idParte, parte.numero AS numeroParte, parte.fecha AS fechaParte, parte.tiene_novedad AS tieneNovedadParte FROM parte WHERE parte.cae_id = $idCae AND parte.fecha = '$fechaParte'";
+		
+		$resultado = $this->db->query($sql);
+		if($resultado->num_rows() > 0){
+			return $resultado->result();
+		}
+		else{
+			return false;
+		}
+	}
+
+	public function insertarRegistro($data){
+		$this->db->insert("parte", $data);
+		return $this->db->insert_id();
+	}
+
+	public function buscarRegistroPorID($idParte){
+		$sql = "SELECT parte.id AS idParte, parte.cae_id as idCae, parte.numero AS numeroParte, parte.fecha AS fechaParte, parte.tiene_novedad AS tieneNovedadParte FROM parte WHERE parte.id = $idParte";
+		
+		$resultado = $this->db->query($sql);
+		if($resultado->num_rows() > 0){
+			return $resultado->row();
+		}
+		else{
+			return false;
+		}
+	}
+
+	public function editarRegistro($idParte, $data){
+		$this->db->where("id", $idParte);
+		$this->db->update("parte", $data);
+		return $this->db->affected_rows();
+	}
+	
+	/*public function buscarPartesCompleto(){
 		$sql = "SELECT parte.id AS idParte, estacion.nombre AS nombreEstacion, sistema.nombre AS nombreSistema, parte.fecha AS fechaParte, parte.novedad AS novedadParte, parte.es_solucionado AS esSolucionadoParte FROM parte INNER JOIN sistema ON parte.sistema_id = sistema.id INNER JOIN seccion ON sistema.seccion_id = seccion.id ORDER BY parte.es_solucionado ASC, nombreEstacion ASC, nombreSistema ASC, fechaParte DESC";
 		$resultado = $this->db->query($sql);
 		if($resultado->num_rows() > 0){
@@ -24,16 +60,9 @@ class Parte extends CI_Model{
 		}		
 	}
 
-	public function insertarRegistro($data){
-		$this->db->insert("parte", $data);
-		return $this->db->insert_id();
-	}
 
-	public function editarRegistro($idParte, $data){
-		$this->db->where("id", $idParte);
-		$this->db->update("parte", $data);
-		return $this->db->affected_rows();
-	}
+
+
 
 	public function buscarRegistroPorID($idParte){
 		$sql = "SELECT parte.id AS idParte, parte.novedad AS novedadParte, parte.seguimiento AS seguimientoParte, parte.requerimiento_solucion AS requerimientoSolucionParte, parte.es_solucionado AS esSolucionadoParte, parte.horas_fuera_servicio_dia AS horasFueraServicioDiaParte FROM parte WHERE parte.id=".$idParte;
@@ -85,5 +114,5 @@ class Parte extends CI_Model{
 			return false;
 		}
 	}
-
+*/
 }

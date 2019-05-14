@@ -27,7 +27,8 @@
         <td><?php echo $i; $i++; ?></td>
         <td><?php echo $lt->nombreMenu; ?></td>
         <td><?php echo $lt->iconoMenu; ?></td>
-        <td align="center"><a href="#" onclick="cambiarCategoriaMenu(this);" data-id="<?php echo $lt->idMenu; ?>"><i class="fa fa-exchange"></i></a>
+        <td align="center"> 
+          <a href="#" onclick="cambiarCategoriaMenu(this);" data-id="<?php echo $lt->idMenu; ?>"><i class="fa fa-exchange"></i></a>
         </td>
         <td>
          <button type="button" class="btn btn-info btn-sm" onclick="gestionRegistroMenu(this);" title="Editar Registro" data-accion="editarRegistro" data-id="<?php echo $lt->idMenu;?>" <?php echo $status; ?>><i class="fas fa-pencil-alt" ></i></button> 

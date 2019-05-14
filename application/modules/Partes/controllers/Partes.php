@@ -1,6 +1,4 @@
-<?php
-
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Partes extends MX_Controller {
 	
@@ -87,22 +85,43 @@ class Partes extends MX_Controller {
 	}
 
 	public function gestionRegistro(){
+		$idCae = $this->input->post("idCae");
 		$idParte = $this->input->post("idParte");
-		$data = array(
-					  "novedad" => textoMayuscula($this->input->post("novedadParte")),
-					  "seguimiento" => textoMayuscula($this->input->post("seguimientoParte")),
-					  "requerimiento_solucion" => textoMayuscula($this->input->post("requerimientoSolucionParte")),
-					  "es_solucionado" => $this->input->post("esSolucionadoParte"),
-					  "horas_fuera_servicio_dia" => $this->input->post("horasFueraServicioDiaParte")
-					);
-		if($idParte > 0){
-			$data = array_merge($data, datosUsuarioEditar());
-			echo json_encode("e|".$this->Parte->editarRegistro($idParte, $data));
+		$fechaParte = $this->input->post("fechaParte");
+		if($idParte){
+			$data = array('tiene_novedad' => $this->input->post("tieneNovedadParte")
+						  );
+			
+			if($this->Parte->editarRegistro($idParte, $data)){
+				$parte = $this->Parte->buscarParteFechaCae($idCae, $fechaParte);
+				echo json_encode($parte);
+			}
+			else{
+				echo json_encode(false);
+			}
 		}
 		else{
-			$data = array_merge($data, array("fecha" => date("Y-m-d h:i:s")));
-			$data = array_merge($data, datosUsuarioInsertar());
-			echo json_encode("i|".$this->Parte->insertarRegistro($data));
+			//Buscar si no hay parte en la fecha seleccionada
+			$parte = $this->Parte->buscarParteFechaCae($idCae, $fechaParte);
+			if($parte){
+				echo json_encode($parte);
+			}
+			else{
+				//Si no hay registros se crea
+				$data = array('cae_id' => $idCae,
+							  'fecha' => $fechaParte,
+							  'tiene_novedad' => $this->input->post("tieneNovedadParte")
+							);
+				$idParte = $this->Parte->insertarRegistro($data);
+				if($idParte){
+					$parte = $this->Parte->buscarRegistroPorID($idParte);
+					echo json_encode($parte);
+				}
+				else{
+					echo json_encode(false);
+				}
+				
+			}
 		}
 	}
 

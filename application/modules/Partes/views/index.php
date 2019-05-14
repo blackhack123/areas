@@ -9,72 +9,48 @@
               <div class="card-header">
                 <h3 class="card-title"><?php echo $menuNombre; ?></h3>
                 <div class="card-options">
+                  <form name="formParte" id="formParte">
+                    <input type="hidden" name="idParte" id="idParte">
+                      <div class="input-group">
                   
+                        <select name="idCae" id="idCae" class="form-control">
+                          <?php foreach ($cae as $dt){ ?>
+                          <option value="<?php echo $dt->idCae; ?>">CAE <?php echo $dt->nombreCae; ?></option>
+                          <?php } ?>            
+                        </select>
+
+                        <span class="input-group-append">
+                          <div class="input-group">
+                            <input type="text" name="fechaParte" id="fechaParte" class="form-control" value="<?php echo date("Y-m-d"); ?>" style="width: 100px;">
+                            <span class="input-group-append">
+                              <div class="input-group">
+                                <select class="form-control" name="tieneNovedadParte" id="tieneNovedadParte">
+                                  <option value="NO">NO hay novedades que reportar</option>
+                                  <option value="SI">SI hay daños, generar parte</option>
+                                </select>
+                                <span class="input-group-append">
+                                 <button class="btn btn-primary" type="button"  id="btnTieneNovedadParte">Reportar</button>
+                                </span>
+                              </div>
+                            </span>
+                          </div>    
+                        </span>
+                      </div>
+                          
+                  </form>
                 </div>
               </div>
       
-              <div class="card-body">
-                
-              <div class="row">
-
-                <div class="form-group col-sm-5">
-                  <label class="form-label">CAE: </label>
-                  <select name="idCae" id="idCae" class="form-control" onchange="buscarPersonalCae(this);buscarSectoresCae(this);">
-                    <option value="">SELECCIONE...</option>
-                    <?php foreach ($cae as $dt){ ?>
-                    <option value="<?php echo $dt->idCae; ?>"><?php echo $dt->nombreCae; ?></option>
-                    <?php } ?>            
-                  </select>
-                </div>                  
-
-                <div class="form-group col-sm-5">
-                  <label class="form-label">SECTOR: </label>
-                  <select name="idSector" id="idSector" class="form-control" onchange="buscarEstacionesSector(this);">
-                  </select>
-                </div>                  
-
-                <div class="form-group col-sm-2">
-                  <label class="form-label">Fecha: </label>
-                  <input type="text" name="fechaParte" id="fechaParte" class="form-control" value="<?php echo date("Y-m-d"); ?>">
-                </div>  
-
-              
-              </div>
-              
-               <div class="row">
-
-                <div class="form-group col-sm-12">
-                  <label class="form-label">ESTACIÓN: </label>
-                  <select name="idEstacion" id="idEstacion" class="form-control" onchange="buscarTiposExistenciasEstacion(this);">
-                  </select>
-                </div>      
-
-              </div>
-
-              <div class="row">
-
-                <div class="form-group col-sm-10">
-                  <label class="form-label">Equipos: </label>
-                  <select class="form-control" name="idTipoExistencia" id="idTipoExistencia"></select>
-                </div>
-
-                <div class="form-group col-sm-2">
-                  <label class="form-label">Acción: </label>
-                  <button type="button" class="btn btn-success" onclick="gestionRegistroParte();">Crear Parte</button>
-                </div>  
-
-
-              </div>
-
               <div id="listadoDatos" class="card-body"></div>
+              <div id="listadoDatosDetalle" class="card-body"></div>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-<!-- Modal Parte-->
-<div id="modalFormulario" class="modal fade" role="dialog" tabindex="-1">
+<!-- Modal Detalle Parte-->
+<div id="modalFormularioDetalleParte" class="modal fade" role="dialog" tabindex="-1">
   <div class="modal-dialog modal-lg" role="document">
 
     <!-- Modal content-->
@@ -85,17 +61,25 @@
         
 
       </div>
-     <form id="formParte"  method="post" class="animate-form" >
+     <form id="formDetalleParte"  method="post" class="animate-form" >
+      <input name="idParteDetalleParte" id="idParteDetalleParte" type="hidden" value="">
       <input name="idDetalleParte" id="idDetalleParte" type="hidden" value="">
       <div class="modal-body">
         
+
+      <div class="row">
+        <div class="form-group col-sm-12">
+          <label class="form-label">Equipo: </label>
+          <select class="form-control" name="idTipoExistenciaDetalleParte" id="idTipoExistenciaDetalleParte"></select>
+        </div>                  
+      </div>
+
       <div class="row">
         <div class="form-group col-sm-12">
           <label class="form-label">Novedad: </label>
           <textarea name="novedadDetalleParte" id="novedadDetalleParte" class="form-control"></textarea>
         </div>                  
       </div>
-
 
       <div class="row">
         <div class="form-group col-sm-12">
@@ -132,161 +116,93 @@
 
 <script type="text/javascript">
 
-    $("#idPersonal").select2({
-        placeholder: "Seleccione el personal",
-        allowClear: true,
-        theme: "classic"
-    });
-
-    $("#idTipoExistencia").select2({
-        placeholder: "Seleccione el equipo",
-        allowClear: true,
-        theme: "bootstrap"
-    });
-
   d = new Date();
   var fechaHoraActual = d.fechaHoraActual();
 
-  jQuery('#fechaFalloDetalleParte').datetimepicker({
+  $('#fechaFalloDetalleParte').datetimepicker({
    format:'Y-m-d H:i:s',
    value : fechaHoraActual,
    step : 10
   });
 
+  $('#fechaParte').datetimepicker({
+    timepicker:false,
+    format: 'Y-m-d'
+  });
 
-$(document).ready(function () {
-    $('#fechaParte').datetimepicker({
-      timepicker:false,
-      format: 'Y-m-d'
-    });
-    $('#fechaInicioComision').datetimepicker({
-      timepicker:false,
-      format: 'Y-m-d'
-    });
-    $('#fechaFinComision').datetimepicker({
-      timepicker:false,
-      format: 'Y-m-d'
-    });
+  $("#idCae").on("change", function(){
+    $("#listadoDatos").empty();
+  });
 
+  $("#btnTieneNovedadParte").on("click", function(){
+    if($("#idCae").val()){
+       Swal({
+          title: 'Generar parte?',
+          text: 'Se creará el registro!',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Si',
+          cancelButtonText: 'No'
+        }).then((result) => {
+          if (result.value) {
+              var formData = $("#formParte").serialize();
+              $.ajax({
+                type : 'post',
+                url  : "<?php echo site_url('Partes/gestionRegistro'); ?>",
+                dataType: 'json',
+                data: formData
+              })  
+              .done(function(data){
+                  $(data).each(function(i, v){
+                    $("#idParte").val(v.idParte);
+                  });              
+                  cargarFormularioDetallePadre($("#idParte").val());
+                  listarDetalleParte($("#idParte").val());
+                  $().toastmessage('showSuccessToast', "Parte procesado correctamente");
+              })
+              .fail(function(){
+                  $().toastmessage('showErrorToast', "Error: No se pudo procesar el parte");
+              })   
+              .always(function(){
+                  //listarDatos();
 
+              });
+          // For more information about handling dismissals please visit
+          // https://sweetalert2.github.io/#handling-dismissals
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal(
+              'Cancelado',
+              'No se ha registrado :)',
+              'error'
+            )
+          }
+        })
+    }else{
+      swal("Información!", "Debe elegir un CAE", "error"); 
+    }    
+  });
 
-    cargarTipoMantenimiento();
-});
-
-  function cargarTipoMantenimiento(){
-
-    $.ajax({
-      type : 'post',
-      url  : "<?php echo site_url('TiposMantenimientos/buscarTiposMantenimientos');?>",
-      dataType: 'json',
-    }).done( function(data) {
-      $('#idTipoMantenimiento').find('option').remove();
-      $(data).each(function(i, v){
-        $('#idTipoMantenimiento').append('<option value="'+ v.idTipoMantenimiento +'">' + v.nombreTipoMantenimiento+ '</option');
-      })
-    }).fail( function() {
-      swal("Información!", "No se pudieron cargar los Tipos de Mantenimiento", "warning"); 
-    }).always( function() {
-      cerrarGif();
-    });
-
-  }
-
-function gestionRegistroParte(aObject){
-  $("#modalFormulario").modal('show'); 
-}
-
-
-
-$(document).ready(function() {
-
- $('#formParte').validate({
-  rules: {
-   novedadParte: {
-    required: true
-   },
-   seguimientoParte: {
-    required: true
-   }
-  },
-  messages: {
-   novedadParte: {
-    required: "Ingrese una novedad (S.N. para ninguna)"
-   },
-   seguimientoParte: {
-    required: "Ingrese una texto (S.N. para ninguna)"
-   }
-  },
-  highlight: function(element) {
-   $(element).closest('.row').removeClass('success').addClass('error');
-  },
-  success: function(element) {
-  // element.text('OK!').addClass('valid').closest('.row').removeClass('error').addClass('success');
-   element.addClass('valid').closest('.row').removeClass('error').addClass('success');
-  },
-  submitHandler: function(form) {
-   // do other stuff for a valid form
-   $.post("<?php echo site_url('Partes/gestionRegistro')?>", $("#formParte").serialize())
-    .done(function(data){
-      if(data){
-        data = data.replace('"','');
-        var row = data.split('|');
-        switch(row[0]){
-          case 'i':
-            $().toastmessage('showSuccessToast', "Registro creado exitosamente");
-          break;
-          case 'e':
-            $().toastmessage('showSuccessToast', "Editado exitosamente");
-            $("#formParte")[0].reset();
-          break;
+function cargarFormularioDetallePadre(idParte){
+    var urlCode = "<?php echo $urlCode; ?>";
+      $("#listadoDatos").load("<?php echo site_url('DetallesPartes/formulario'); ?>",{urlCode, idParte}, function(responseText, statusText, xhr){
+        if(statusText == "success"){
+          cerrarGif();
         }
-      }else{
-        $().toastmessage('showErrorToast', "No se pudo procesar la información");
-      }
-     })
-     .fail(function(err){
-        //swal("Información!", "Error: No se pudo procesar la información", "warning"); 
-        $().toastmessage('showErrorToast', "Error: No se pudo procesar la información");
-     })
-     .always(function(){
-       generarParteDiario()
-       $("#modalFormulario").modal('hide');
-       $("#formParte").find('.error').removeClass("error");
-       $("#formParte").find('.success').removeClass("success");
-       $("#formParte").find('.valid').removeClass("valid");
-     });
-  }
- });
-}); // end document.ready
-
-
-function buscarPersonalCae(aObject){
-    $.ajax({
-      type : 'post',
-      url  : "<?php echo site_url('Personales/buscarPersonalCae'); ?>",
-      dataType: 'json',
-      data: {
-        idCae   : $(aObject).val(),
-      },
-    }).done( function(data) {
-      $('#idPersonal').find('option').remove();
-      $(data).each(function(i, v){
-        $('#idPersonal').append('<option value="'+ v.idPersonal +'">' + v.datoPersonal+ '</option');
-      })              
-    }).fail( function() {
-      swal("Información!", "No se pudo cargar el Personal", "warning"); 
-    }).always( function() {
-      //alert( 'Always' );
-    });  
+        if(statusText == "error"){
+          swal("Información!", "No se pudo cargar el formulario para ingreso de Partes", "info"); 
+          cerrarGif();
+        }
+      });
 }
 
-function buscarSectoresCae(aObject){
+
+function buscarSectoresCae(idCae){
     $.ajax({
       type : 'post',
       url  : "<?php echo site_url('Sectores/buscarSectoresCae'); ?>",
       dataType: 'json',
       data: {
-        idCae   : $(aObject).val(),
+        idCae   : idCae
       },
     }).done( function(data) {
       $('#idSector').find('option').remove();
@@ -301,6 +217,26 @@ function buscarSectoresCae(aObject){
     });  
 }
 
+
+function buscarPersonalCae(idCae){
+    $.ajax({
+      type : 'post',
+      url  : "<?php echo site_url('Personales/buscarPersonalCae'); ?>",
+      dataType: 'json',
+      data: {
+        idCae   : idCae
+      },
+    }).done( function(data) {
+      $('#idPersonal').find('option').remove();
+      $(data).each(function(i, v){
+        $('#idPersonal').append('<option value="'+ v.idPersonal +'">' + v.datoPersonal+ '</option');
+      })              
+    }).fail( function() {
+      swal("Información!", "No se pudo cargar el Personal", "warning"); 
+    }).always( function() {
+      //alert( 'Always' );
+    });  
+}
 
 function buscarEstacionesSector(aObject){
     $.ajax({
@@ -343,141 +279,98 @@ function buscarTiposExistenciasEstacion(aObject){
     });  
 }
 
-//gestionar la comision
-function gestionRegistroParteComision(aObject){
-  
-  /*Swal.fire({
-    title: 'Desea gestionar la(s) Comisión(es) para este Parte?',
-    text: 'Se creará un caso pendiente de aprobación.',
-    type: 'warning',
-    showCancelButton: true,
-    confirmButtonText: 'Si, crear Comisión',
-    cancelButtonText: 'No'
-  }).then((result) => {
-    if (result.value) {
-        
-      var idParte = $(aObject).data("id");
-      listarDatosComision(idParte);
+/*------ Detalle Parte -----*/
 
-    // For more information about handling dismissals please visit
-    // https://sweetalert2.github.io/#handling-dismissals
-    } else if (result.dismiss === Swal.DismissReason.cancel) {
-      Swal.fire(
-        'Cancelado',
-        'El parte queda pendiente de solución :(',
-        'error'
-      )
+function gestionRegistroDetalleParte(aObject){
+  if($("#idTipoExistencia").val() > 0){
+
+    $("#idTipoExistenciaDetalleParte").find('option').remove();
+    $('#idTipoExistencia option:selected').clone().appendTo("#idTipoExistenciaDetalleParte");
+
+    switch($(aObject).data('accion')){
+      case 'insertarRegistro':
+          $("#formDetalleParte")[0].reset();
+          $("#idDetalleParte").val("");
+          $("#modalFormularioDetalleParte").modal('show'); 
+          $("#tituloModal").text("Nuevo Registro");
+      break;
+      case 'editarRegistro':
+          $("#modalFormularioDetalleParte").modal('show'); 
+          $("#tituloModal").text("Editar Registro");
+          editarRegistro($(aObject).data('id'));
+      break;
+      case 'eliminarRegistro':
+         
+          swal({
+            title: 'Desea eliminar?',
+            text: "Los datos se perderán!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, eliminar!'
+          }).then((result) => {
+            if (result.value) {
+              
+                  $.ajax({
+                    type : 'post',
+                    url  : "<?php echo site_url('DetallesPartes/eliminarRegistro'); ?>",
+                    dataType: 'json',
+                    data: {
+                          idDetalleParte : $(aObject).data('id'),
+                        }
+                  })  
+                  .done(function(data){
+                    if(data){
+                      $().toastmessage('showSuccessToast', "Registro eliminado");
+                    }else{
+                      $().toastmessage('showErrorToast', "No se pudo eliminar la información (registros enlazados)");
+                    }
+                  })
+                  .fail(function(){
+                    $().toastmessage('showErrorToast', "Error: No se pudo eliminar la información");
+                  })   
+                  .always(function(){
+                    cerrarGif();
+                    listarDetalleParte($("#idParte").val());
+                  });
+
+            }
+          })
+
+      break;
+      default:      
+      break;
     }
-  })*/
-
-      var idParte = $(aObject).data("id");
-      listarDatosComision(idParte);
-
-}
-
-function listarDatosComision(idParte){
-  
-  var urlCode = "<?php echo $urlCode; ?>";
-  $("#listadoDatos").load("<?php echo site_url('Comisiones/listaComisionParte'); ?>",{urlCode, idParte}, function(responseText, statusText, xhr){
-    if(statusText == "success"){
-      cerrarGif();
-    }
-    if(statusText == "error"){
-      swal("Información!", "No se pudo cargar listado de Comisiones", "info"); 
-      cerrarGif();
-    }
-  });
-}
-
-function gestionRegistroComision(aObject){
-  switch($(aObject).data('accion')){
-    case 'insertarRegistro':
-        $("#formComision")[0].reset();
-        $("#idComision").val("");
-        $("#modalFormularioComision").modal('show');
-        $("#tituloModalComision").text("Nuevo Registro");
-    break;
-    case 'editarRegistro':
-        $("#modalFormularioComision").modal('show');
-        $("#tituloModalComision").text("Editar Registro");
-        editarRegistro($(aObject).data('id'));
-    break;
-    case 'eliminarRegistro':
-       
-        swal({
-          title: 'Desea eliminar?',
-          text: "Los datos se perderán!",
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Si, eliminar!'
-        }).then((result) => {
-          if (result.value) {
-            
-                $.ajax({
-                  type : 'post',
-                  url  : "<?php echo site_url('Comisiones/eliminarRegistro'); ?>",
-                  dataType: 'json',
-                  data: {
-                        idComision   : $(aObject).data('id'),
-                      }
-                })  
-                .done(function(data){
-                  if(data){
-                    $().toastmessage('showSuccessToast', "Registro eliminado");
-                  }else{
-                    $().toastmessage('showErrorToast', "No se pudo eliminar la información (registros enlazados)");
-                  }
-                })
-                .fail(function(){
-                  $().toastmessage('showErrorToast', "Error: No se pudo eliminar la información");
-                })   
-                .always(function(){
-                  cerrarGif();
-                  listarDatosComision($("#idParteComision").val());
-                });
-
-          }
-        })
-
-    break;
-    default:      
-    break;
+  }
+  else{
+    swal("Información!", "Debe seleccionar un Equipo de la lista", "warning"); 
   }
 }
 
 $(document).ready(function() {
 
- $('#formComision').validate({
+ $('#formDetalleParte').validate({
   rules: {
-   fechaInicioComision: {
-    required: true,
-    date: true
-   },
-   fechaFinComision: {
-    required: true,
-    date: true
-   },
-   situacionPreviaComision: {
+   novedadDetalleParte: {
     required: true
    },
-   actividadPlanificadaComision: {
+   requerimientoSolucionDetalleParte: {
+    required: true
+   },
+   fechaFalloDetalleParte: {
     required: true
    }
   },
   messages: {
-   fechaInicioComision: {
-    required: "Ingrese una fecha inicial"
+   novedadDetalleParte: {
+    required: "Ingrese una novedad"
    },
-   fechaFinComision: {
-    required: "Ingrese una fecha final"
+   requerimientoSolucionDetalleParte: {
+    required: "Ingrese una texto"
    },
-   situacionPreviaComision: {
-    required: "Ingrese la situación previa"
-   },
-   actividadPlanificadaComision: {
-    required: "Ingrese la actividad planificada"
+   fechaFalloDetalleParte: {
+    required: "Ingrese fecha y hora"
    }
   },
   highlight: function(element) {
@@ -489,7 +382,7 @@ $(document).ready(function() {
   },
   submitHandler: function(form) {
    // do other stuff for a valid form
-   $.post("<?php echo site_url('Comisiones/gestionRegistro')?>", $("#formComision").serialize())
+   $.post("<?php echo site_url('DetallesPartes/gestionRegistro')?>", $("#formDetalleParte").serialize())
     .done(function(data){
       if(data){
         data = data.replace('"','');
@@ -500,7 +393,6 @@ $(document).ready(function() {
           break;
           case 'e':
             $().toastmessage('showSuccessToast', "Editado exitosamente");
-            $("#formComision")[0].reset();
           break;
         }
       }else{
@@ -512,33 +404,33 @@ $(document).ready(function() {
         $().toastmessage('showErrorToast', "Error: No se pudo procesar la información");
      })
      .always(function(){
-      listarDatosComision($("#idParteComision").val());
-       $("#modalFormularioComision").modal('hide');
-       $("#formComision").find('.error').removeClass("error");
-       $("#formComision").find('.success').removeClass("success");
-       $("#formComision").find('.valid').removeClass("valid");
+       listarDetalleParte($("#idParte").val());
+       $("#modalFormularioDetalleParte").modal('hide');
+       $("#formDetalleParte").find('.error').removeClass("error");
+       $("#formDetalleParte").find('.success').removeClass("success");
+       $("#formDetalleParte").find('.valid').removeClass("valid");
      });
   }
  });
 }); // end document.ready
 
+
 function editarRegistro(aId){
     $.ajax({
       type : 'post',
-      url  : "<?php echo site_url('Comisiones/buscarRegistroPorID'); ?>",
+      url  : "<?php echo site_url('DetallesPartes/buscarRegistroPorID'); ?>",
       dataType: 'json',
       data: {
-        idComision   : aId,
+        idDetalleParte : aId,
       },
     }).done( function(data) {
       $(data).each(function(i, v){
-        $("#idComision").val(v.idComision);
-        buscarPersonalComision(v.idComision);
-        $("#fechaInicioComision").val(v.fechaInicioComision);
-        $("#fechaFinComision").val(v.fechaFinComision);
-        $("#idTipoMantenimiento").val(v.idTipoMantenimiento);
-        $("#situacionPreviaComision").val(v.situacionPreviaComision);
-        $("#actividadPlanificadaComision").val(v.actividadPlanificadaComision);
+        $("#idDetalleParte").val(v.idDetalleParte);
+        $("#novedadDetalleParte").val(v.novedadDetalleParte);
+        $("#requerimientoSolucionDetalleParte").val(v.requerimientoSolucionDetalleParte);
+        $("#fechaFalloDetalleParte").val(v.fechaFalloDetalleParte);
+        $('#idTipoExistenciaDetalleParte').find('option').remove();
+        $('#idTipoExistenciaDetalleParte').append('<option value="'+v.idTipoExistencia+'">'+v.nombreTipoExistencia+'</option>');
       });              
     }).fail( function() {
       swal("Información!", "No se pudo cargar la información", "warning"); 
@@ -547,78 +439,17 @@ function editarRegistro(aId){
     });
 }
 
-function buscarPersonalComision(idComision){
-    var array = [];
-    var i = 0;
-    $.ajax({
-      type : 'post',
-      url  : "<?php echo site_url('ComisionesPersonales/buscarPersonalComision'); ?>",
-      dataType: 'json',
-      data: {
-        idComision   : idComision,
-      },
-    }).done( function(data) {
-      $(data).each(function(i, v){   
-        array[i] = v.idPersonal; i++;
+function listarDetalleParte(idParte){
+    var urlCode = "<?php echo $urlCode; ?>";
+      $("#listadoDatosDetalle").load("<?php echo site_url('DetallesPartes/lista'); ?>",{urlCode, idParte}, function(responseText, statusText, xhr){
+        if(statusText == "success"){
+          cerrarGif();
+        }
+        if(statusText == "error"){
+          swal("Información!", "No se pudo cargar el detalle del Parte", "info"); 
+          cerrarGif();
+        }
       });
-      $('#idPersonal').val(array).trigger("change"); 
-    }).fail( function() {
-      swal("Información!", "No se pudo cargar el personal de la comisión", "warning"); 
-    }).always( function() {
-      //alert( 'Always' );
-    });
 }
-
-
-$("#idPersonal").on("select2:select", function (e) {
-
-  if($("#idComision").val() > 0){
-    $.ajax({
-      url  : "<?php echo site_url('ComisionesPersonales/agregarPersonalAComision'); ?>",
-      type : "POST",
-      dataType : "JSON",
-      data  : {
-          idComision : $("#idComision").val(),
-          idPersonal : e.params.data.id
-      },
-      success: function(data){
-        $().toastmessage('showSuccessToast', "Personal correctamente asignado");
-      },
-      complete: function(){
-        //cerrarGif();
-      },
-      error: function(){
-        $().toastmessage('showErrorToast', "No de pudo asignar el Personal");
-      }    
-    });  
-  }
-
-});
-
-
-$("#idPersonal").on("select2:unselect", function (e) {
-
-  if($("#idComision").val() > 0){
-    $.ajax({
-      url  : "<?php echo site_url('ComisionesPersonales/eliminarPersonalDeComision'); ?>",
-      type : "POST",
-      dataType : "JSON",
-      data  : {
-          idComision : $("#idComision").val(),
-          idPersonal : e.params.data.id
-      },
-      success: function(data){
-        $().toastmessage('showNoticeToast', "Personal eliminado");
-      },
-      complete: function(){
-        //cerrarGif();
-      },
-      error: function(){
-        $().toastmessage('showErrorToast', "No de pudo eliminar el Personal de la comisión");
-      }    
-    });  
-  }
-
-});
 
 </script>
