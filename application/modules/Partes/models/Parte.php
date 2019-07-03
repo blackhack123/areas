@@ -36,6 +36,18 @@ class Parte extends CI_Model{
 		$this->db->update("parte", $data);
 		return $this->db->affected_rows();
 	}
+
+	public function buscarPartesPendientes(){
+		$sql = "SELECT parte.id AS idParte, cae.nombre AS nombreCae, parte.fecha AS fechaParte, parte.tiene_novedad AS tieneNovedadParte, detalle_parte.es_solucionado AS esSolucionadoDetalleParte, sector.nombre AS nombreSector, estacion.nombre AS nombreEstacion, sistema.nombre AS nombreSistema FROM parte INNER JOIN detalle_parte ON detalle_parte.parte_id = parte.id INNER JOIN cae ON parte.cae_id = cae.id INNER JOIN tipo_existencia ON detalle_parte. tipo_existencia_id = tipo_existencia.id INNER JOIN sistema ON tipo_existencia.sistema_id = sistema.id INNER JOIN estacion ON tipo_existencia.estacion_id = estacion.id INNER JOIN sector ON sector.cae_id = cae.id AND estacion.sector_id = sector.id GROUP BY parte.id ORDER BY fechaParte ASC";
+		
+		$resultado = $this->db->query($sql);
+		if($resultado->num_rows() > 0){
+			return $resultado->result();
+		}
+		else{
+			return false;
+		}		
+	}
 	
 	/*public function buscarPartesCompleto(){
 		$sql = "SELECT parte.id AS idParte, estacion.nombre AS nombreEstacion, sistema.nombre AS nombreSistema, parte.fecha AS fechaParte, parte.novedad AS novedadParte, parte.es_solucionado AS esSolucionadoParte FROM parte INNER JOIN sistema ON parte.sistema_id = sistema.id INNER JOIN seccion ON sistema.seccion_id = seccion.id ORDER BY parte.es_solucionado ASC, nombreEstacion ASC, nombreSistema ASC, fechaParte DESC";

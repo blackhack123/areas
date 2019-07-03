@@ -15,6 +15,7 @@
         <th width="45%">Menú</th>
         <th width="10%">Autorización</th>
         <th width="10%">Escritura</th>
+        <th width="10%">Envío</th>
         <th width="5%"></th>
       </tr>
     </thead>
@@ -42,6 +43,14 @@
           <input class="switch" data-toggle="toggle" type="checkbox" data-on="w" data-off="" data-size="small" data-onstyle="primary" data-offstyle="warning" onchange="editarPrivilegios(this);" <?php echo $checked; ?> data-idperfil="<?php echo $lt->idPerfil; ?>" data-idmenu="<?php echo $lt->idMenu; ?>" data-id="<?php echo $lt->idPerfilMenu; ?>" data-atributo="escritura" <?php echo $status; ?>>
         </td>
         <td>
+          <?php if($lt->envio != ""){ ?>
+            <?php $checked = "checked"; ?>
+          <?php }else{ ?>
+            <?php $checked = ""; ?>
+          <?php } ?>
+          <input class="switch" data-toggle="toggle" type="checkbox" data-on="w" data-off="" data-size="small" data-onstyle="primary" data-offstyle="warning" onchange="editarPrivilegios(this);" <?php echo $checked; ?> data-idperfil="<?php echo $lt->idPerfil; ?>" data-idmenu="<?php echo $lt->idMenu; ?>" data-id="<?php echo $lt->idPerfilMenu; ?>" data-atributo="envio" <?php echo $status; ?>>
+        </td>        
+        <td>
           <button type="button" class="btn btn-danger btn-sm" onclick="eliminarMenuDePerfil(this);" data-toggle="tooltip" data-placement="left" title="Eliminar Registro" data-accion="eliminarRegistro" data-id="<?php echo $lt->idPerfilMenu; ?>" data-idperfil="<?php echo $idPerfil; ?>" <?php echo $status; ?>><i class="fas fa-trash-alt"></i>
         </td>
       </tr>
@@ -54,6 +63,7 @@
         <th>Menú</th>
         <th>Autorización</th>
         <th>Escritura</th>
+        <th>Envío</th>
         <th></th>
       </tr>
     </tfoot>

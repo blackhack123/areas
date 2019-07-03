@@ -6,7 +6,10 @@
         <th width="5%">N</th>
         <th width="15%">Fecha Reporte</th>
         <th width="5%">Sector</th>
-        <th width="65%">Equipo</th>
+        <th width="5%">Estación</th>
+        <th width="5%">Sección</th>
+        <th width="5%">Sistema</th>
+        <th width="50%">Equipo</th>
         <th width="10%"></th>
       </tr>
     </thead>
@@ -24,6 +27,9 @@
         <td><?php echo $i; $i++; ?></td>
         <td><?php echo $lt->fechaFalloDetalleParte; ?></td>
         <td><?php echo $lt->nombreSector; ?></td>
+        <td><?php echo $lt->nombreEstacion; ?></td>
+        <td><?php echo $lt->nombreSeccion; ?></td>
+        <td><?php echo $lt->nombreSistema; ?></td>
         <td><?php echo $lt->nombreTipoExistencia; ?></td>
         <td>
          <button type="button" class="btn btn-info btn-sm" onclick="gestionRegistroDetalleParte(this);"  data-accion="editarRegistro" data-id="<?php echo $lt->idDetalleParte;?>" <?php echo $status; ?>><i class="fas fa-pencil-alt"></i></button> 
@@ -37,6 +43,9 @@
         <th>N</th>
         <th>Fecha Reporte</th>
         <th>Sector</th>
+        <th>Estación</th>
+        <th>Sección</th>
+        <th>Sistema</th>
         <th>Equipo</th>
         <th></th>
       </tr>

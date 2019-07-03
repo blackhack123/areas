@@ -19,7 +19,7 @@ class DetalleParte extends CI_Model{
 	}
 
 	public function buscarDetalleParte($idParte){
-		$sql = "SELECT detalle_parte.id AS idDetalleParte, CONCAT(tipo_existencia.nombre,' - ',tipo_existencia.propiedad) AS nombreTipoExistencia, detalle_parte.es_solucionado AS esSolucionadoDetalleParte, detalle_parte.fecha_fallo AS fechaFalloDetalleParte, sector.nombre AS nombreSector FROM detalle_parte INNER JOIN tipo_existencia ON detalle_parte.tipo_existencia_id = tipo_existencia.id INNER JOIN estacion ON tipo_existencia.estacion_id = estacion.id INNER JOIN sector ON estacion.sector_id = sector.id WHERE detalle_parte.parte_id = $idParte ORDER BY sector.nombre, nombreTipoExistencia ASC";
+		$sql = "SELECT detalle_parte.id AS idDetalleParte, sector.nombre AS nombreSector, estacion.nombre AS nombreEstacion, seccion.nombre AS nombreSeccion, sistema.nombre AS nombreSistema, CONCAT(tipo_existencia.nombre,' - ',tipo_existencia.propiedad) AS nombreTipoExistencia, detalle_parte.es_solucionado AS esSolucionadoDetalleParte, detalle_parte.fecha_fallo AS fechaFalloDetalleParte FROM detalle_parte INNER JOIN tipo_existencia ON detalle_parte.tipo_existencia_id = tipo_existencia.id INNER JOIN estacion ON tipo_existencia.estacion_id = estacion.id INNER JOIN sector ON estacion.sector_id = sector.id INNER JOIN sistema ON tipo_existencia.sistema_id = sistema.id INNER JOIN seccion ON sistema.seccion_id = seccion.id WHERE detalle_parte.parte_id = $idParte ORDER BY nombreSector ASC, nombreTipoExistencia ASC";
 		
 		$resultado = $this->db->query($sql);
 		if($resultado->num_rows() > 0){

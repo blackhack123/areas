@@ -44,6 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	      if($esSuperadmin == 'S'){
 	      	$escritura = "";
 	      	$autorizacion = "";
+	      	$envio = "";
 	      }
 	      else{
 			//Permiso de escritura
@@ -60,6 +61,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			else{
 				$autorizacion = "disabled";
 			}
+			//Permiso de envío
+			if($privilegios->envio){
+				$envio = "";
+			}
+			else{
+				$envio = "disabled";
+			}
 
 	      }		
 
@@ -72,6 +80,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$data = (object) array(
 								"auth" => $autorizacion,
 								"status" => $escritura,
+								"send" => $envio,
 								"nombreMenu"=> $nombreMenu,
 								"codigoCategoriaMenu"=> $codigoCategoriaMenu,
 								"codigoMenu"=> $codigoMenu

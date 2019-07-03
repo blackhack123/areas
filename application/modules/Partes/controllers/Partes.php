@@ -25,6 +25,7 @@ class Partes extends MX_Controller {
 	  if(verficarAcceso($idMenu)){
 	    $dataSession = verificarPrivilegios($idMenu);
 	    $data['status'] = $dataSession->status;
+	    $data['send'] = $dataSession->send;
 		$data['menuNombre'] = $dataSession->nombreMenu;
 		$data['codigoCategoriaMenu'] = $dataSession->codigoCategoriaMenu;
 		$data['codigoMenu'] = $dataSession->codigoMenu;
@@ -35,8 +36,6 @@ class Partes extends MX_Controller {
 			$data['cae'] = $this->Cae->buscarCaes();
 		}
 		else{
-			//$idCae = $this->session->userdata("idCae");
-			//$data['estacion'] = $this->Estacion->buscarEstacionesCae($idCae);
 			$idPersonal = $this->session->userdata("idPersonal");
 			$data['cae'] = $this->Cae->buscarCaesPersonal($idPersonal);
 		}
@@ -166,6 +165,31 @@ class Partes extends MX_Controller {
 		//$fechaActualHoraHasta = date("Y-m-d ".$horas.":".$minutos.":".$segundos);
 
 		echo json_encode($nuevafecha);
+	}
+
+	public function listaPartesPendientes($idMenu){
+	  $urlCode = $idMenu;
+	  $idMenu = desencriptar($idMenu);
+	  if(verficarAcceso($idMenu)){
+	    $dataSession = verificarPrivilegios($idMenu);
+	    $data['status'] = $dataSession->status;
+		$data['menuNombre'] = $dataSession->nombreMenu;
+		$data['codigoCategoriaMenu'] = $dataSession->codigoCategoriaMenu;
+		$data['codigoMenu'] = $dataSession->codigoMenu;
+		$data['urlCode'] = $urlCode;
+		//Vista
+		$idMenu = desencriptar($urlCode);
+		$data['status'] = $dataSession->status;
+		$data['lista'] = $this->Parte->buscarPartesPendientes();
+		$data['view'] = 'Partes/listaPartesPendientes';
+		$data['output'] = '';
+		$this->load->view('Modulos/main',$data);	
+	  }
+	  else{ 
+	  	redirect('Login/Login');
+	  }
+
+
 	}
 
 }

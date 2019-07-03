@@ -29,7 +29,8 @@
                                   <option value="SI">SI hay daños, generar parte</option>
                                 </select>
                                 <span class="input-group-append">
-                                 <button class="btn btn-primary" type="button"  id="btnTieneNovedadParte">Reportar</button>
+                                 <button class="btn btn-primary" type="button"  id="btnTieneNovedadParte" <?php echo $status; ?>><i class="fas fa-check-circle"></i> Reportar</button>
+                                 <button class="btn btn-success" type="button"  id="btnEnviarParte" <?php echo $send; ?>><i class="fas fa-share-square"></i> Enviar</button>
                                 </span>
                               </div>
                             </span>
@@ -118,6 +119,7 @@
 
   d = new Date();
   var fechaHoraActual = d.fechaHoraActual();
+  $("#btnEnviarParte").css("display", "none");
 
   $('#fechaFalloDetalleParte').datetimepicker({
    format:'Y-m-d H:i:s',
@@ -134,6 +136,14 @@
     $("#listadoDatos").empty();
   });
 
+  $("#btnEnviarParte").on("click", function(){
+      if($("#idParte").val()){
+      }
+      else{
+        swal("Información!", "No hay parte reportado", "warning"); 
+      }
+  });
+    
   $("#btnTieneNovedadParte").on("click", function(){
     if($("#idCae").val()){
        Swal({
@@ -159,6 +169,7 @@
                   cargarFormularioDetallePadre($("#idParte").val());
                   listarDetalleParte($("#idParte").val());
                   $().toastmessage('showSuccessToast', "Parte procesado correctamente");
+                  $("#btnEnviarParte").css("display", "block");
               })
               .fail(function(){
                   $().toastmessage('showErrorToast', "Error: No se pudo procesar el parte");
