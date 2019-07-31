@@ -90,6 +90,7 @@ class Partes extends MX_Controller {
 		if($idParte){
 			$data = array('tiene_novedad' => $this->input->post("tieneNovedadParte")
 						  );
+			$data = array_merge($data, datosUsuarioEditar());
 			
 			if($this->Parte->editarRegistro($idParte, $data)){
 				$parte = $this->Parte->buscarParteFechaCae($idCae, $fechaParte);
@@ -111,6 +112,7 @@ class Partes extends MX_Controller {
 							  'fecha' => $fechaParte,
 							  'tiene_novedad' => $this->input->post("tieneNovedadParte")
 							);
+				$data = array_merge($data, datosUsuarioInsertar());
 				$idParte = $this->Parte->insertarRegistro($data);
 				if($idParte){
 					$parte = $this->Parte->buscarRegistroPorID($idParte);
@@ -167,7 +169,7 @@ class Partes extends MX_Controller {
 		echo json_encode($nuevafecha);
 	}
 
-	public function listaPartesPendientes($idMenu){
+	public function partesPendientes($idMenu){
 	  $urlCode = $idMenu;
 	  $idMenu = desencriptar($idMenu);
 	  if(verficarAcceso($idMenu)){
@@ -180,8 +182,9 @@ class Partes extends MX_Controller {
 		//Vista
 		$idMenu = desencriptar($urlCode);
 		$data['status'] = $dataSession->status;
-		$data['lista'] = $this->Parte->buscarPartesPendientes();
-		$data['view'] = 'Partes/listaPartesPendientes';
+		//Se presentan los partes enviados
+		
+		$data['view'] = 'Partes/partesPendientes';
 		$data['output'] = '';
 		$this->load->view('Modulos/main',$data);	
 	  }
@@ -189,7 +192,39 @@ class Partes extends MX_Controller {
 	  	redirect('Login/Login');
 	  }
 
-
 	}
 
+	public function listaPartesPendientes(){
+
+		$data['lista'] = $this->Parte->buscarPartesPorEstado("E");
+		$urlCode = $this->input->post("urlCode");
+		$idMenu = desencriptar($urlCode);
+		$dataSession = verificarPrivilegios($idMenu);
+		$data['auth'] = $dataSession->auth;
+		$this->load->view("Partes/listaPartesPendientes",$data);		
+	}
+
+	public function enviarParte(){
+		$idParte = $this->input->post("idParte");
+		$data = array('estado' => 'E');
+		$data = array_merge($data, datosUsuarioEditar());
+			
+		if($this->Parte->editarRegistro($idParte, $data)){
+			echo json_encode(true);
+		}else{
+			echo json_encode(false);
+		}
+	}
+
+	public function autorizarParte(){
+		$idParte = $this->input->post("idParte");
+		$data = array('estado' => 'A');
+		$data = array_merge($data, datosUsuarioEditar());
+			
+		if($this->Parte->editarRegistro($idParte, $data)){
+			echo json_encode(true);
+		}else{
+			echo json_encode(false);
+		}
+	}
 }

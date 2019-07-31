@@ -48,7 +48,7 @@
           <?php }else{ ?>
             <?php $checked = ""; ?>
           <?php } ?>
-          <input class="switch" data-toggle="toggle" type="checkbox" data-on="w" data-off="" data-size="small" data-onstyle="primary" data-offstyle="warning" onchange="editarPrivilegios(this);" <?php echo $checked; ?> data-idperfil="<?php echo $lt->idPerfil; ?>" data-idmenu="<?php echo $lt->idMenu; ?>" data-id="<?php echo $lt->idPerfilMenu; ?>" data-atributo="envio" <?php echo $status; ?>>
+          <input class="switch" data-toggle="toggle" type="checkbox" data-on="s" data-off="" data-size="small" data-onstyle="primary" data-offstyle="warning" onchange="editarPrivilegios(this);" <?php echo $checked; ?> data-idperfil="<?php echo $lt->idPerfil; ?>" data-idmenu="<?php echo $lt->idMenu; ?>" data-id="<?php echo $lt->idPerfilMenu; ?>" data-atributo="envio" <?php echo $status; ?>>
         </td>        
         <td>
           <button type="button" class="btn btn-danger btn-sm" onclick="eliminarMenuDePerfil(this);" data-toggle="tooltip" data-placement="left" title="Eliminar Registro" data-accion="eliminarRegistro" data-id="<?php echo $lt->idPerfilMenu; ?>" data-idperfil="<?php echo $idPerfil; ?>" <?php echo $status; ?>><i class="fas fa-trash-alt"></i>

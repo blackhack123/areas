@@ -49,11 +49,16 @@ class DetallesPartes extends MX_Controller {
 
 	public function lista(){
 		$idParte = $this->input->post("idParte");
+		$parte = $this->Parte->buscarRegistroPorID($idParte);
 		$data['lista'] = $this->DetalleParte->buscarDetalleParte($idParte);
 		$urlCode = $this->input->post("urlCode");
 		$idMenu = desencriptar($urlCode);
 		$dataSession = verificarPrivilegios($idMenu);
+		//Verificar los permisos del usuario para enviar
+		$data['send'] = $dataSession->send;
+		
 		$data['status'] = $dataSession->status;
+		$data['estadoParte'] = $parte->estadoParte;
 		$this->load->view('DetallesPartes/lista',$data);		
 	}
 

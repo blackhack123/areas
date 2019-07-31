@@ -20,7 +20,7 @@ class Parte extends CI_Model{
 	}
 
 	public function buscarRegistroPorID($idParte){
-		$sql = "SELECT parte.id AS idParte, parte.cae_id as idCae, parte.numero AS numeroParte, parte.fecha AS fechaParte, parte.tiene_novedad AS tieneNovedadParte FROM parte WHERE parte.id = $idParte";
+		$sql = "SELECT parte.id AS idParte, parte.cae_id as idCae, parte.numero AS numeroParte, parte.fecha AS fechaParte, parte.tiene_novedad AS tieneNovedadParte, parte.estado AS estadoParte FROM parte WHERE parte.id = $idParte";
 		
 		$resultado = $this->db->query($sql);
 		if($resultado->num_rows() > 0){
@@ -37,8 +37,8 @@ class Parte extends CI_Model{
 		return $this->db->affected_rows();
 	}
 
-	public function buscarPartesPendientes(){
-		$sql = "SELECT parte.id AS idParte, cae.nombre AS nombreCae, parte.fecha AS fechaParte, parte.tiene_novedad AS tieneNovedadParte, detalle_parte.es_solucionado AS esSolucionadoDetalleParte, sector.nombre AS nombreSector, estacion.nombre AS nombreEstacion, sistema.nombre AS nombreSistema FROM parte INNER JOIN detalle_parte ON detalle_parte.parte_id = parte.id INNER JOIN cae ON parte.cae_id = cae.id INNER JOIN tipo_existencia ON detalle_parte. tipo_existencia_id = tipo_existencia.id INNER JOIN sistema ON tipo_existencia.sistema_id = sistema.id INNER JOIN estacion ON tipo_existencia.estacion_id = estacion.id INNER JOIN sector ON sector.cae_id = cae.id AND estacion.sector_id = sector.id GROUP BY parte.id ORDER BY fechaParte ASC";
+	public function buscarPartesPorEstado($estado){
+		$sql = "SELECT parte.id AS idParte, cae.nombre AS nombreCae, parte.fecha AS fechaParte, parte.tiene_novedad AS tieneNovedadParte, detalle_parte.es_solucionado AS esSolucionadoDetalleParte, sector.nombre AS nombreSector, estacion.nombre AS nombreEstacion, sistema.nombre AS nombreSistema, parte.estado AS estadoParte FROM parte INNER JOIN detalle_parte ON detalle_parte.parte_id = parte.id INNER JOIN cae ON parte.cae_id = cae.id INNER JOIN tipo_existencia ON detalle_parte. tipo_existencia_id = tipo_existencia.id INNER JOIN sistema ON tipo_existencia.sistema_id = sistema.id INNER JOIN estacion ON tipo_existencia.estacion_id = estacion.id INNER JOIN sector ON sector.cae_id = cae.id AND estacion.sector_id = sector.id WHERE parte.estado ='$estado' GROUP BY parte.id ORDER BY fechaParte ASC";
 		
 		$resultado = $this->db->query($sql);
 		if($resultado->num_rows() > 0){

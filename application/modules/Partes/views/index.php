@@ -30,7 +30,7 @@
                                 </select>
                                 <span class="input-group-append">
                                  <button class="btn btn-primary" type="button"  id="btnTieneNovedadParte" <?php echo $status; ?>><i class="fas fa-check-circle"></i> Reportar</button>
-                                 <button class="btn btn-success" type="button"  id="btnEnviarParte" <?php echo $send; ?>><i class="fas fa-share-square"></i> Enviar</button>
+                                 <button class="btn btn-success btn-parte" type="button"  id="btnEnviarParte" <?php echo $send; ?>><i class="fas fa-share-square"></i> Enviar</button>
                                 </span>
                               </div>
                             </span>
@@ -42,7 +42,7 @@
                 </div>
               </div>
       
-              <div id="listadoDatos" class="card-body"></div>
+              <div id="listadoDatos" class="card-body btn-parte"></div>
               <div id="listadoDatosDetalle" class="card-body"></div>
             </div>
           </div>
@@ -119,7 +119,7 @@
 
   d = new Date();
   var fechaHoraActual = d.fechaHoraActual();
-  $("#btnEnviarParte").css("display", "none");
+  $("#btnEnviarParte").hide();
 
   $('#fechaFalloDetalleParte').datetimepicker({
    format:'Y-m-d H:i:s',
@@ -136,12 +136,52 @@
     $("#listadoDatos").empty();
   });
 
+  //Enviar Parte
   $("#btnEnviarParte").on("click", function(){
-      if($("#idParte").val()){
-      }
-      else{
-        swal("Información!", "No hay parte reportado", "warning"); 
-      }
+    if($("#idParte").val()){
+       Swal({
+          title: 'Enviar parte?',
+          text: 'El parte se cerrará y ya no se podrán hacer cambios',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Si',
+          cancelButtonText: 'No'
+        }).then((result) => {
+          if (result.value) {
+              $.ajax({
+                  type : 'post',
+                  url  : "<?php echo site_url('Partes/enviarParte'); ?>",
+                  dataType: 'json',
+                  data: {
+                        idParte   : $("#idParte").val()
+                      }
+                })  
+                .done(function(data){
+                  if(data){
+                    $().toastmessage('showSuccessToast', "Se ha enviado el Parte correctamente");
+                    elementosEnvio("E");
+                  }else{
+                    $().toastmessage('showErrorToast', "Error al enviar el Parte");
+                  }
+                })
+                .fail(function(){
+                  $().toastmessage('showErrorToast', "No se pudo procesar la información del Parte");
+                })   
+                .always(function(){
+                });       
+          // For more information about handling dismissals please visit
+          // https://sweetalert2.github.io/#handling-dismissals
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal(
+              'Cancelado',
+              'Envío cancelado :)',
+              'error'
+            )
+          }
+        })
+    }else{
+      swal("Información!", "Debe elegir un CAE", "error"); 
+    } 
   });
     
   $("#btnTieneNovedadParte").on("click", function(){
@@ -169,7 +209,7 @@
                   cargarFormularioDetallePadre($("#idParte").val());
                   listarDetalleParte($("#idParte").val());
                   $().toastmessage('showSuccessToast', "Parte procesado correctamente");
-                  $("#btnEnviarParte").css("display", "block");
+                  
               })
               .fail(function(){
                   $().toastmessage('showErrorToast', "Error: No se pudo procesar el parte");
@@ -462,5 +502,14 @@ function listarDetalleParte(idParte){
         }
       });
 }
+
+
+function elementosEnvio(estado){
+  //bloqueo de ingreso en caso de Envío
+  if(estado=="E" || estado=="A"){
+    $(".btn-parte").hide();
+  }
+}
+
 
 </script>

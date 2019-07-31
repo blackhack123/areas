@@ -55,23 +55,32 @@ class Login extends MX_Controller {
 				//Si no es super usuario ir a ver que Cae tiene pase activo
 				if($usuario->esSuperadminUsuario == "N"){
 					$pase = $this->Pase->buscarPaseActivoUsuario($usuario->idUsuario);
-					$cae = $this->Cae->buscarRegistroPorID($pase->idCae);
-					$dataPase = array(
-									"idCae" => $pase->idCae,
-									"nombreCae" => "CAE: ".$cae->nombreCae
-									);
+					if($pase){
+						$cae = $this->Cae->buscarRegistroPorID($pase->idCae);
+						$dataPase = array(
+										"idCae" => $pase->idCae,
+										"nombreCae" => "CAE: ".$cae->nombreCae
+										);
+						$datoUsuario = array_merge($datoUsuario, $dataPase);
+						$this->session->set_userdata($datoUsuario);
+						redirect("Modulos/escritorio");						
+					}
+					else{
+						$data['output']['mensaje'] = array("tipo" => "danger", "valor" => "Usuario no registra PASE");
+						$this->load->view("Login/index", $data);
+					}
 				}
 				else{
 					$dataPase = array(
 									"idCae" => "",
 									"nombreCae" => "Administrador CAE's"
 									);
+					$datoUsuario = array_merge($datoUsuario, $dataPase);
+					$this->session->set_userdata($datoUsuario);
+					redirect("Modulos/escritorio");
 				}
 
-				$datoUsuario = array_merge($datoUsuario, $dataPase);
-
-				$this->session->set_userdata($datoUsuario);
-				redirect("Modulos/escritorio");
+				
 			}
 			else{
 				$data['output']['mensaje'] = array("tipo" => "danger", "valor" => "Clave incorrecta");

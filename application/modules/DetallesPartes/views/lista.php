@@ -1,3 +1,13 @@
+<script type="text/javascript">
+  <?php if($send){ ?>
+    $("#btnEnviarParte").hide();
+  <?php }else{ ?>
+    $("#btnEnviarParte").show();
+  <?php } ?>
+
+  elementosEnvio("<?php echo $estadoParte; ?>");
+
+</script>
 <div class="table-responsive">
 <?php if($lista){ ?>
   <table id="tablaCronos" class="table table-bordered table-striped tablaCronos">
@@ -9,7 +19,7 @@
         <th width="5%">Estación</th>
         <th width="5%">Sección</th>
         <th width="5%">Sistema</th>
-        <th width="50%">Equipo</th>
+        <th width="40%">Equipo</th>
         <th width="10%"></th>
       </tr>
     </thead>
@@ -32,8 +42,8 @@
         <td><?php echo $lt->nombreSistema; ?></td>
         <td><?php echo $lt->nombreTipoExistencia; ?></td>
         <td>
-         <button type="button" class="btn btn-info btn-sm" onclick="gestionRegistroDetalleParte(this);"  data-accion="editarRegistro" data-id="<?php echo $lt->idDetalleParte;?>" <?php echo $status; ?>><i class="fas fa-pencil-alt"></i></button> 
-         <button type="button" class="btn btn-danger btn-sm" onclick="gestionRegistroDetalleParte(this);"  data-accion="eliminarRegistro" data-id="<?php echo $lt->idDetalleParte;?>" <?php echo $status; ?>><i class="fas fa-trash-alt"></i></button> 
+         <button type="button" class="btn btn-info btn-sm btn-parte" onclick="gestionRegistroDetalleParte(this);"  data-accion="editarRegistro" data-id="<?php echo $lt->idDetalleParte;?>" <?php echo $status; ?>><i class="fas fa-pencil-alt"></i></button> 
+         <button type="button" class="btn btn-danger btn-sm btn-parte" onclick="gestionRegistroDetalleParte(this);"  data-accion="eliminarRegistro" data-id="<?php echo $lt->idDetalleParte;?>" <?php echo $status; ?>><i class="fas fa-trash-alt"></i></button> 
         </td>
       </tr>
     <?php } ?>            
