@@ -26,6 +26,7 @@ class Partes extends MX_Controller {
 	    $dataSession = verificarPrivilegios($idMenu);
 	    $data['status'] = $dataSession->status;
 	    $data['send'] = $dataSession->send;
+	    $data['fix'] = $dataSession->fix;
 		$data['menuNombre'] = $dataSession->nombreMenu;
 		$data['codigoCategoriaMenu'] = $dataSession->codigoCategoriaMenu;
 		$data['codigoMenu'] = $dataSession->codigoMenu;

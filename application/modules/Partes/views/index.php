@@ -76,27 +76,49 @@
       </div>
 
       <div class="row">
-        <div class="form-group col-sm-12">
+        <div class="form-group col-sm-6">
           <label class="form-label">Novedad: </label>
           <textarea name="novedadDetalleParte" id="novedadDetalleParte" class="form-control"></textarea>
         </div>                  
-      </div>
 
-      <div class="row">
-        <div class="form-group col-sm-12">
-          <label class="form-label">Requerimiento/Solución: </label>
-          <textarea name="requerimientoSolucionDetalleParte" id="requerimientoSolucionDetalleParte" class="form-control"></textarea>
+        <div class="form-group col-sm-6">
+          <label class="form-label">Requerimiento: </label>
+          <textarea name="requerimientoDetalleParte" id="requerimientoDetalleParte" class="form-control"></textarea>
         </div>                  
       </div>
 
       <div class="row">
-        
-
 
         <div class="form-group col-sm-4">
           <label class="form-label">Fecha/hora reporte del daño: </label>
           <input type="text" name="fechaFalloDetalleParte" id="fechaFalloDetalleParte" class="form-control required">
+        </div>   
+        <div class="form-group col-sm-4">
+          <label class="form-label">Está solucionado?: </label>
+          <select class="form-control" name="esSolucionadoDetalleParte" id="esSolucionadoDetalleParte" <?php echo $fix; ?>>
+            <option value="NO">NO</option>
+            <option value="SI">SI</option>
+          </select>
+        </div>   
+        <div class="form-group col-sm-4">
+          <label class="form-label">Horas fuera servicio: </label>
+          <input type="text" name="horasFueraServicioDetalleParte" id="horasFueraServicioDetalleParte" class="form-control required" >
+        </div>   
+
+      </div>                 
+
+      <div class="row">
+
+        <div class="form-group col-sm-4">
+          <label class="form-label">Fecha/hora solución: </label>
+          <input type="text" name="fechaSolucionDetalleParte" id="fechaSolucionDetalleParte" class="form-control" onchange="calcularHorasFueraServicio();" <?php echo $fix; ?>>
         </div>                  
+
+        <div class="form-group col-sm-8">
+          <label class="form-label">Solución: </label>
+          <textarea name="solucionDetalleParte" id="solucionDetalleParte" class="form-control" <?php echo $fix; ?>></textarea>
+        </div>
+
 
       </div>
        
@@ -124,6 +146,11 @@
   $('#fechaFalloDetalleParte').datetimepicker({
    format:'Y-m-d H:i:s',
    value : fechaHoraActual,
+   step : 10
+  });
+
+  $('#fechaSolucionDetalleParte').datetimepicker({
+   format:'Y-m-d H:i:s',
    step : 10
   });
 
@@ -205,6 +232,7 @@
               .done(function(data){
                   $(data).each(function(i, v){
                     $("#idParte").val(v.idParte);
+                    $("#idParteDetalleParte").val(v.idParte);
                   });              
                   cargarFormularioDetallePadre($("#idParte").val());
                   listarDetalleParte($("#idParte").val());
@@ -333,10 +361,11 @@ function buscarTiposExistenciasEstacion(aObject){
 /*------ Detalle Parte -----*/
 
 function gestionRegistroDetalleParte(aObject){
-  if($("#idTipoExistencia").val() > 0){
+  
+  //if($("#idTipoExistencia").val() > 0){
 
-    $("#idTipoExistenciaDetalleParte").find('option').remove();
-    $('#idTipoExistencia option:selected').clone().appendTo("#idTipoExistenciaDetalleParte");
+    //$("#idTipoExistenciaDetalleParte").find('option').remove();
+    //$('#idTipoExistencia option:selected').clone().appendTo("#idTipoExistenciaDetalleParte");
 
     switch($(aObject).data('accion')){
       case 'insertarRegistro':
@@ -393,10 +422,10 @@ function gestionRegistroDetalleParte(aObject){
       default:      
       break;
     }
-  }
-  else{
-    swal("Información!", "Debe seleccionar un Equipo de la lista", "warning"); 
-  }
+  //}
+  //else{
+    //swal("Información!", "Debe seleccionar un Equipo de la lista", "warning"); 
+  //}
 }
 
 $(document).ready(function() {
@@ -478,8 +507,13 @@ function editarRegistro(aId){
       $(data).each(function(i, v){
         $("#idDetalleParte").val(v.idDetalleParte);
         $("#novedadDetalleParte").val(v.novedadDetalleParte);
-        $("#requerimientoSolucionDetalleParte").val(v.requerimientoSolucionDetalleParte);
+        $("#requerimientoDetalleParte").val(v.requerimientoDetalleParte);
+        $("#solucionDetalleParte").val(v.solucionDetalleParte);
+        $("#esSolucionadoDetalleParte").val(v.esSolucionadoDetalleParte);
         $("#fechaFalloDetalleParte").val(v.fechaFalloDetalleParte);
+        $("#fechaSolucionDetalleParte").val(v.fechaSolucionDetalleParte);
+        $("#fechaSolucionDetalleParte").val(v.fechaSolucionDetalleParte);
+        $("#horasFueraServicioDetalleParte").val(v.horasFueraServicioDetalleParte);
         $('#idTipoExistenciaDetalleParte').find('option').remove();
         $('#idTipoExistenciaDetalleParte').append('<option value="'+v.idTipoExistencia+'">'+v.nombreTipoExistencia+'</option>');
       });              
@@ -511,5 +545,22 @@ function elementosEnvio(estado){
   }
 }
 
+function calcularHorasFueraServicio(){
+    $.ajax({
+      type : 'post',
+      url  : "<?php echo site_url('DetallesPartes/calcularHorasFueraServicio'); ?>",
+      dataType: 'json',
+      data: {
+        fechaFalloDetalleParte : $("#fechaFalloDetalleParte").val(),
+        fechaSolucionDetalleParte : $("#fechaSolucionDetalleParte").val(),
+      },
+    }).done( function(data) {
+      $("#horasFueraServicioDetalleParte").val(data);             
+    }).fail( function() {
+      $().toastmessage('showErrorToast', "No se puede calcular las horas");
+    }).always( function() {
+      //alert( 'Always' );
+    });
+}
 
 </script>

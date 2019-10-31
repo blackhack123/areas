@@ -33,10 +33,18 @@ class DetallesPartes extends MX_Controller {
 	            "parte_id" => $this->input->post("idParteDetalleParte"),
 	            "tipo_existencia_id" => $this->input->post("idTipoExistenciaDetalleParte"),
 	            "novedad" => textoMayuscula($this->input->post("novedadDetalleParte")),
-	            "requerimiento_solucion" => textoMayuscula($this->input->post("requerimientoSolucionDetalleParte")),
-	            "es_solucionado" => "NO",
+	            "requerimiento" => textoMayuscula($this->input->post("requerimientoDetalleParte")),
+	            "es_solucionado" => $this->input->post("esSolucionadoDetalleParte"),
 	            "fecha_fallo" => $this->input->post("fechaFalloDetalleParte")
 	          );
+	    if($this->input->post("esSolucionadoDetalleParte") == "SI"){
+	    	$solucion = array('fecha_solucion' => $this->input->post("fechaSolucionDetalleParte"),
+	    					  'solucion' => textoMayuscula($this->input->post("solucionDetalleParte")),
+	    					  'horas_fuera_servicio' => $this->input->post("horasFueraServicioDetalleParte")
+	    		            );
+	    	$data = array_merge($data, $solucion);
+	    }
+
 	    if($idDetalleParte > 0){
 	      $data = array_merge($data, datosUsuarioEditar());
 	      echo json_encode("e|".$this->DetalleParte->editarRegistro($idDetalleParte, $data));
@@ -77,5 +85,17 @@ class DetallesPartes extends MX_Controller {
 		$idDetalleParte = $this->input->post("idDetalleParte");
 		$data = $this->DetalleParte->buscarRegistroPorID($idDetalleParte);
 		print_r(json_encode($data));
+	}
+
+	public function calcularHorasFueraServicio(){
+		$fechaFalloDetalleParte = $this->input->post("fechaFalloDetalleParte");
+		$fechaSolucionDetalleParte = $this->input->post("fechaSolucionDetalleParte");
+
+		$datetime1 = new DateTime($fechaFalloDetalleParte);
+		$datetime2 = new DateTime($fechaSolucionDetalleParte);
+		$interval = $datetime1->diff($datetime2);
+
+		//echo json_encode($interval->format('%a días %H:%I:%S'));
+		echo json_encode($interval->format('%a días %H:%I:%S'));
 	}
 }

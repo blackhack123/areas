@@ -68,6 +68,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			else{
 				$envio = "disabled";
 			}
+			//Permiso de solucion
+			if($privilegios->solucion){
+				$solucion = "";
+			}
+			else{
+				$solucion = "disabled";
+			}
 
 	      }		
 
@@ -81,6 +88,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								"auth" => $autorizacion,
 								"status" => $escritura,
 								"send" => $envio,
+								"fix" => $solucion,
 								"nombreMenu"=> $nombreMenu,
 								"codigoCategoriaMenu"=> $codigoCategoriaMenu,
 								"codigoMenu"=> $codigoMenu
