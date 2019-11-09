@@ -44,6 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	      if($esSuperadmin == 'S'){
 	      	$escritura = "";
 	      	$autorizacion = "";
+	      	$solucion = "";
 	      	$envio = "";
 	      }
 	      else{

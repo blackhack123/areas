@@ -35,10 +35,12 @@ class Partes extends MX_Controller {
 		if($this->session->userdata("esSuperadmin") == 'S'){
 			//$data['estacion'] = $this->Estacion->buscarEstaciones();
 			$data['cae'] = $this->Cae->buscarCaes();
+			$data['parte'] = "";
 		}
 		else{
 			$idPersonal = $this->session->userdata("idPersonal");
-			$data['cae'] = $this->Cae->buscarCaesPersonal($idPersonal);
+			$cae = $this->Cae->buscarCaesPersonal($idPersonal);
+			$data['cae'] = $cae;
 		}
 
 		$data['view'] = 'Partes/index';
@@ -89,8 +91,7 @@ class Partes extends MX_Controller {
 		$idParte = $this->input->post("idParte");
 		$fechaParte = $this->input->post("fechaParte");
 		if($idParte){
-			$data = array('tiene_novedad' => $this->input->post("tieneNovedadParte")
-						  );
+			$data = array('tiene_novedad' => 'SI');
 			$data = array_merge($data, datosUsuarioEditar());
 			
 			if($this->Parte->editarRegistro($idParte, $data)){
@@ -111,7 +112,7 @@ class Partes extends MX_Controller {
 				//Si no hay registros se crea
 				$data = array('cae_id' => $idCae,
 							  'fecha' => $fechaParte,
-							  'tiene_novedad' => $this->input->post("tieneNovedadParte")
+							  'tiene_novedad' => "SI"
 							);
 				$data = array_merge($data, datosUsuarioInsertar());
 				$idParte = $this->Parte->insertarRegistro($data);
@@ -125,6 +126,13 @@ class Partes extends MX_Controller {
 				
 			}
 		}
+	}
+
+	public function buscarParteCaeFecha(){
+		$idCae = $this->input->post("idCae");
+		$fechaActual = $this->input->post("fechaActual");
+		$parte = $this->Parte->buscarParteFechaCae($idCae, $fechaActual);
+		echo json_encode($parte);
 	}
 
 	public function buscarRegistroPorID(){

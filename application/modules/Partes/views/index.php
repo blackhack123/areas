@@ -21,15 +21,12 @@
 
                         <span class="input-group-append">
                           <div class="input-group">
+                            
                             <input type="text" name="fechaParte" id="fechaParte" class="form-control" value="<?php echo date("Y-m-d"); ?>" style="width: 100px;">
                             <span class="input-group-append">
                               <div class="input-group">
-                                <select class="form-control" name="tieneNovedadParte" id="tieneNovedadParte">
-                                  <option value="NO">NO hay novedades que reportar</option>
-                                  <option value="SI">SI hay daños, generar parte</option>
-                                </select>
                                 <span class="input-group-append">
-                                 <button class="btn btn-primary" type="button"  id="btnTieneNovedadParte" <?php echo $status; ?>><i class="fas fa-check-circle"></i> Reportar</button>
+                                 <button class="btn btn-primary" type="button"  id="btnTieneNovedadParte" onclick="generarParte()" <?php echo $status; ?>><i class="fas fa-check-circle"></i> Reportar</button>
                                  <button class="btn btn-success btn-parte" type="button"  id="btnEnviarParte" <?php echo $send; ?>><i class="fas fa-share-square"></i> Enviar</button>
                                 </span>
                               </div>
@@ -102,7 +99,7 @@
         </div>   
         <div class="form-group col-sm-4">
           <label class="form-label">Horas fuera servicio: </label>
-          <input type="text" name="horasFueraServicioDetalleParte" id="horasFueraServicioDetalleParte" class="form-control required" >
+          <input type="text" name="horasFueraServicioDetalleParte" id="horasFueraServicioDetalleParte" class="form-control" readonly="readonly" >
         </div>   
 
       </div>                 
@@ -154,10 +151,19 @@
    step : 10
   });
 
+
+
+var statusFecha = "<?php echo $fix != '' ? 'true' : 'false'; ?>";
+if(statusFecha == 'true'){
+  $('#fechaParte').val("<?php echo date('Y-m-d'); ?>");
+  $('#fechaParte').prop('readonly', true);
+}
+else{
   $('#fechaParte').datetimepicker({
     timepicker:false,
     format: 'Y-m-d'
   });
+}
 
   $("#idCae").on("change", function(){
     $("#listadoDatos").empty();
@@ -210,8 +216,41 @@
       swal("Información!", "Debe elegir un CAE", "error"); 
     } 
   });
-    
-  $("#btnTieneNovedadParte").on("click", function(){
+   
+buscarParteCaeFecha();
+
+function buscarParteCaeFecha(){
+  var idCae = $("#idCae").val();
+  var fechaActual = $("#fechaParte").val();
+$.ajax({
+      type : 'post',
+      url  : "<?php echo site_url('Partes/buscarParteCaeFecha'); ?>",
+      dataType: 'json',
+      data: {
+        idCae   : idCae,
+        fechaActual   : fechaActual
+      },
+    }).done( function(data) {
+      if(data){
+        $(data).each(function(i, v){
+          $("#idParte").val(v.idParte);
+          $("#idParteDetalleParte").val(v.idParte);
+        });              
+        cargarFormularioDetallePadre($("#idParte").val());
+        listarDetalleParte($("#idParte").val());
+        $().toastmessage('showSuccessToast', "Parte recuperado correctamente");
+      } 
+      else{
+
+      }             
+    }).fail( function() {
+      swal("Información!", "No se pudo cargar el Personal", "warning"); 
+    }).always( function() {
+      //alert( 'Always' );
+    });
+} 
+
+function generarParte(){
     if($("#idCae").val()){
        Swal({
           title: 'Generar parte?',
@@ -258,10 +297,13 @@
         })
     }else{
       swal("Información!", "Debe elegir un CAE", "error"); 
-    }    
-  });
+    } 
+}
 
 function cargarFormularioDetallePadre(idParte){
+  var statusFecha = "<?php echo $fix != '' ? 'true' : 'false'; ?>";
+  if(statusFecha == 'true'){
+
     var urlCode = "<?php echo $urlCode; ?>";
       $("#listadoDatos").load("<?php echo site_url('DetallesPartes/formulario'); ?>",{urlCode, idParte}, function(responseText, statusText, xhr){
         if(statusText == "success"){
@@ -272,6 +314,10 @@ function cargarFormularioDetallePadre(idParte){
           cerrarGif();
         }
       });
+  } 
+  else{
+    $("#btnTieneNovedadParte").hide();  
+  }   
 }
 
 
@@ -362,13 +408,15 @@ function buscarTiposExistenciasEstacion(aObject){
 
 function gestionRegistroDetalleParte(aObject){
   
-  //if($("#idTipoExistencia").val() > 0){
+ // if($("#idTipoExistencia").val() > 0){
 
-    //$("#idTipoExistenciaDetalleParte").find('option').remove();
-    //$('#idTipoExistencia option:selected').clone().appendTo("#idTipoExistenciaDetalleParte");
 
     switch($(aObject).data('accion')){
       case 'insertarRegistro':
+
+          $("#idTipoExistenciaDetalleParte").find('option').remove();
+          $('#idTipoExistencia option:selected').clone().appendTo("#idTipoExistenciaDetalleParte");
+
           $("#formDetalleParte")[0].reset();
           $("#idDetalleParte").val("");
           $("#modalFormularioDetalleParte").modal('show'); 
@@ -422,10 +470,10 @@ function gestionRegistroDetalleParte(aObject){
       default:      
       break;
     }
-  //}
-  //else{
-    //swal("Información!", "Debe seleccionar un Equipo de la lista", "warning"); 
-  //}
+ // }
+ // else{
+ //   swal("Información!", "Debe seleccionar un Equipo de la lista", "warning"); 
+ // }
 }
 
 $(document).ready(function() {

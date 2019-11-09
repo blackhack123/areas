@@ -28,7 +28,7 @@
     <?php foreach ($lista as $lt) { ?>
 
           <?php if($lt->esSolucionadoDetalleParte=='SI'){ ?>
-            <?php $color = '#ffffff'; $verComision = "hidden"; ?>
+            <?php $color = '#b1fa9d'; $verComision = "hidden"; ?>
           <?php }else{ ?>
             <?php $color = '#f9cdd0'; $verComision = "visible"; ?>
           <?php } ?>          
