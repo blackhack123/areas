@@ -236,4 +236,30 @@ class Partes extends MX_Controller {
 			echo json_encode(false);
 		}
 	}
+
+	public function ordenTrabajo($idMenu){
+	  $urlCode = $idMenu;
+	  $idMenu = desencriptar($idMenu);
+	  if(verficarAcceso($idMenu)){
+	    $dataSession = verificarPrivilegios($idMenu);
+	    $data['status'] = $dataSession->status;
+		$data['menuNombre'] = $dataSession->nombreMenu;
+		$data['codigoCategoriaMenu'] = $dataSession->codigoCategoriaMenu;
+		$data['codigoMenu'] = $dataSession->codigoMenu;
+		$data['urlCode'] = $urlCode;
+		//Vista
+		$idMenu = desencriptar($urlCode);
+		$data['status'] = $dataSession->status;
+		//Se presentan los partes enviados
+		
+		$data['view'] = 'Partes/ordenTrabajo';
+		$data['output'] = '';
+		$this->load->view('Modulos/main',$data);	
+	  }
+	  else{ 
+	  	redirect('Login/Login');
+	  }
+
+	}
+
 }
