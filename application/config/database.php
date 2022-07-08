@@ -83,7 +83,7 @@ $db['default'] = array(
 	//local
 	'hostname' => 'localhost',
 	'username' => 'root',
-	'password' => '',
+	'password' => 'root',
 	'database' => 'ipwebec_ares',
 	
 	'dbdriver' => 'mysqli',

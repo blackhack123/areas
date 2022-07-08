@@ -68,5 +68,15 @@ class Sectores extends MX_Controller {
 		$data = $this->Sector->buscarSectoresCae($idCae);
 		print_r(json_encode($data));
 	}
+
+
+	public function listaSectores(){
+
+		$this->db->select(array('sector.id', 'sector.nombre'));
+		$this->db->from('sector');
+		$query = $this->db->get();
+		return $query->result_array();
+
+	}//end function listaSectores
 	
-}
+}//end class

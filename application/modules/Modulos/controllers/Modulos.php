@@ -8,6 +8,9 @@ class Modulos extends MX_Controller {
 	 */
 	public function __construct(){
 		parent:: __construct();
+
+		$this->load->model('Personales/Personal');
+		$this->load->model('Usuarios/Usuario');
 	}
 
 	public function escritorio(){

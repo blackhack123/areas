@@ -5,7 +5,7 @@
 <style type="text/css">
 .containerText {
   padding: 2em;
-  height: 20em;
+  height: 30em;
 }
 .v-slider-frame {
   height: 18em;
@@ -24,48 +24,52 @@ ul.v-slides {
 }
   
 </style>
+<div class="container">
+	<div class="row" style="margin-top:50px">
+		<div class="col-md-12">
 
-        <div class="my-3 my-md-5">
-          <div class="container">
-            <div class="row">
-              <div class="col-12">
-                <form method="post" class="card">
-                  <div class="card-header">
-                    <h3 class="card-title"><h3 class="card-title"><?php echo $titulo; ?></h3></h3>
-                  </div>
-                  <div class="card-body">
+			<!-- JUMBOTRON -->
+			<div class="jumbotron p-4 p-md-5 text-white rounded bg-dark">
+				<div class="col-md-12 px-0">
+					<h1 class="display-12 font-italic">
+					Grupo de Sistemas Informáticos, Comunicaciones y Guerra Electrónica
+					</h1>
+					<p class="lead my-3" style="text-align:justify;">
+					<strong>Misión.- </strong>
+					Instalar, explotar y mantener los Sistemas de comunicaciones, informáticos y de guerra electrónica del 
+					Comando Conjunto de las Fuerzas Armadas, mediante el empleo de las redes de comunicaciones, plataforma 
+					informática y control de las emisiones radio eléctrica, para proveer al mando militar, los medios y servicios 
+					tecnológicos para contribuir a la defensa de la soberanía, integridad territorial y desarrollo nacional. 
+					</p>
+				</div>
+  		</div>
 
-                      
-<div class="containerText">
-  <div class="row">
-    <div class="v-slider-frame col-sm-12 offset-sm-12">
-      <ul class="v-slides">
-        <li class="v-slide"><h3>Unidad: Grupo de Sistemas Informáticos, Comunicaciones y Guerra Electrónica Conjunto</h3></li>
-        <hr>
-        <li class="v-slide"><strong>Misión.- </strong>Instalar, explotar y mantener los Sistemas de comunicaciones, informáticos y de guerra electrónica del Comando Conjunto de las Fuerzas Armadas, mediante el empleo de las redes de comunicaciones, plataforma informática y control de las emisiones radio eléctrica, para proveer al mando militar, los medios y servicios tecnológicos para contribuir a la defensa de la soberanía, integridad territorial y desarrollo nacional.</li>
-        <hr>
-        <li class="v-slide"><h3>GESTIÓN COMUNICACIONES</h3></li>
-        <hr>
-        <li class="v-slide"><strong>PROPÓSITO:</strong> Asesorar, planificar, implementar, gestionar y mantener los sistemas y servicios de telecomunicaciones de la red estratégica de Fuerzas Armadas con estándares internacionales, en forma permanente y a nivel nacional, a fin de apoyar al cumplimiento de la misión de la Dirección.</li>
-      </ul>
-    </div>
-  </div>
+			<div class="jumbotron p-4 p-md-5 text-white rounded bg-dark" style="margin-top:50px">
+				<div class="col-md-12 px-0">
+					<h1 class="display-12 font-italic">
+					Gestión Comunicaciones
+					</h1>
+					<p class="lead my-3" style="text-align:justify;">
+					<strong>Propósito.- </strong>
+					 Asesorar, planificar, implementar, gestionar y mantener los sistemas y servicios de telecomunicaciones
+					 de la red estratégica de Fuerzas Armadas con estándares internacionales, en forma permanente y a nivel nacional, 
+					 a fin de apoyar al cumplimiento de la misión de la Dirección. 
+					</p>
+				</div>
+  		</div>
+
+
+			<!-- END JUMBOTRON -->
+		</div>
+	</div>
 </div>
-
-
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
 
 <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js'></script>
 
 <script type="text/javascript">
-  
+  /*
 var vsOpts = {
   $slides: $('.v-slide'),
   $list: $('.v-slides'),
@@ -85,5 +89,5 @@ vsOpts.$slides.each(function(i) {
   })
 })
 vSlide.play()
-
+*/
 </script>

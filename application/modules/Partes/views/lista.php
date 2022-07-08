@@ -76,7 +76,7 @@
   </table>
 <?php }else{ ?>
   <div class="alert alert-danger">
-    <b>No se encontraton datos</b>
+    <b>No se encontraton datos.</b>
   </div>
 <?php } ?>
 

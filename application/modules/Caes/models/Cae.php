@@ -52,4 +52,24 @@ class Cae extends CI_Model{
 		$this->db->delete('cae');
 		return $this->db->affected_rows();
 	}
+
+	public function listadoCaes() {
+
+		$this->db->select(array('cae.id', 'cae.nombre'));
+		$this->db->from('cae');
+		$query = $this->db->get();
+		return $query->result_array();
+		
+  	}//end function listadoCaes
+
+
+	public function listadoSecciones() {
+
+		$this->db->select(array('seccion.id', 'seccion.nombre'));
+		$this->db->from('seccion');
+		$query = $this->db->get();
+		return $query->result_array();
+		
+  	}//end function listadoSecciones
+
 }

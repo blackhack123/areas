@@ -1,6 +1,6 @@
 <div class="table-responsive">
 <?php if($lista){ ?>
-  <table id="tablaCronos" class="table table-bordered table-striped tablaCronos">
+  <table id="tablaCae" class="table table-bordered table-striped">
     <thead>
       <tr>
         <th width="5%">N</th>
@@ -44,3 +44,26 @@
 </div>
 
 <script type="text/javascript" src="<?php echo site_url('assets/plugins/owner/js/datatables.js'); ?>"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#tablaCae').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            {
+              text: 'Excel',
+              action: function ( e, dt, node, config ){
+                  window.location.href ="<?php echo base_url(); ?>Caes/exportarExcel";
+                }
+            },
+            {
+              text: 'Pdf',
+              action: function ( e, dt, node, config ){
+                  alert( 'Pdf' );
+                }
+            }
+        ]
+    } );
+  });
+
+
+</script>

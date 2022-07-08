@@ -20,7 +20,15 @@ class Usuario extends CI_Model{
 	}
 
 	public function verificarUsuarioPorUsuario($emailUsuario){
-		$sql = "SELECT usuario.id AS idUsuario, personal.id AS idPersonal, personal.apellido AS apellidoUsuario, personal.nombre AS nombreUsuario, personal.email AS emailUsuario, usuario.clave as claveUsuario, usuario.es_superadmin as esSuperadminUsuario FROM usuario INNER JOIN personal ON usuario.personal_id = personal.id WHERE usuario.estado = 'A' AND usuario.usuario = '".$emailUsuario."'";
+		$sql = "SELECT usuario.id AS idUsuario, personal.id AS idPersonal, 
+				personal.apellido AS apellidoUsuario, personal.nombre AS nombreUsuario, 
+				personal.email AS emailUsuario, usuario.clave as claveUsuario, 
+				usuario.es_superadmin as esSuperadminUsuario,
+				usuario_perfil.perfil_id
+				FROM usuario 
+				INNER JOIN personal ON usuario.personal_id = personal.id 
+				INNER JOIN usuario_perfil ON usuario.id = usuario_perfil.usuario_id
+				WHERE usuario.estado = 'A' AND usuario.usuario = '".$emailUsuario."'";
 		
 		$resultado = $this->db->query($sql);
 

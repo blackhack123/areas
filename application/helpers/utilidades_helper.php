@@ -180,6 +180,17 @@ date_default_timezone_set('America/Guayaquil');
 		return $texto;
 	}
 
+
+	function generarCodigo($longitud) {
+		
+		$key = '';
+		$pattern = '123456789013587911798197198318612703567890157';
+		$max = strlen($pattern)-1;
+		for($i=0;$i < $longitud;$i++) $key .= $pattern{mt_rand(0,$max)};
+		return $key;
+
+	}//end function generarCodigo   
+
 /* End of file fecha_helper.php */
 /* Location: ./application/helpers/fecha_helper.php */
 

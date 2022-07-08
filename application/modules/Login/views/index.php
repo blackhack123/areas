@@ -19,62 +19,66 @@
 
 </head>
 <body class="form-v4">
-  <div class="page-content">
-    <div class="form-v4-content">
+  <div class="page-content" style="margin-top:10px">
+    <div class="form-v4-content col-md-4" style="background-color:rgb(33, 37, 41)">
+      <!--
       <div class="form-left">
         <h2>Consejos de seguridad</h2>
-        
-      <div class="text-element content-element circles-list">
-      <ol>
-        <li>Cuide que nadie observe mientras escribe su clave.</li>
-        <li>No comparta su clave con otra persona.</li>
-        <li>No habilite la opción de "recordar claves" en los programas que utilice.</li>
-        <li>No envíe su clave por correo electrónico, mensajes de celular, mensajería instantánea, ni la divulgues en una conversación.</li>
-        <li>Cambie su clave regularmente o con frecuencia establecida por la Unidad de Tecnología Información Digital.</li>
-        
-      </ol>
-      </div>
-
-      </div>
+        <div class="text-element content-element circles-list">
+          <ol>
+            <li>Cuide que nadie observe mientras escribe su clave.</li>
+            <li>No comparta su clave con otra persona.</li>
+            <li>No habilite la opción de "recordar claves" en los programas que utilice.</li>
+            <li>No envíe su clave por correo electrónico, mensajes de celular, mensajería instantánea, ni la divulgues en una conversación.</li>
+            <li>Cambie su clave regularmente o con frecuencia establecida por la Unidad de Tecnología Información Digital.</li>
+            
+          </ol>
+        </div>
+      </div>-->
       <form class="form-detail" action="<?php echo base_url('Login/validarIngreso'); ?>" method="post" id="formLogin">
               
-              <div class="form-row">
-                <center>
-                <img src="<?php echo base_url('assets/img/logo_cc.png'); ?>" style="height: 130px; width: 130px;";>
-                </center>
-              </div>
+        <div class="form-row">
+          <center>
+          <img src="<?php echo base_url('assets/img/logo_cc.png'); ?>" style="height: 130px; width: 130px;";>
+          </center>
+        </div>
 
-        <h2><center><?php echo $this->config->item('app-title'); ?></center></h2>
+        <h2 style="color:white"><center><?php echo $this->config->item('app-title'); ?></center></h2>
         
         <div class="form-group">
-          <div class="form-row">
-            <label for="first_name">Usuario / email:</label>
-            <input type="text" class="input-text" name="emailUsuario" id="emailUsuario" aria-describedby="emailHelp" placeholder="Usuario / Email">
+          <div class="form-row" >
+            <label for="first_name" style="color:white;" >Usuario:</label>
+            <input type="text" class="input-text" name="emailUsuario" id="emailUsuario" aria-describedby="emailHelp" placeholder="Usuario">
           </div>
         </div>
         
         <div class="form-group">
           <div class="form-row">
-            <label for="your_email">Clave: </label>
-            <input type="password" class="input-text" name="clave" id="clave" placeholder="Contraseña">
+            <label for="your_email" style="color:white;">Clave: </label>
+            <input type="password" class="input-text" name="clave" id="clave" placeholder="Clave">
           </div>
         </div>
 
                   <div class="form-row ">
-                            <?php if( isset($output['mensaje']) ){ ?>
-                                <div class="alert alert-<?php echo $output['mensaje']['tipo'] ?> col-sm-12">
-                                    <?php echo $output['mensaje']['valor']; ?>
-                                </div>
-                            <?php }else{ ?>
-                                <div class="alert col-sm-12">
-                                </div>
-                            <?php  } ?>
+                    <?php if( isset($output['mensaje']) ){ ?>
+                        <div class="alert alert-<?php echo $output['mensaje']['tipo'] ?> col-sm-12">
+                            <?php echo $output['mensaje']['valor']; ?>
+                        </div>
+                    <?php }else{ ?>
+                        <div class="alert col-sm-12">
+                        </div>
+                    <?php  } ?>
                   </div>
-
-        <div class="form-row-last">
-          <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+      <div class="row">
+        <div class="col-md-8">
+          <div class="form-row-last">
+            <button type="submit" class="btn btn-success btn-block">Ingresar</button>
+          </div>
         </div>
-
+        <div class="col-md-4">
+          <a href="<?php echo base_url('Login/principal'); ?>" class="btn btn-success btn-block">Atras</a>
+        </div>
+      </div>                    
       </form>
     </div>
   </div>

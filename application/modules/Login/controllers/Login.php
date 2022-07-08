@@ -41,6 +41,7 @@ class Login extends MX_Controller {
 				$datoUsuario = array(
 									"idUsuario" => $usuario->idUsuario,
 									"idPersonal" => $usuario->idPersonal,
+									"idPerfil" => $usuario->perfil_id,
 									"apellidoUsuario" => $usuario->apellidoUsuario,
 									"nombreUsuario" => $usuario->nombreUsuario,
 									"emailUsuario" => $usuario->emailUsuario,
@@ -96,6 +97,14 @@ class Login extends MX_Controller {
 
 	public function logout(){
 		$this->session->sess_destroy();
-		redirect("Login/index");
+		redirect("Login/principal");
 	}
+
+
+	public function principal(){
+
+		$this->load->view('Login/principal');
+		
+	}//end function principal
+
 }
